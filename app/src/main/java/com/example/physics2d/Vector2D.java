@@ -37,7 +37,13 @@ public class Vector2D {
     }
 
     public Vector2D rotate(double angle){
-        return new Vector2D(-this.x, -this.y);
+        return rotate(Math.sin(angle), Math.cos(angle));
+    }
+
+    public Vector2D rotate(double sinA, double cosA){
+        double x = this.x * cosA - this.y * sinA;
+        double y = this.y * cosA + this.x * sinA;
+        return new Vector2D(x, y);
     }
 
     @NonNull
