@@ -1,25 +1,28 @@
 # Physics2D
 A 2D physics project
 
-Classes:
-* Visualizer
-* Vector2D
-* PhysObj
-* Figure
-    * Circle
-    * Polygon
+## Classes
+* **[Visualizer](#vector2d)**
+* **Vector2D**
+* **PhysObj**
+* **Figure**
+    * **Circle**
+    * **Polygon**
             
 ________________________________________
 
-##Vector2D
+## <a name = "vector2d" >Vector2D</a>
 
-###Fields:
+### Fields
 * double x,y
 
-###Methods:
-* add()
+### Methods
+* **add()**
     * returns this
-* sub()
-* scale()
-* reverse()
-* length()
+* **sub()**
+* **scale()**
+* **reverse()**
+* **length()**
+* **rotate()**
+* **zero()**
+    * Returns zero-vector
