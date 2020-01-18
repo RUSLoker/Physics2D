@@ -20,9 +20,9 @@ ________________________________________
 
 ## <a name = "vector2d" >Vector2D</a>
 
-### Fields
+### Fields  
 - **double x, y**
-	- 
+	- represents this vector coordinates.
 
 ### Methods
 - **add(Vector2D v)**
@@ -34,6 +34,6 @@ ________________________________________
 - **length()**
 - **rotate(double angle)**
 - **zero()**
-    * Returns zero vector
+    - Returns zero vector
 - **normalize()**
-	* returns a new vector equal to this but normalized vector.
+	- returns a new vector equal to this but normalized vector.
