@@ -50,6 +50,20 @@ public class Vector2D implements Cloneable {
         return new Vector2D(x, y);
     }
 
+    public static Vector2D zero() {
+        return new Vector2D();
+    }
+
+    public Vector2D normalize(){
+        return new Vector2D(x/length(), y/length());
+    }
+
+    public double scalar(Vector2D v){
+        return this.x * v.x + this.y * v.y;
+    }
+
+
+
     @NonNull
     @Override
     public Vector2D clone() {

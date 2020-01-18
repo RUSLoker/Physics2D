@@ -26,9 +26,9 @@ ________________________________________
 
 ### Methods
 - **add(Vector2D v)**
-    - returns a new vector equal to the sum of this vector and vector given in the arguments.
+    - returns a new vector equal to the sum of this vector and vector given in the argument.
 - **sub(Vector2D v)**
-	- returns a new vector equal to the difference of this vector and vector given in the arguments.
+	- returns a new vector equal to the difference of this vector and vector given in the argument.
 - **scale(double mult)**
 - **reverse()**
 - **length()**
@@ -38,3 +38,5 @@ ________________________________________
     - Returns zero vector
 - **normalize()**
 	- returns a new vector equal to this but normalized vector.
+- **scalar(Vector2D v)**
+    - returns value equal to scalar product of this vector and vector given in the argument.
