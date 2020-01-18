@@ -2,7 +2,7 @@ package com.example.physics2d;
 
 import androidx.annotation.NonNull;
 
-public class Vector2D {
+public class Vector2D implements Cloneable {
 
     public double x, y;
 
@@ -16,11 +16,15 @@ public class Vector2D {
         this.y = y;
     }
 
-    public Vector2D add(Vector2D v){
+    public Vector2D(Vector2D v){
+        this(v.x, v.y);
+    }
+
+    public Vector2D add(@NonNull Vector2D v){
         return new Vector2D(this.x + v.x, this.y + v.y);
     }
 
-    public Vector2D sub(Vector2D v){
+    public Vector2D sub(@NonNull Vector2D v){
         return new Vector2D(this.x - v.x, this.y - v.y);
     }
 
@@ -48,8 +52,8 @@ public class Vector2D {
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+    public Vector2D clone() {
+        return new Vector2D(this);
     }
 
     @NonNull
