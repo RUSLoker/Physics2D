@@ -33,6 +33,7 @@ ________________________________________
 - **reverse()**
 - **length()**
 - **rotate(double angle)**
+- **rotate(double sinA, double cosA)**
 - **zero()**
     - Returns zero vector
 - **normalize()**
