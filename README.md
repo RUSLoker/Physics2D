@@ -9,3 +9,17 @@ Classes:
     * Circle
     * Polygon
             
+________________________________________
+
+##Vector2D
+
+###Fields:
+* double x,y
+
+###Methods:
+* add()
+    * returns this
+* sub()
+* scale()
+* reverse()
+* length()
