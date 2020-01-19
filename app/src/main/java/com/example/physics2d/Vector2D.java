@@ -62,6 +62,15 @@ public class Vector2D implements Cloneable {
         return this.x * v.x + this.y * v.y;
     }
 
+    public Vector2D intersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d){
+        return new Vector2D(
+                ((a.x*b.y - a.y*b.x)*(c.x - d.x) - (a.x - b.x)*(c.x*d.y - c.y*d.x))/
+                        ((a.x - b.x)*(c.y - d.y) - (a.y - b.y)*(c.x - b.x)),
+                ((a.x*b.y - a.y*b.x)*(c.y - d.y) - (a.y - b.y)*(c.x*d.y - c.y*d.x))/
+                        ((a.x - b.x)*(c.y - d.y) - (a.y - b.y)*(c.x - b.x))
+                );
+    }
+
 
 
     @NonNull
