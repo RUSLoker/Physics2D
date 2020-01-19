@@ -4,7 +4,7 @@ A 2D physics project
 ## Classes
 - **[Visualizer](#visualizer)**
 - **[Vector2D](#vector2d)**
-- **PhysObj**
+- **[PhysObj](#physobj)**
 - **Figure**
     - **Circle**
     - **Polygon**
@@ -23,6 +23,12 @@ ________________________________________
 ### Fields  
 - **double x, y**
 	- represents this vector coordinates.
+	
+### Constructors
+- **Vector2D()**
+    - returns zero vector.
+- **Vector2D(double x, double y)**
+    - returns vector with coordinates that given in arguments.
 
 ### Methods
 - **add(Vector2D v)**
@@ -42,3 +48,12 @@ ________________________________________
     - returns value equal to scalar product of this vector and vector given in the argument.
 - **angleBetween(Vector2D v)**
     - returns value equal to angle between this vector and vector given in the argument.
+    
+________________________________________
+
+## <a name = "physobj" >PhysObj</a>
+
+
+________________________________________
+
+
