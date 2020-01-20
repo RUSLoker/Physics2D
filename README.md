@@ -32,7 +32,7 @@ ________________________________________
 
 ### Static Methods
 - **intersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d)**
-    - returns new vector represents intersection of two lines specified with points a, b and c, d.
+    - returns new vector represents point intersection of two lines specified with points a, b and c, d.
     - if there is no intersection returns null.
 
 ### Concrete Methods
@@ -53,7 +53,10 @@ ________________________________________
     - returns value equal to scalar product of this vector and vector given in the argument.
 - **angleBetween(Vector2D v)**
     - returns value equal to angle between this vector and vector given in the argument.
-    
+- **clone()**
+	- returns copy of this vector.
+- **toString()**
+	- format: (x, y).
 
 ________________________________________
 
