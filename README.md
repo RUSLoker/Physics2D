@@ -5,7 +5,7 @@ A 2D physics project
 - **[Visualizer](#visualizer)**
 - **[Vector2D](#vector2d)**
 - **[PhysObj](#physobj)**
-- **Figure**
+- **[Figure](#figure)**
     - **Circle**
     - **Polygon**
             
@@ -65,4 +65,7 @@ ________________________________________
 
 ________________________________________
 
+## <a name = "figure" >Figure</a>
 
+
+________________________________________
