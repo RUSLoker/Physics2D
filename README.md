@@ -34,7 +34,8 @@ ________________________________________
 - **intersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d)**
     - returns new vector represents point intersection of two lines specified with points a, b and c, d.
     - if there is no intersection returns null.
-
+- **sum(Vector2D[] vArr)**
+	- returns new vector equal to the sum of all vectors in parameters.
 ### Concrete Methods
 - **add(Vector2D v)**
     - returns a new vector equal to the sum of this vector and vector given in the argument.
