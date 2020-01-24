@@ -67,6 +67,9 @@ public class Vector2D implements Cloneable {
     }
 
     public Vector2D normalize(){
+        if (length() == 0){
+            return new Vector2D(this);
+        }
         return new Vector2D(x/length(), y/length());
     }
 
@@ -101,6 +104,6 @@ public class Vector2D implements Cloneable {
     @NonNull
     @Override
     public String toString() {
-        return super.toString();
+        return "( " + x + ", " + y + " )";
     }
 }
