@@ -23,10 +23,12 @@ ________________________________________
 ### Fields  
 - **double x, y**
 	- represents vector coordinates.
+- **double length**
+    - represents length of the vector.
+- **double sqrLength**
+    - represents squared length of the vector.
 	
 ### Constructors
-- **Vector2D()**
-    - returns zero vector.
 - **Vector2D(double x, double y)**
     - returns vector with coordinates given in arguments.
 
