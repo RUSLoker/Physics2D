@@ -42,6 +42,7 @@ ________________________________________
 	- returns a new vector equal to the difference of this vector and vector given in the argument.
 - **scale(double mult)**
 - **reverse()**
+	- returns reversed vector.
 - **length()**
 	- returns length of vectror.
 - **sqrLength()**
@@ -50,7 +51,7 @@ ________________________________________
 - **rotate(double angle)**
 - **rotate(double sinA, double cosA)**
 - **zero()**
-    - Returns zero vector
+    - returns zero vector.
 - **normalize()**
 	- returns a new vector equal to this but normalized vector.
 - **scalar(Vector2D v)**
