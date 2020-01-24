@@ -24,6 +24,14 @@ public class Vector2D implements Cloneable {
         return new Vector2D(this.x + v.x, this.y + v.y);
     }
 
+    public static Vector2D sum(Vector2D[] vArr){
+        Vector2D vector = new Vector2D();
+        for (Vector2D i : vArr) {
+            vector = vector.add(i);
+        }
+        return vector;
+    }
+
     public Vector2D sub(@NonNull Vector2D v){
         return new Vector2D(this.x - v.x, this.y - v.y);
     }
@@ -38,6 +46,10 @@ public class Vector2D implements Cloneable {
 
     public double length(){
         return Math.sqrt(x*x + y*y);
+    }
+
+    public double sqrLength(){
+        return x*x + y*y;
     }
 
     public Vector2D rotate(double angle){
@@ -72,6 +84,10 @@ public class Vector2D implements Cloneable {
                 (fp *(x[3] - x[4]) - (x[1] - x[2])* sp)/ tp,
                 (fp *(y[3] - y[4]) - (y[1] - y[2])* sp)/ tp
         );
+    }
+
+    public double angleBetween(Vector2D v){
+        return Math.acos(this.normalize().scalar(v.normalize()));
     }
 
 
