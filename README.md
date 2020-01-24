@@ -58,7 +58,7 @@ ________________________________________
 - **scalar(Vector2D v)**
     - returns value equal to scalar product of this vector and vector given in the argument.
 - **angleBetween(Vector2D v)**
-    - returns value equal to angle between this vector and vector given in the argument.
+    - returns value equal to angle between this vector and vector given in the argument in radians.
 - **clone()**
 	- returns copy of this vector.
 - **toString()**
