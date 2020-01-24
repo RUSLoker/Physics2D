@@ -57,6 +57,7 @@ public class Vector2D implements Cloneable {
     }
 
     public Vector2D rotate(double sinA, double cosA){
+
         double x = this.x * cosA - this.y * sinA;
         double y = this.y * cosA + this.x * sinA;
         return new Vector2D(x, y);
@@ -91,6 +92,13 @@ public class Vector2D implements Cloneable {
 
     public double angleBetween(Vector2D v){
         return Math.acos(this.normalize().scalar(v.normalize()));
+    }
+
+    public Vector2D setLength(double len){
+        if (length() == len){
+            return this.clone();
+        }
+        return this.normalize().scale(len);
     }
 
 
