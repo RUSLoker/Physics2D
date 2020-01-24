@@ -43,6 +43,10 @@ ________________________________________
 - **scale(double mult)**
 - **reverse()**
 - **length()**
+	- returns length of vectror.
+- **sqrLength()**
+	- returns squared length of vector.
+	- works faster than length().
 - **rotate(double angle)**
 - **rotate(double sinA, double cosA)**
 - **zero()**
