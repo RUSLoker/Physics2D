@@ -4,16 +4,16 @@ public class Circle extends Figure2D {
 
     @Override
     public Vector2D getCollision(Figure2D f) {
-        return f.getCollision((Circle) this);
+        return f.getCollision(this);
     }
 
     @Override
     public Vector2D getCollision(Circle c) {
-        return null;
+        return getCollision(c, this);
     }
 
     @Override
     public Vector2D getCollision(Polygon p) {
-        return null;
+        return getCollision(this, p);
     }
 }
