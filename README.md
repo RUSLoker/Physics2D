@@ -5,7 +5,7 @@ A 2D physics project
 - **[Visualizer](#visualizer)**
 - **[Vector2D](#vector2d)**
 - **[PhysObj](#physobj)**
-- **[Figure](#figure)**
+- **[Figure2D](#figure2d)**
     - **[Circle](#circle)**
     - **[Polygon](#polygon)**
             
@@ -75,14 +75,14 @@ ________________________________________
 
 ________________________________________
 
-## <a name = "figure" >Figure</a>
+## <a name = "figure2d" >Figure2D</a>
 
 ### Modifiers
 - **public**
 - **abstract**
 
 ### Abstract Methods
-- **getCollision(Figure f)**
+- **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 
@@ -92,10 +92,10 @@ ________________________________________
 
 ### Modifiers
 - **public**
-- **extends Figure**
+- **extends Figure2D**
 
 ### Concrete Methods
-- **getCollision(Figure f)**
+- **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 
@@ -105,10 +105,10 @@ ________________________________________
 
 ### Modifiers
 - **public**
-- **extends Figure**
+- **extends Figure2D**
 
 ### Concrete Methods
-- **getCollision(Figure f)**
+- **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 
