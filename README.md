@@ -5,6 +5,7 @@ A 2D physics project
 - **[Visualizer](#visualizer)**
 - **[Vector2D](#vector2d)**
 - **[PhysObj](#physobj)**
+- **[Collision](#collision)**
 - **[Figure2D](#figure2d)**
     - **[Circle](#circle)**
     - **[Polygon](#polygon)**
@@ -118,5 +119,18 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
+
+________________________________________
+
+## <a name = "collision" >Collision</a>
+
+### Modifiers
+- **public**
+- **abstract**
+
+### Concrete Methods
+- **get(Circle a, Circle b)**
+- **get(Polygon a, Polygon b)**
+- **get(Circle a, Polygon b)**
 
 ________________________________________
