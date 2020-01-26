@@ -22,6 +22,14 @@ public class PhysObj {
         body.draw(canvas, paint);
     }
 
+    public void move(double time){
+        body.move(speed.scale(time));
+    }
+
+    public Vector2D getCenter(){
+        return body.getCenter();
+    }
+
     @NonNull
     @Override
     protected Object clone() throws CloneNotSupportedException {

@@ -57,6 +57,15 @@ public class Polygon extends Figure2D {
         return center;
     }
 
+    @Override
+    public void move(Vector2D movement) {
+        for (int i = 0; i < vertexes.length; i++) {
+            Vector2D vertex = vertexes[i];
+            vertexes[i] = vertex.add(movement);
+        }
+        center = center.add(movement);
+    }
+
     private static Vector2D centerCalc(Vector2D[] vertexes){
         double x = 0, y = 0;
         for (Vector2D i : vertexes){
