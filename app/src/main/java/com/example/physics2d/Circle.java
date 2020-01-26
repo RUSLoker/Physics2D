@@ -9,7 +9,7 @@ public class Circle extends Figure2D {
     public final double radius;
 
     public Circle(Vector2D center, double radius) {
-        this.center = center;
+        this.center = center.clone();
         this.radius = radius;
     }
 

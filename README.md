@@ -4,7 +4,7 @@ A 2D physics project
 ## Classes
 - **[Visualizer](#visualizer)**
 - **[Vector2D](#vector2d)**
-- **[PhysObj](#physobj)**
+- **[PhysObj](#physObj)**
 - **[Collision](#collision)**
 - **[Figure2D](#figure2d)**
     - **[Circle](#circle)**
@@ -71,7 +71,7 @@ ________________________________________
 
 ________________________________________
 
-## <a name = "physobj" >PhysObj</a>
+## <a name = "physObj" >PhysObj</a>
 
 
 ________________________________________
