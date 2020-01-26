@@ -23,10 +23,12 @@ ________________________________________
 ### Fields  
 - **double x, y**
 	- represents vector coordinates.
+- **double length**
+    - represents length of the vector.
+- **double sqrLength**
+    - represents squared length of the vector.
 	
 ### Constructors
-- **Vector2D()**
-    - returns zero vector.
 - **Vector2D(double x, double y)**
     - returns vector with coordinates given in arguments.
 
@@ -36,6 +38,11 @@ ________________________________________
     - if there is no intersection returns null.
 - **sum(Vector2D[] vArr)**
 	- returns new vector equal to the sum of all vectors in parameters.
+- **length(double x, double y)**
+	- returns length of vector.
+- **sqrLength(double x, double y)**
+	- returns squared length of vector.
+	- works faster than length().
 ### Concrete Methods
 - **add(Vector2D v)**
     - returns a new vector equal to the sum of this vector and vector given in the argument.
@@ -44,11 +51,6 @@ ________________________________________
 - **scale(double mult)**
 - **reverse()**
 	- returns reversed vector.
-- **length()**
-	- returns length of vectror.
-- **sqrLength()**
-	- returns squared length of vector.
-	- works faster than length().
 - **rotate(double angle)**
 - **rotate(double sinA, double cosA)**
 - **zero()**
@@ -59,6 +61,7 @@ ________________________________________
     - returns value equal to scalar product of this vector and vector given in the argument.
 - **angleBetween(Vector2D v)**
     - returns value equal to angle between this vector and vector given in the argument in radians.
+- **setLength(double len)**
 - **clone()**
 	- returns copy of this vector.
 - **toString()**
