@@ -1,5 +1,7 @@
 package com.example.physics2d;
 
+import android.graphics.Canvas;
+
 public class Circle extends Figure2D {
 
     public final Vector2D center;
@@ -11,17 +13,22 @@ public class Circle extends Figure2D {
     }
 
     @Override
-    public Vector2D getCollision(Figure2D f) {
-        return f.getCollision(this);
+    public Vector2D getCollision(Figure2D figure) {
+        return figure.getCollision(this);
     }
 
     @Override
-    public Vector2D getCollision(Circle c) {
-        return getCollision(c, this);
+    public Vector2D getCollision(Circle circle) {
+        return getCollision(circle, this);
     }
 
     @Override
-    public Vector2D getCollision(Polygon p) {
-        return getCollision(this, p);
+    public Vector2D getCollision(Polygon polygon) {
+        return getCollision(this, polygon);
+    }
+
+    @Override
+    public void draw(Canvas canvas) {
+
     }
 }

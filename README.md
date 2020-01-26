@@ -79,7 +79,7 @@ ________________________________________
 ## <a name = "collision" >Collision</a>
 
 ### Modifiers
-- **public**
+- **package-private**
 - **abstract**
 
 ### Concrete Methods
@@ -100,6 +100,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
+- **draw(Canvas canvas)**
 
 ________________________________________
 
@@ -120,6 +121,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
+- **draw(Canvas canvas)**
 
 ________________________________________
 
@@ -133,6 +135,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
+- **draw(Canvas canvas)**
 
 ________________________________________
 
