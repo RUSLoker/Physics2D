@@ -76,6 +76,19 @@ ________________________________________
 
 ________________________________________
 
+## <a name = "collision" >Collision</a>
+
+### Modifiers
+- **public**
+- **abstract**
+
+### Concrete Methods
+- **getCollision(Circle a, Circle b)**
+- **getCollision(Polygon a, Polygon b)**
+- **getCollision(Circle a, Polygon b)**
+
+________________________________________
+
 ## <a name = "figure2d" >Figure2D</a>
 
 ### Modifiers
@@ -123,15 +136,4 @@ ________________________________________
 
 ________________________________________
 
-## <a name = "collision" >Collision</a>
 
-### Modifiers
-- **public**
-- **abstract**
-
-### Concrete Methods
-- **getCollision(Circle a, Circle b)**
-- **getCollision(Polygon a, Polygon b)**
-- **getCollision(Circle a, Polygon b)**
-
-________________________________________
