@@ -94,6 +94,13 @@ ________________________________________
 - **public**
 - **extends Figure2D**
 
+### Fields  
+- **Vector2D center**
+- **double radius**
+	
+### Constructors
+- **Circle(Vector2D center, double radius)**
+
 ### Concrete Methods
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
