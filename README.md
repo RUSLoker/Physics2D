@@ -73,6 +73,13 @@ ________________________________________
 
 ## <a name = "physObj" >PhysObj</a>
 
+### Fields  
+- **Figure2D body**
+
+### Concrete Methods
+- **draw(Canvas canvas, Paint paint)**
+- **rotate(double angle)**
+
 
 ________________________________________
 
@@ -101,6 +108,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
+- **rotate(double angle)**
 
 ________________________________________
 
@@ -122,6 +130,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
+- **rotate(double angle)**
 
 ________________________________________
 
@@ -136,6 +145,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
+- **rotate(double angle)**
 
 ________________________________________
 

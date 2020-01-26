@@ -5,8 +5,8 @@ import android.graphics.Paint;
 
 public class Circle extends Figure2D {
 
-    public final Vector2D center;
-    public final double radius;
+    private final Vector2D center;
+    private final double radius;
 
     public Circle(Vector2D center, double radius) {
         this.center = center.clone();
@@ -31,5 +31,10 @@ public class Circle extends Figure2D {
     @Override
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawCircle((float) center.x, (float) center.y, (float) radius, paint);
+    }
+
+    @Override
+    public Vector2D getCenter() {
+        return center;
     }
 }

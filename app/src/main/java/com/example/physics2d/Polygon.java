@@ -4,8 +4,8 @@ import android.graphics.Canvas;
 import android.graphics.Paint;
 
 public class Polygon extends Figure2D {
-    public final Vector2D[] vertexes;
-    public final Vector2D center;
+    private Vector2D[] vertexes;
+    private Vector2D center;
 
     public Polygon(Vector2D[] vertexes) {
         for(int i = 0; i < vertexes.length; i++){
@@ -50,6 +50,11 @@ public class Polygon extends Figure2D {
                 (float) vertexes[i].y,
                 paint
         );
+    }
+
+    @Override
+    public Vector2D getCenter() {
+        return center;
     }
 
     private static Vector2D centerCalc(Vector2D[] vertexes){
