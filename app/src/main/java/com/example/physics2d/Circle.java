@@ -1,6 +1,7 @@
 package com.example.physics2d;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Circle extends Figure2D {
 
@@ -28,7 +29,7 @@ public class Circle extends Figure2D {
     }
 
     @Override
-    public void draw(Canvas canvas) {
-
+    public void draw(Canvas canvas, Paint paint) {
+        canvas.drawCircle((float) center.x, (float) center.y, (float) radius, paint);
     }
 }

@@ -100,7 +100,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
-- **draw(Canvas canvas)**
+- **draw(Canvas canvas, Paint paint)**
 
 ________________________________________
 
@@ -121,7 +121,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
-- **draw(Canvas canvas)**
+- **draw(Canvas canvas, Paint paint)**
 
 ________________________________________
 
@@ -135,7 +135,7 @@ ________________________________________
 - **getCollision(Figure2D f)**
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
-- **draw(Canvas canvas)**
+- **draw(Canvas canvas, Paint paint)**
 
 ________________________________________
 

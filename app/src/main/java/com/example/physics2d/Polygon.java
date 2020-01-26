@@ -1,6 +1,7 @@
 package com.example.physics2d;
 
 import android.graphics.Canvas;
+import android.graphics.Paint;
 
 public class Polygon extends Figure2D {
     @Override
@@ -19,7 +20,7 @@ public class Polygon extends Figure2D {
     }
 
     @Override
-    public void draw(Canvas canvas) {
+    public void draw(Canvas canvas, Paint paint) {
 
     }
 }
