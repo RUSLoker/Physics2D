@@ -38,6 +38,11 @@ ________________________________________
     - if there is no intersection returns null.
 - **sum(Vector2D[] vArr)**
 	- returns new vector equal to the sum of all vectors in parameters.
+- **length(double x, double y)**
+	- returns length of vector.
+- **sqrLength(double x, double y)**
+	- returns squared length of vector.
+	- works faster than length().
 ### Concrete Methods
 - **add(Vector2D v)**
     - returns a new vector equal to the sum of this vector and vector given in the argument.
@@ -46,11 +51,6 @@ ________________________________________
 - **scale(double mult)**
 - **reverse()**
 	- returns reversed vector.
-- **length()**
-	- returns length of vector.
-- **sqrLength()**
-	- returns squared length of vector.
-	- works faster than length().
 - **rotate(double angle)**
 - **rotate(double sinA, double cosA)**
 - **zero()**
