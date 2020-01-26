@@ -7,12 +7,12 @@ public class Polygon extends Figure2D {
     }
 
     @Override
-    public Vector2D getCollision(Circle f) {
+    public Vector2D getCollision(Circle c) {
         return null;
     }
 
     @Override
-    public Vector2D getCollision(Polygon f) {
+    public Vector2D getCollision(Polygon p) {
         return null;
     }
 }

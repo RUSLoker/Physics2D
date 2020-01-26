@@ -1,15 +1,14 @@
 package com.example.physics2d;
 
-public final class Collision {
-    private Collision(){}
+public abstract class Collision {
 
-    public Vector2D get(Circle a, Circle b){
+    protected static Vector2D getCollision(Circle a, Circle b){
         return null;
     }
-    public Vector2D get(Polygon a, Polygon b){
+    protected static Vector2D getCollision(Polygon a, Polygon b){
         return null;
     }
-    public Vector2D get(Circle a, Polygon b){
+    protected static Vector2D getCollision(Circle a, Polygon b){
         return null;
     }
 }

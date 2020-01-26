@@ -81,6 +81,7 @@ ________________________________________
 ### Modifiers
 - **public**
 - **abstract**
+- **extends Collision**
 
 ### Abstract Methods
 - **getCollision(Figure2D f)**
@@ -129,8 +130,8 @@ ________________________________________
 - **abstract**
 
 ### Concrete Methods
-- **get(Circle a, Circle b)**
-- **get(Polygon a, Polygon b)**
-- **get(Circle a, Polygon b)**
+- **getCollision(Circle a, Circle b)**
+- **getCollision(Polygon a, Polygon b)**
+- **getCollision(Circle a, Polygon b)**
 
 ________________________________________
