@@ -6,8 +6,8 @@ A 2D physics project
 - **[Vector2D](#vector2d)**
 - **[PhysObj](#physobj)**
 - **[Figure](#figure)**
-    - **Circle**
-    - **Polygon**
+    - **[Circle](#circle)**
+    - **[Polygon](#polygon)**
             
 ________________________________________
 
@@ -43,6 +43,7 @@ ________________________________________
 - **sqrLength(double x, double y)**
 	- returns squared length of vector.
 	- works faster than length().
+
 ### Concrete Methods
 - **add(Vector2D v)**
     - returns a new vector equal to the sum of this vector and vector given in the argument.
@@ -76,5 +77,39 @@ ________________________________________
 
 ## <a name = "figure" >Figure</a>
 
+### Modifiers
+- **public**
+- **abstract**
+
+### Abstract Methods
+- **getCollision(Figure f)**
+- **getCollision(Circle c)**
+- **getCollision(Polygon p)**
+
+________________________________________
+
+## <a name = "circle" >Circle</a>
+
+### Modifiers
+- **public**
+- **extends Figure**
+
+### Concrete Methods
+- **getCollision(Figure f)**
+- **getCollision(Circle c)**
+- **getCollision(Polygon p)**
+
+________________________________________
+
+## <a name = "polygon" >Polygon</a>
+
+### Modifiers
+- **public**
+- **extends Figure**
+
+### Concrete Methods
+- **getCollision(Figure f)**
+- **getCollision(Circle c)**
+- **getCollision(Polygon p)**
 
 ________________________________________
