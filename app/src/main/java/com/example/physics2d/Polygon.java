@@ -66,6 +66,15 @@ public class Polygon extends Figure2D {
         center = center.add(movement);
     }
 
+    @Override
+    public void rotate(double angle, Vector2D point) {
+        double sin = Math.sin(angle);
+        double cos = Math.cos(angle);
+        for (int i = 0; i < vertexes.length; i++) {
+            vertexes[i] = vertexes[i].sub(point).rotate(sin, cos).add(point);
+        }
+    }
+
     private static Vector2D centerCalc(Vector2D[] vertexes){
         double x = 0, y = 0;
         for (Vector2D i : vertexes){

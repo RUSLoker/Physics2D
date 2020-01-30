@@ -10,4 +10,5 @@ public abstract class Figure2D extends Collision {
     public abstract void draw(Canvas canvas, Paint paint);
     public abstract Vector2D getCenter();
     public abstract void move(Vector2D movement);
+    public abstract void rotate(double angle ,Vector2D point);
 }

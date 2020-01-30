@@ -42,4 +42,8 @@ public class Circle extends Figure2D {
     public void move(Vector2D movement) {
         center = center.add(movement);
     }
+
+    @Override
+    public void rotate(double angle, Vector2D point) {
+    }
 }
