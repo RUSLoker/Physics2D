@@ -75,6 +75,21 @@ public class Polygon extends Figure2D {
         }
     }
 
+    @Override
+    public double perimeter() {
+        double P = 0;
+        for (int i = 1; i < vertexes.length; i++) {
+            P += vertexes[i].sub(vertexes[i-1]).length;
+        }
+        P += vertexes[vertexes.length - 1].sub(vertexes[0]).length;
+        return P;
+    }
+
+    @Override
+    public double square() {
+        return 0;
+    }
+
     private static Vector2D centerCalc(Vector2D[] vertexes){
         double x = 0, y = 0;
         for (Vector2D i : vertexes){
