@@ -89,7 +89,7 @@ ________________________________________
 - **package-private**
 - **abstract**
 
-### Concrete Methods
+### Static Methods
 - **getCollision(Circle a, Circle b)**
 - **getCollision(Polygon a, Polygon b)**
 - **getCollision(Circle a, Polygon b)**
@@ -108,7 +108,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
-- **rotate(double angle)**
+- **rotate(double angle, Vector2D point)**
 
 ________________________________________
 
@@ -130,7 +130,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
-- **rotate(double angle)**
+- **rotate(double angle, Vector2D point)**
 
 ________________________________________
 
@@ -145,7 +145,7 @@ ________________________________________
 - **getCollision(Circle c)**
 - **getCollision(Polygon p)**
 - **draw(Canvas canvas, Paint paint)**
-- **rotate(double angle)**
+- **rotate(double angle, Vector2D point)**
 
 ________________________________________
 
