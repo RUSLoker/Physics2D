@@ -13,4 +13,6 @@ public abstract class Figure2D extends Collision {
     public abstract void rotate(double angle ,Vector2D point);
     public abstract double perimeter();
     public abstract double square();
+    @Override
+    public abstract Figure2D clone();
 }

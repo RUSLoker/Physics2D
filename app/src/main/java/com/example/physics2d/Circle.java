@@ -61,4 +61,10 @@ public class Circle extends Figure2D {
     public double square() {
         return 0;
     }
+
+    //TODO
+    @Override
+    public Figure2D clone() {
+        return null;
+    }
 }
