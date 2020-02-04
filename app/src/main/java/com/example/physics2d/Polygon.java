@@ -85,6 +85,7 @@ public class Polygon extends Figure2D {
         return P;
     }
 
+    //TODO
     @Override
     public double square() {
         return 0;

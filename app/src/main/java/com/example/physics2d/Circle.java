@@ -13,6 +13,10 @@ public class Circle extends Figure2D {
         this.radius = radius;
     }
 
+    public double getRadius(){
+        return radius;
+    }
+
     @Override
     public Vector2D getCollision(Figure2D figure) {
         return figure.getCollision(this);
@@ -52,6 +56,7 @@ public class Circle extends Figure2D {
         return 0;
     }
 
+    //TODO
     @Override
     public double square() {
         return 0;
