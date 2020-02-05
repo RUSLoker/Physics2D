@@ -11,34 +11,14 @@ public abstract class Collision {
         }
         return null;
     }
-    protected static Vector2D getCollision(Polygon a, Polygon b){
-        boolean flag = false;
+    protected static Vector2D getCollision(Polygon a, Polygon b) {
         Vector2D inter;
         Vector2D[] bVert = b.getVertexes();
         Vector2D[] aVert = a.getVertexes();
-        for (Vector2D i : aVert) {
-            for (int j = 1; j < bVert.length; j++) {
-                if(polColCheck(i, bVert[j], bVert[j-1])){
-                    flag = !flag;
-                }
-            }
-            if(polColCheck(i, bVert[0], bVert[bVert.length-1])){
-                flag = !flag;
-            }
-            if (flag) return i;
-        }
-        for (Vector2D i : bVert) {
-            for (int j = 1; j < aVert.length; j++) {
-                if(polColCheck(i, aVert[j], aVert[j-1])){
-                    flag = !flag;
-                }
-            }
-            if(polColCheck(i, aVert[0], aVert[aVert.length-1])){
-                flag = !flag;
-            }
-            if (flag) return i;
-        }
-        return null;
+        inter = dotIndexCheck(aVert, bVert);
+        if (inter != null) return inter;
+        inter = dotIndexCheck(bVert, aVert);
+        return inter;
     }
     protected static Vector2D getCollision(Circle a, Polygon b){
         return null;
@@ -58,5 +38,26 @@ public abstract class Collision {
                 inter.y >= B &&
                 inter.x >= point.x;
         return flag;
+    }
+
+    private static Vector2D dotIndexCheck(Vector2D[] aVert, Vector2D[] bVert){
+        for (Vector2D p : aVert) {
+            double angle = 0;
+            Vector2D k = bVert[bVert.length - 1].sub(p);
+            for (Vector2D j : bVert) {
+                j = j.sub(p);
+                double curAngle = k.angleBetween(j);
+                double vPZ = Vector2D.ProdZ(k, j);
+                if (vPZ < 0) angle -= curAngle;
+                else angle += curAngle;
+                k = j;
+            }
+            angle /= 2 * Math.PI;
+            int angInt = (int) angle;
+            if (angInt == 1 || angInt == -1) {
+                return p;
+            }
+        }
+        return null;
     }
 }

@@ -103,7 +103,7 @@ public class Vector2D implements Cloneable {
         );
     }
 
-    public double vProdZ(Vector2D a, Vector2D b){
+    public static double ProdZ(Vector2D a, Vector2D b){
         return a.x * b.y - a.y * b.x;
     }
 

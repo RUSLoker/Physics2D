@@ -23,8 +23,12 @@ public class Polygon extends Figure2D {
         this.center = center;
     }
 
-    public Vector2D[] getVertexes(){
-        return vertexes;
+    public Vector2D[] getVertexes() {
+        Vector2D[] cVert = new Vector2D[vertexes.length];
+        for(int i = 0; i < vertexes.length; i++){
+            cVert[i] = vertexes[i].clone();
+        }
+        return cVert;
     }
 
     @Override

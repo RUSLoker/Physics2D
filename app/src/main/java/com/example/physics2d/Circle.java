@@ -62,7 +62,6 @@ public class Circle extends Figure2D {
         return 0;
     }
 
-    //TODO
     @Override
     public Figure2D clone() {
         return new Circle(center.clone(), radius);
