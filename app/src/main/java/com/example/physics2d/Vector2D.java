@@ -103,6 +103,10 @@ public class Vector2D implements Cloneable {
         );
     }
 
+    public double vProdZ(Vector2D a, Vector2D b){
+        return a.x * b.y - a.y * b.x;
+    }
+
     public double angleBetween(Vector2D v){
         return Math.acos(this.normalize().scalar(v.normalize()));
     }
@@ -126,5 +130,14 @@ public class Vector2D implements Cloneable {
     @Override
     public String toString() {
         return "( " + x + ", " + y + " )";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == getClass()) {
+            Vector2D v = (Vector2D) obj;
+            return x == v.x && y == v.y;
+        }
+        return false;
     }
 }
