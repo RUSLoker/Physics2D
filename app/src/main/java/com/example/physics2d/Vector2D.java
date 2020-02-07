@@ -107,8 +107,8 @@ public class Vector2D implements Cloneable {
         return a.x * b.y - a.y * b.x;
     }
 
-    public double angleBetween(Vector2D v){
-        return Math.acos(this.normalize().scalar(v.normalize()));
+    public static double angleBetween(Vector2D a, Vector2D b){
+        return Math.acos(a.normalize().scalar(b.normalize()));
     }
 
     public Vector2D setLength(double len){

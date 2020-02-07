@@ -1,5 +1,7 @@
 package com.example.physics2d;
 
+import java.util.ArrayList;
+
 public abstract class Collision {
 
     protected static Vector2D getCollision(Circle a, Circle b){
@@ -11,42 +13,30 @@ public abstract class Collision {
         }
         return null;
     }
-    protected static Vector2D getCollision(Polygon a, Polygon b) {
-        Vector2D inter;
+    protected static Vector2D[] getCollision(Polygon a, Polygon b) {
+        Vector2D[] returnable;
+        ArrayList<Vector2D> intersections = new ArrayList<>();
         Vector2D[] bVert = b.getVertexes();
         Vector2D[] aVert = a.getVertexes();
-        inter = dotIndexCheck(aVert, bVert);
-        if (inter != null) return inter;
-        inter = dotIndexCheck(bVert, aVert);
-        return inter;
+        dotIndexCheck(aVert, bVert, intersections);
+        dotIndexCheck(bVert, aVert, intersections);
+        returnable = new Vector2D[intersections.size()];
+        for (int i = 0; i < intersections.size(); i++) {
+            returnable[i] = intersections.get(i);
+        }
+        return returnable;
     }
-    protected static Vector2D getCollision(Circle a, Polygon b){
+    protected static Vector2D[] getCollision(Circle a, Polygon b){
         return null;
     }
 
-    private static boolean polColCheck(Vector2D point, Vector2D a, Vector2D b){
-        boolean flag;
-        Vector2D inter = Vector2D.intersection(point, new Vector2D(point.x + 1, point.y), a, b);
-        double
-                L = a.x <= b.x ? a.x : b.x,
-                R = a.x > b.x ? a.x : b.x,
-                T = a.y >= b.y ? a.y : b.y,
-                B = a.y < b.y ? a.y : b.y;
-        flag = inter.x >= L &&
-                inter.x <= R &&
-                inter.y <= T &&
-                inter.y >= B &&
-                inter.x >= point.x;
-        return flag;
-    }
-
-    private static Vector2D dotIndexCheck(Vector2D[] aVert, Vector2D[] bVert){
-        for (Vector2D p : aVert) {
+    private static void dotIndexCheck(Vector2D[] a, Vector2D[] b, ArrayList<Vector2D> arrayList){
+        for (Vector2D p : a) {
             double angle = 0;
-            Vector2D k = bVert[bVert.length - 1].sub(p);
-            for (Vector2D j : bVert) {
+            Vector2D k = b[b.length - 1].sub(p);
+            for (Vector2D j : b) {
                 j = j.sub(p);
-                double curAngle = k.angleBetween(j);
+                double curAngle = Vector2D.angleBetween(k, j);
                 double vPZ = Vector2D.ProdZ(k, j);
                 if (vPZ < 0) angle -= curAngle;
                 else angle += curAngle;
@@ -55,9 +45,8 @@ public abstract class Collision {
             angle /= 2 * Math.PI;
             int angInt = (int) angle;
             if (angInt == 1 || angInt == -1) {
-                return p;
+                arrayList.add(p);
             }
         }
-        return null;
     }
 }
