@@ -15,18 +15,34 @@ public class Polygon extends Figure2D {
         this.center = centerCalc(vertexes);
     }
 
+    private Polygon(Vector2D[] vertexes, Vector2D center) {
+        for(int i = 0; i < vertexes.length; i++){
+            vertexes[i] = vertexes[i].clone();
+        }
+        this.vertexes = vertexes;
+        this.center = center;
+    }
+
+    public Vector2D[] getVertexes() {
+        Vector2D[] cVert = new Vector2D[vertexes.length];
+        for(int i = 0; i < vertexes.length; i++){
+            cVert[i] = vertexes[i].clone();
+        }
+        return cVert;
+    }
+
     @Override
-    public Vector2D getCollision(Figure2D figure) {
+    public Vector2D[] getCollision(Figure2D figure) {
         return figure.getCollision(this);
     }
 
     @Override
-    public Vector2D getCollision(Circle circle) {
+    public Vector2D[] getCollision(Circle circle) {
         return getCollision(circle, this);
     }
 
     @Override
-    public Vector2D getCollision(Polygon polygon) {
+    public Vector2D[] getCollision(Polygon polygon) {
         return getCollision(polygon, this);
     }
 
@@ -85,9 +101,15 @@ public class Polygon extends Figure2D {
         return P;
     }
 
+    //TODO
     @Override
     public double square() {
         return 0;
+    }
+
+    @Override
+    public Polygon clone(){
+        return new Polygon(vertexes.clone(), center);
     }
 
     private static Vector2D centerCalc(Vector2D[] vertexes){

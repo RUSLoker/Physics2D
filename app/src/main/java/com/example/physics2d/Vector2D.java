@@ -90,20 +90,25 @@ public class Vector2D implements Cloneable {
         return this.x * v.x + this.y * v.y;
     }
 
-    public Vector2D intersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d){
+    public static Vector2D intersection(Vector2D a, Vector2D b, Vector2D c, Vector2D d){
         double[] x = {0, a.x, b.x, c.x, d.x},
                 y = {0, a.y, b.y, c.y, d.y};
-        double fp = x[1] * y[2] - y[1] * x[1];
+        double fp = x[1] * y[2] - y[1] * x[2];
         double sp = x[3] * y[4] - y[3] * x[4];
         double tp = (x[1] - x[2]) * (y[3] - y[4]) - (y[1] - y[2]) * (x[3] - x[4]);
         return new Vector2D(
                 (fp *(x[3] - x[4]) - (x[1] - x[2])* sp)/ tp,
                 (fp *(y[3] - y[4]) - (y[1] - y[2])* sp)/ tp
+
         );
     }
 
-    public double angleBetween(Vector2D v){
-        return Math.acos(this.normalize().scalar(v.normalize()));
+    public static double ProdZ(Vector2D a, Vector2D b){
+        return a.x * b.y - a.y * b.x;
+    }
+
+    public static double angleBetween(Vector2D a, Vector2D b){
+        return Math.acos(a.normalize().scalar(b.normalize()));
     }
 
     public Vector2D setLength(double len){
@@ -125,5 +130,14 @@ public class Vector2D implements Cloneable {
     @Override
     public String toString() {
         return "( " + x + ", " + y + " )";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if(obj.getClass() == getClass()) {
+            Vector2D v = (Vector2D) obj;
+            return x == v.x && y == v.y;
+        }
+        return false;
     }
 }
