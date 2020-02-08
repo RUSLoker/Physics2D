@@ -56,10 +56,10 @@ public class Circle extends Figure2D {
         return 0;
     }
 
-    //TODO
+
     @Override
     public double square() {
-        return 0;
+        return Math.PI * radius * radius;
     }
 
     @Override

@@ -21,13 +21,21 @@ public abstract class Collision {
         dotIndexCheck(aVert, bVert, intersections);
         dotIndexCheck(bVert, aVert, intersections);
         returnable = new Vector2D[intersections.size()];
-        for (int i = 0; i < intersections.size(); i++) {
-            returnable[i] = intersections.get(i);
-        }
+        intersections.toArray(returnable);
         return returnable;
     }
     protected static Vector2D[] getCollision(Circle a, Polygon b){
-        return null;
+        Vector2D[] returnable;
+        ArrayList<Vector2D> intersections = new ArrayList<>();
+        Vector2D cent = a.getCenter();
+        double rad = a.getRadius();
+        for (Vector2D i : b.getVertexes()){
+            if(i.sub(cent).length <= rad)
+                intersections.add(i);
+        }
+        returnable = new Vector2D[intersections.size()];
+        intersections.toArray(returnable);
+        return returnable;
     }
 
     private static void dotIndexCheck(Vector2D[] a, Vector2D[] b, ArrayList<Vector2D> arrayList){
