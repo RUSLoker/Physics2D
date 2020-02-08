@@ -5,17 +5,20 @@ import android.graphics.Paint;
 
 import androidx.annotation.NonNull;
 
-public class PhysObj {
-    public final Figure2D body;
-    public final Vector2D speed, acceleration;
+public class PhysObj implements Cloneable{
+    private Figure2D body;
+    private Vector2D speed, acceleration, force;
+    private double mass;
 
-    public PhysObj(Figure2D body, Vector2D speed, Vector2D acceleration) {
+    public PhysObj(Figure2D body, double mass, Vector2D speed, Vector2D acceleration, Vector2D force) {
         this.body = body;
         this.speed = speed;
         this.acceleration = acceleration;
+        this.mass = mass;
+        this.force = force;
     }
-    public PhysObj(Figure2D body) {
-        this(body, Vector2D.zero(), Vector2D.zero());
+    public PhysObj(Figure2D body , double mass) {
+        this(body, mass, Vector2D.zero(), Vector2D.zero(), Vector2D.zero());
     }
 
     public void draw(Canvas canvas, Paint paint){
@@ -23,17 +26,35 @@ public class PhysObj {
     }
 
     public void move(double time){
+        acceleration = force.scale(1/mass);
+        speed = speed.add(acceleration.scale(time));
         body.move(speed.scale(time));
     }
 
     public Vector2D getCenter(){
-        return body.getCenter();
+        return body.getCenter().clone();
+    }
+    public Vector2D getSpeed(){
+        return speed.clone();
+    }
+    public Vector2D getAcceleration(){
+        return acceleration.clone();
+    }
+    public Vector2D getForce(){
+        return force.clone();
+    }
+    public Figure2D getBody(){
+        return body.clone();
+    }
+    public double getMass() {
+        return mass;
     }
 
     @NonNull
     @Override
     protected Object clone() throws CloneNotSupportedException {
-        return super.clone();
+        super.clone();
+        return new PhysObj(body.clone(), mass, speed.clone(), acceleration.clone(), force.clone());
     }
 
     @NonNull
