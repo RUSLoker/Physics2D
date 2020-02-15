@@ -33,7 +33,7 @@ public class Circle extends Figure2D {
     }
 
     @Override
-    public Vector2D[] getNormal(Vector2D[] points) {
+    public Vector2D[] getNormals(Vector2D[] points) {
         Vector2D[] finish = new Vector2D[points.length];
         for (int i = 0; i < finish.length; i++) {
             finish[i] = center.sub(points[i]).normalize();

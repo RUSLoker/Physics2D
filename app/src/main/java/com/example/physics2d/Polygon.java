@@ -48,7 +48,7 @@ public class Polygon extends Figure2D {
 
     //TODO
     @Override
-    public Vector2D[] getNormal(Vector2D[] points) {
+    public Vector2D[] getNormals(Vector2D[] points) {
         return null;
     }
 

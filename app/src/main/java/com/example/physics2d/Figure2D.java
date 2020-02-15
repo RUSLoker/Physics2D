@@ -7,7 +7,7 @@ public abstract class Figure2D extends Collision implements Cloneable {
     public abstract Vector2D[] getCollision(Figure2D figure);
     public abstract Vector2D[] getCollision(Circle circle);
     public abstract Vector2D[] getCollision(Polygon polygon);
-    public abstract Vector2D[] getNormal(Vector2D[] points);
+    public abstract Vector2D[] getNormals(Vector2D[] points);
     public abstract void draw(Canvas canvas, Paint paint);
     public abstract Vector2D getCenter();
     public abstract void move(Vector2D movement);

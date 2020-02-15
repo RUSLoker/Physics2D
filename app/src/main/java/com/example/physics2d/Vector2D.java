@@ -103,7 +103,7 @@ public class Vector2D implements Cloneable {
         );
     }
 
-    public static double ProdZ(Vector2D a, Vector2D b){
+    public static double prodZ(Vector2D a, Vector2D b){
         return a.x * b.y - a.y * b.x;
     }
 
@@ -116,6 +116,12 @@ public class Vector2D implements Cloneable {
             return this.clone();
         }
         return this.normalize().scale(len);
+    }
+
+    public Vector2D pojection(Vector2D b){
+        b = b.normalize();
+        double scalar = this.scalar(b);
+        return b.scale(scalar);
     }
 
 

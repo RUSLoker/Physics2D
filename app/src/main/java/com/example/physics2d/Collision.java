@@ -45,7 +45,7 @@ public abstract class Collision {
             for (Vector2D j : b) {
                 j = j.sub(p);
                 double curAngle = Vector2D.angleBetween(k, j);
-                double vPZ = Vector2D.ProdZ(k, j);
+                double vPZ = Vector2D.prodZ(k, j);
                 if (vPZ < 0) angle -= curAngle;
                 else angle += curAngle;
                 k = j;
