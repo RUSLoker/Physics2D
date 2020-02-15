@@ -33,6 +33,15 @@ public class Circle extends Figure2D {
     }
 
     @Override
+    public Vector2D[] getNormal(Vector2D[] points) {
+        Vector2D[] finish = new Vector2D[points.length];
+        for (int i = 0; i < finish.length; i++) {
+            finish[i] = center.sub(points[i]).normalize();
+        }
+        return finish;
+    }
+
+    @Override
     public void draw(Canvas canvas, Paint paint) {
         canvas.drawCircle((float) center.x, (float) center.y, (float) radius, paint);
     }
@@ -51,6 +60,7 @@ public class Circle extends Figure2D {
     public void rotate(double angle, Vector2D point) {
     }
 
+    //TODO
     @Override
     public double perimeter() {
         return 0;

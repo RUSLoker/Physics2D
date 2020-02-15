@@ -2,6 +2,7 @@ package com.example.physics2d;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
 
@@ -9,6 +10,7 @@ public class PhysObj implements Cloneable{
     private Figure2D body;
     private Vector2D speed, acceleration, force;
     private double mass;
+    private SparseArray<Vector2D> forces = new SparseArray<>();
 
 
     public PhysObj(Figure2D body, double mass, Vector2D speed, Vector2D acceleration, Vector2D force) {
@@ -51,8 +53,18 @@ public class PhysObj implements Cloneable{
         return mass;
     }
 
-    public void setForce(Vector2D force){
-        this.force = force.clone();
+    public void setForce(Integer hash, Vector2D force){
+        Vector2D curF;
+        if ((curF = forces.get(hash)) != null){
+            this.force = force.add(force.sub(curF));
+        } else {
+            this.force = force.add(force);
+        }
+        forces.put(hash, force);
+    }
+
+    public void checkCollisions(PhysObj obj){
+
     }
 
     @NonNull

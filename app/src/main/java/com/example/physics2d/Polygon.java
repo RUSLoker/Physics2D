@@ -46,6 +46,12 @@ public class Polygon extends Figure2D {
         return getCollision(polygon, this);
     }
 
+    //TODO
+    @Override
+    public Vector2D[] getNormal(Vector2D[] points) {
+        return null;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint){
         int i = 1;
