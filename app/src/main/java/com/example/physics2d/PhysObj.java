@@ -10,12 +10,13 @@ public class PhysObj implements Cloneable{
     private Vector2D speed, acceleration, force;
     private double mass;
 
+
     public PhysObj(Figure2D body, double mass, Vector2D speed, Vector2D acceleration, Vector2D force) {
         this.body = body;
-        this.speed = speed;
-        this.acceleration = acceleration;
+        this.speed = speed.clone();
+        this.acceleration = acceleration.clone();
         this.mass = mass;
-        this.force = force;
+        this.force = force.clone();
     }
     public PhysObj(Figure2D body , double mass) {
         this(body, mass, Vector2D.zero(), Vector2D.zero(), Vector2D.zero());
@@ -48,6 +49,10 @@ public class PhysObj implements Cloneable{
     }
     public double getMass() {
         return mass;
+    }
+
+    public void setForce(Vector2D force){
+        this.force = force.clone();
     }
 
     @NonNull
