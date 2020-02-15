@@ -8,20 +8,23 @@ import androidx.annotation.NonNull;
 
 public class PhysObj implements Cloneable{
     private Figure2D body;
-    private Vector2D speed, acceleration, force;
+    private Vector2D velocity, acceleration, force;
     private double mass;
     private SparseArray<Vector2D> forces = new SparseArray<>();
 
 
-    public PhysObj(Figure2D body, double mass, Vector2D speed, Vector2D acceleration, Vector2D force) {
+    public PhysObj(Figure2D body, double mass, Vector2D velocity, Vector2D acceleration, Vector2D force) {
         this.body = body;
-        this.speed = speed.clone();
+        this.velocity = velocity.clone();
         this.acceleration = acceleration.clone();
         this.mass = mass;
         this.force = force.clone();
     }
     public PhysObj(Figure2D body , double mass) {
         this(body, mass, Vector2D.zero(), Vector2D.zero(), Vector2D.zero());
+    }
+    public PhysObj(Figure2D body , double mass, Vector2D velocity) {
+        this(body, mass, velocity, Vector2D.zero(), Vector2D.zero());
     }
 
     public void draw(Canvas canvas, Paint paint){
@@ -30,15 +33,15 @@ public class PhysObj implements Cloneable{
 
     public void move(double time){
         acceleration = force.scale(1/mass);
-        speed = speed.add(acceleration.scale(time));
-        body.move(speed.scale(time));
+        velocity = velocity.add(acceleration.scale(time));
+        body.move(velocity.scale(time));
     }
 
     public Vector2D getCenter(){
         return body.getCenter().clone();
     }
     public Vector2D getSpeed(){
-        return speed.clone();
+        return velocity.clone();
     }
     public Vector2D getAcceleration(){
         return acceleration.clone();
@@ -64,14 +67,41 @@ public class PhysObj implements Cloneable{
     }
 
     public void checkCollisions(PhysObj obj){
+        Vector2D[] collisions;
+        if((collisions = this.body.getCollision(obj.body)).length != 0){
+            Vector2D[] normals = body.getNormals(collisions);
+            for (int i = 0; i < normals.length; i++) {
+                Vector2D a = normals[i];
+                double projA = this.velocity.projection(a);
+                double projB = obj.velocity.projection(a);
+                double v1 = (2*obj.mass*projB + projA*(this.mass - obj.mass)) / (this.mass + obj.mass);
+                double v2 = (2*this.mass*projA + projB*(obj.mass - this.mass)) / (this.mass + obj.mass);
+                v1 -= projA;
+                v2 -= projB;
+                this.velocity = this.velocity.add(a.scale(v1));
+                obj.velocity = obj.velocity.add(a.scale(v2));
+            }
+        }
+    }
 
+    public void checkBorder(Border border){
+        switch (body.borderCollision(border)){
+            case left:
+            case right:
+                velocity = velocity.reverseX();
+                break;
+            case down:
+            case up:
+                velocity = velocity.reverseY();
+                break;
+        }
     }
 
     @NonNull
     @Override
     protected Object clone() throws CloneNotSupportedException {
         super.clone();
-        return new PhysObj(body.clone(), mass, speed.clone(), acceleration.clone(), force.clone());
+        return new PhysObj(body.clone(), mass, velocity.clone(), acceleration.clone(), force.clone());
     }
 
     @NonNull

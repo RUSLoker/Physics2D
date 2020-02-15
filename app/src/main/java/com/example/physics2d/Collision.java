@@ -4,14 +4,14 @@ import java.util.ArrayList;
 
 public abstract class Collision {
 
-    protected static Vector2D getCollision(Circle a, Circle b){
+    protected static Vector2D[] getCollision(Circle a, Circle b){
         Vector2D dC = a.getCenter().sub(b.getCenter());
         double centDist = a.getRadius() + b.getRadius();
         if(dC.length <= centDist){
             dC = dC.setLength(dC.length / 2);
-            return dC.add(b.getCenter());
+            return new Vector2D[]{dC.add(b.getCenter())};
         }
-        return null;
+        return new Vector2D[0];
     }
     protected static Vector2D[] getCollision(Polygon a, Polygon b) {
         Vector2D[] returnable;

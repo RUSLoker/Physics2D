@@ -24,7 +24,7 @@ public class Circle extends Figure2D {
 
     @Override
     public Vector2D[] getCollision(Circle circle) {
-        return new Vector2D[]{getCollision(circle, this)};
+        return getCollision(circle, this);
     }
 
     @Override
@@ -39,6 +39,23 @@ public class Circle extends Figure2D {
             finish[i] = center.sub(points[i]).normalize();
         }
         return finish;
+    }
+
+    @Override
+    public Orientation borderCollision(Border border) {
+        if(center.x - radius < border.L){
+            return Orientation.left;
+        }
+        else if(center.x + radius > border.R){
+            return Orientation.right;
+        }
+        else if(center.y + radius > border.U){
+            return Orientation.up;
+        }
+        else if(center.y - radius < border.D){
+            return Orientation.down;
+        }
+        return null;
     }
 
     @Override

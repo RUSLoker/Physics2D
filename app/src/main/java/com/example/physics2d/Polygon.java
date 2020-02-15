@@ -52,6 +52,12 @@ public class Polygon extends Figure2D {
         return null;
     }
 
+    //TODO
+    @Override
+    public Orientation borderCollision(Border border) {
+        return null;
+    }
+
     @Override
     public void draw(Canvas canvas, Paint paint){
         int i = 1;

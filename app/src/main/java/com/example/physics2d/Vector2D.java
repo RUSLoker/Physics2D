@@ -56,6 +56,14 @@ public class Vector2D implements Cloneable {
         return new Vector2D(-this.x, -this.y, length, sqrLength);
     }
 
+    public Vector2D reverseX(){
+        return new Vector2D(-this.x, this.y, length, sqrLength);
+    }
+
+    public Vector2D reverseY(){
+        return new Vector2D(this.x, -this.y, length, sqrLength);
+    }
+
     public static double length(double x, double y){
         return Math.sqrt(x*x + y*y);
     }
@@ -118,10 +126,10 @@ public class Vector2D implements Cloneable {
         return this.normalize().scale(len);
     }
 
-    public Vector2D pojection(Vector2D b){
+    public double projection(Vector2D b){
         b = b.normalize();
         double scalar = this.scalar(b);
-        return b.scale(scalar);
+        return scalar;
     }
 
 
