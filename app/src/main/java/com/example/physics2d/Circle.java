@@ -94,12 +94,10 @@ public class Circle extends Figure2D {
     public void rotate(double angle, Vector2D point) {
     }
 
-    //TODO
     @Override
     public double perimeter() {
-        return 0;
+        return 2 * Math.PI * radius;
     }
-
 
     @Override
     public double square() {
