@@ -8,7 +8,7 @@ public abstract class Collision {
         Vector2D dC = a.getCenter().sub(b.getCenter());
         double centDist = a.getRadius() + b.getRadius();
         if(dC.length <= centDist){
-            dC = dC.setLength(dC.length / 2);
+            dC = dC.setLength(b.getRadius());
             return new Vector2D[]{dC.add(b.getCenter())};
         }
         return new Vector2D[0];

@@ -2,15 +2,16 @@ package com.example.physics2d;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.util.SparseArray;
 
 import androidx.annotation.NonNull;
+
+import java.util.HashMap;
 
 public class PhysObj implements Cloneable{
     private Figure2D body;
     private Vector2D velocity, acceleration, force;
     private double mass;
-    private SparseArray<Vector2D> forces = new SparseArray<>();
+    private HashMap<Integer, Vector2D> forces = new HashMap<>();
 
 
     public PhysObj(Figure2D body, double mass, Vector2D velocity, Vector2D acceleration, Vector2D force) {
@@ -32,6 +33,10 @@ public class PhysObj implements Cloneable{
     }
 
     public void calcAccel(){
+        force = Vector2D.zero();
+        for (Vector2D i : forces.values()){
+            force = force.add(i);
+        }
         acceleration = force.scale(1/mass);
     }
 
@@ -63,25 +68,25 @@ public class PhysObj implements Cloneable{
     }
 
     public void setForce(Integer hash, Vector2D force){
-        Vector2D curF;
-        if ((curF = forces.get(hash)) != null){
-            this.force = force.add(force.sub(curF));
-        } else {
-            this.force = force.add(force);
-        }
+//        Vector2D curF;
+//        if ((curF = forces.get(hash)) != null){
+//            this.force = force.add(force.sub(curF));
+//        } else {
+//            this.force = force.add(force);
+//        }
         forces.put(hash, force);
     }
 
     public void checkCollisions(PhysObj obj, double time){
         Vector2D[] collisions;
         if((collisions = this.body.getCollision(obj.body)).length != 0){
-            Vector2D[] normals = body.getNormals(collisions);
+            Vector2D[] normals = this.body.getNormals(collisions);
             for (int i = 0; i < normals.length; i++) {
                 Vector2D a = normals[i];
                 double dt = 0;
 
                 double dx = collisions[i].sub(this.getCenter()).length;
-                dx =  2 * (((Circle)body).getRadius() - dx);
+                dx =  ((Circle)body).getRadius() - dx;
                 if(dx > 1){
                     Vector2D relSpeed = obj.velocity.sub(this.velocity);
                     Vector2D relAcc = obj.acceleration.sub(this.acceleration);
@@ -89,7 +94,7 @@ public class PhysObj implements Cloneable{
                     double acc = relAcc.projection(a.reverse());
                     double sqrtD = Math.sqrt(vel*vel - 2*acc*dx);
                     double t = (sqrtD - vel) / acc;
-                    if(t <= 0){
+                    if(t <= 0 || t > time){
                         t = (-sqrtD - vel) / acc;
                     }
                     dt = time - t;
