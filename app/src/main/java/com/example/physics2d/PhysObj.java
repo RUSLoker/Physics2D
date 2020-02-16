@@ -31,10 +31,16 @@ public class PhysObj implements Cloneable{
         body.draw(canvas, paint);
     }
 
-    public void move(double time){
+    public void calcAccel(){
         acceleration = force.scale(1/mass);
+    }
+
+    public void move(double time){
+        body.move(new Vector2D(
+                velocity.x*time + acceleration.x * time*time/2,
+                velocity.y*time + acceleration.y * time*time/2
+        ));
         velocity = velocity.add(acceleration.scale(time));
-        body.move(velocity.scale(time));
     }
 
     public Vector2D getCenter(){
@@ -66,12 +72,31 @@ public class PhysObj implements Cloneable{
         forces.put(hash, force);
     }
 
-    public void checkCollisions(PhysObj obj){
+    public void checkCollisions(PhysObj obj, double time){
         Vector2D[] collisions;
         if((collisions = this.body.getCollision(obj.body)).length != 0){
             Vector2D[] normals = body.getNormals(collisions);
             for (int i = 0; i < normals.length; i++) {
                 Vector2D a = normals[i];
+                double dt = 0;
+
+                double dx = collisions[i].sub(this.getCenter()).length;
+                dx =  2 * (((Circle)body).getRadius() - dx);
+                if(dx > 1){
+                    Vector2D relSpeed = obj.velocity.sub(this.velocity);
+                    Vector2D relAcc = obj.acceleration.sub(this.acceleration);
+                    double vel = relSpeed.projection(a.reverse());
+                    double acc = relAcc.projection(a.reverse());
+                    double sqrtD = Math.sqrt(vel*vel - 2*acc*dx);
+                    double t = (sqrtD - vel) / acc;
+                    if(t <= 0){
+                        t = (-sqrtD - vel) / acc;
+                    }
+                    dt = time - t;
+                    this.move(-t);
+                    obj.move(-t);
+                }
+
                 double projA = this.velocity.projection(a);
                 double projB = obj.velocity.projection(a);
                 double v1 = (2*obj.mass*projB + projA*(this.mass - obj.mass)) / (this.mass + obj.mass);
@@ -80,6 +105,8 @@ public class PhysObj implements Cloneable{
                 v2 -= projB;
                 this.velocity = this.velocity.add(a.scale(v1));
                 obj.velocity = obj.velocity.add(a.scale(v2));
+                this.move(dt);
+                obj.move(dt);
             }
         }
     }
