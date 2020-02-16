@@ -4,5 +4,10 @@ public enum Orientation {
     left,
     right,
     up,
-    down
+    down,
+    ltNup,
+    rtNup,
+    ltNdn,
+    rtNdn,
+    none
 }

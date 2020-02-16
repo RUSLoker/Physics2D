@@ -94,6 +94,12 @@ public class PhysObj implements Cloneable{
             case up:
                 velocity = velocity.reverseY();
                 break;
+            case ltNdn:
+            case ltNup:
+            case rtNdn:
+            case rtNup:
+                velocity = velocity.reverse();
+                break;
         }
     }
 

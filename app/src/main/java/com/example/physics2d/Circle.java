@@ -43,19 +43,36 @@ public class Circle extends Figure2D {
 
     @Override
     public Orientation borderCollision(Border border) {
-        if(center.x - radius < border.L){
+
+        boolean left = center.x - radius < border.L,
+                right = center.x + radius > border.R,
+                up = center.y + radius > border.U,
+                down = center.y - radius < border.D;
+        if(left && up){
+            return Orientation.ltNup;
+        }
+        else if(left && down){
+            return Orientation.ltNdn;
+        }
+        else if(right && down){
+            return Orientation.rtNdn;
+        }
+        else if(right && up){
+            return Orientation.rtNup;
+        }
+        else if(left){
             return Orientation.left;
         }
-        else if(center.x + radius > border.R){
+        else if(right){
             return Orientation.right;
         }
-        else if(center.y + radius > border.U){
+        else if(up){
             return Orientation.up;
         }
-        else if(center.y - radius < border.D){
+        else if(down){
             return Orientation.down;
         }
-        return null;
+        return Orientation.none;
     }
 
     @Override
