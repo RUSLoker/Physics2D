@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Physics2D</string>
+    <string name="add">Добавить</string>
+    <string name="coords">Координаты</string>
+    <string name="delete">Удалить</string>
+    <string name="mass">Масса</string>
+    <string name="pause">Пауза</string>
+    <string name="resume">Возобновить</string>
+    <string name="set">Установить</string>
+    <string name="size">Размер</string>
+    <string name="speed">Скорость</string>
+    <string name="toggle">Переключить</string>
+</resources>

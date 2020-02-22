@@ -49,6 +49,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         myThread.start();
+        reloadFields(null);
     }
 
     protected void onPause(){
@@ -96,7 +97,13 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void toggle(View view){
+        Button toggle = (Button) findViewById(R.id.button);
         work = !work;
+        if(work){
+            toggle.setText(R.string.pause);
+        } else {
+            toggle.setText(R.string.resume);
+        }
     }
 
     public void add(View view){
@@ -110,7 +117,7 @@ public class MainActivity extends AppCompatActivity {
         pointer = objs.length;
         objs = Arrays.copyOf(objs, objs.length+1);
         objs[pointer] = standart.clone();
-        reloadFields();
+        reloadFields(null);
         work = pre;
     }
 
@@ -121,12 +128,12 @@ public class MainActivity extends AppCompatActivity {
         } else if(pointer<0){
             pointer++;
         }
-        reloadFields();
+        reloadFields(null);
     }
 
     public void next(View view){
         pointer++;
-        reloadFields();
+        reloadFields(null);
     }
 
     public void delete(View view){
@@ -180,22 +187,24 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void set(View view){
-        PhysObj cur = objs[pointer];
-        double size = Double.parseDouble(((EditText) findViewById(R.id.sizeAmount)).getText().toString()),
-                mass = Double.parseDouble(((EditText) findViewById(R.id.massAmount)).getText().toString()),
-                xA = Double.parseDouble(((EditText) findViewById(R.id.xAmount)).getText().toString()),
-                yA = Double.parseDouble(((EditText) findViewById(R.id.yAmount)).getText().toString()),
-                xSpeed = Double.parseDouble(((EditText) findViewById(R.id.xSpeed)).getText().toString()),
-                ySpeed = Double.parseDouble(((EditText) findViewById(R.id.ySpeed)).getText().toString());
-        ((Circle) cur.getBody()).setRadius(size);
-        cur.getBody().setCenter(new Vector2D(xA, yA));
-        cur.setMass(mass);
-        cur.setVelocity(new Vector2D(xSpeed, ySpeed));
-        reloadFields();
+        if(pointer != null) {
+            PhysObj cur = objs[pointer];
+            double size = Double.parseDouble(((EditText) findViewById(R.id.sizeAmount)).getText().toString()),
+                    mass = Double.parseDouble(((EditText) findViewById(R.id.massAmount)).getText().toString()),
+                    xA = Double.parseDouble(((EditText) findViewById(R.id.xAmount)).getText().toString()),
+                    yA = Double.parseDouble(((EditText) findViewById(R.id.yAmount)).getText().toString()),
+                    xSpeed = Double.parseDouble(((EditText) findViewById(R.id.xSpeed)).getText().toString()),
+                    ySpeed = Double.parseDouble(((EditText) findViewById(R.id.ySpeed)).getText().toString());
+            ((Circle) cur.getBody()).setRadius(size);
+            cur.getBody().setCenter(new Vector2D(xA, yA));
+            cur.setMass(mass);
+            cur.setVelocity(new Vector2D(xSpeed, ySpeed));
+            reloadFields(null);
+        }
     }
 
 
-    public void reloadFields(){
+    public void reloadFields(View view){
         TextView number = (TextView) findViewById(R.id.number);
         EditText
                 size = (EditText) findViewById(R.id.sizeAmount),
@@ -206,7 +215,8 @@ public class MainActivity extends AppCompatActivity {
                 ySpeed = (EditText) findViewById(R.id.ySpeed);
         Button
                 prev = (Button) findViewById(R.id.prev),
-                next = (Button) findViewById(R.id.next);
+                next = (Button) findViewById(R.id.next),
+                toggle = (Button) findViewById(R.id.button);
 
         if(pointer != null) {
             PhysObj cur = objs[pointer];
@@ -237,6 +247,12 @@ public class MainActivity extends AppCompatActivity {
             ySpeed.setText("");
             next.setVisibility(View.INVISIBLE);
             prev.setVisibility(View.INVISIBLE);
+        }
+
+        if(work){
+            toggle.setText(R.string.pause);
+        } else {
+            toggle.setText(R.string.resume);
         }
     }
 }

@@ -28,6 +28,18 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/visualizer" />
 
+    <Button
+        android:id="@+id/refresh"
+        android:layout_width="48dp"
+        android:layout_height="48dp"
+        android:foreground="@drawable/ic_refresh_black_24dp"
+        android:onClick="reloadFields"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintEnd_toStartOf="@+id/button"
+        app:layout_constraintHorizontal_bias="0.663"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/visualizer" />
+
     <TextView
         android:id="@+id/number"
         android:layout_width="117dp"
@@ -96,10 +108,10 @@
     <Button
         android:id="@+id/prev"
         android:layout_width="47dp"
-        android:layout_height="45dp"
+        android:layout_height="47dp"
         android:layout_marginStart="8dp"
+        android:foreground="@drawable/ic_arrow_back_black_24dp"
         android:onClick="prev"
-        android:text="@string/left"
         android:textSize="18sp"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/number"
@@ -110,10 +122,10 @@
     <Button
         android:id="@+id/next"
         android:layout_width="47dp"
-        android:layout_height="45dp"
+        android:layout_height="47dp"
         android:layout_marginEnd="8dp"
+        android:foreground="@drawable/ic_arrow_forward_black_24dp"
         android:onClick="next"
-        android:text="@string/right"
         android:textAlignment="center"
         android:textSize="18sp"
         android:visibility="invisible"
@@ -147,7 +159,7 @@
         android:layout_width="123dp"
         android:layout_height="46dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         app:layout_constraintBottom_toBottomOf="@+id/coords"
         app:layout_constraintStart_toStartOf="@+id/number"
         app:layout_constraintTop_toTopOf="@+id/coords"
@@ -158,7 +170,7 @@
         android:layout_width="123dp"
         android:layout_height="46dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/coords"
         app:layout_constraintStart_toStartOf="@+id/number"
@@ -170,7 +182,7 @@
         android:layout_width="123dp"
         android:layout_height="46dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         app:layout_constraintBottom_toBottomOf="@+id/coords"
         app:layout_constraintEnd_toEndOf="@+id/massAmount"
         app:layout_constraintTop_toTopOf="@+id/coords" />
@@ -180,7 +192,7 @@
         android:layout_width="123dp"
         android:layout_height="46dp"
         android:ems="10"
-        android:inputType="numberDecimal"
+        android:inputType="numberSigned|numberDecimal"
         android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/coords"
         app:layout_constraintEnd_toEndOf="@+id/massAmount"
