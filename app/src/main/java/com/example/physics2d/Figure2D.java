@@ -17,4 +17,5 @@ public abstract class Figure2D extends Collision implements Cloneable {
     public abstract double square();
     @Override
     public abstract Figure2D clone();
+    public abstract void setCenter(Vector2D point);
 }

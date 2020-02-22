@@ -69,9 +69,25 @@
         android:layout_width="117dp"
         android:layout_height="38dp"
         android:layout_marginTop="28dp"
+        android:onClick="spCd"
         android:text="@string/coords"
         android:textAlignment="center"
         android:textSize="24sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/prev"
+        app:layout_constraintTop_toBottomOf="@+id/mass" />
+
+    <TextView
+        android:id="@+id/speed"
+        android:layout_width="117dp"
+        android:layout_height="38dp"
+        android:layout_marginTop="28dp"
+        android:onClick="spCd"
+        android:text="@string/speed"
+        android:textAlignment="center"
+        android:textSize="24sp"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="@+id/prev"
@@ -82,8 +98,10 @@
         android:layout_width="47dp"
         android:layout_height="45dp"
         android:layout_marginStart="8dp"
+        android:onClick="prev"
         android:text="@string/left"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/number"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button"
@@ -94,9 +112,11 @@
         android:layout_width="47dp"
         android:layout_height="45dp"
         android:layout_marginEnd="8dp"
+        android:onClick="next"
         android:text="@string/right"
         android:textAlignment="center"
         android:textSize="18sp"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="@+id/number"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/button" />
@@ -134,6 +154,18 @@
         app:layout_constraintVertical_bias="0.5" />
 
     <EditText
+        android:id="@+id/xSpeed"
+        android:layout_width="123dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/coords"
+        app:layout_constraintStart_toStartOf="@+id/number"
+        app:layout_constraintTop_toTopOf="@+id/coords"
+        app:layout_constraintVertical_bias="0.5" />
+
+    <EditText
         android:id="@+id/yAmount"
         android:layout_width="123dp"
         android:layout_height="46dp"
@@ -143,20 +175,45 @@
         app:layout_constraintEnd_toEndOf="@+id/massAmount"
         app:layout_constraintTop_toTopOf="@+id/coords" />
 
+    <EditText
+        android:id="@+id/ySpeed"
+        android:layout_width="123dp"
+        android:layout_height="46dp"
+        android:ems="10"
+        android:inputType="numberDecimal"
+        android:visibility="invisible"
+        app:layout_constraintBottom_toBottomOf="@+id/coords"
+        app:layout_constraintEnd_toEndOf="@+id/massAmount"
+        app:layout_constraintTop_toTopOf="@+id/coords" />
+
     <Button
         android:id="@+id/delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
+        android:onClick="delete"
         android:text="@string/delete"
         app:layout_constraintStart_toStartOf="@+id/coords"
         app:layout_constraintTop_toBottomOf="@+id/xAmount" />
+
+    <Button
+        android:id="@+id/set"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:onClick="set"
+        android:text="@string/set"
+        app:layout_constraintBottom_toBottomOf="@+id/delete"
+        app:layout_constraintEnd_toStartOf="@+id/add"
+        app:layout_constraintHorizontal_bias="0.511"
+        app:layout_constraintStart_toEndOf="@+id/delete"
+        app:layout_constraintTop_toTopOf="@+id/delete" />
 
     <Button
         android:id="@+id/add"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="12dp"
+        android:onClick="add"
         android:text="@string/add"
         app:layout_constraintBottom_toBottomOf="@+id/delete"
         app:layout_constraintEnd_toEndOf="parent"

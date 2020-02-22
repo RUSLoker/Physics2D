@@ -18,6 +18,19 @@ public class Circle extends Figure2D {
     }
 
     @Override
+    public Vector2D getCenter() {
+        return center;
+    }
+
+    public void setRadius(double radius){
+        this.radius = radius;
+    }
+
+    public void setCenter(Vector2D point){
+        center = point;
+    }
+
+    @Override
     public Vector2D[] getCollision(Figure2D figure) {
         return figure.getCollision(this);
     }
@@ -80,10 +93,6 @@ public class Circle extends Figure2D {
         canvas.drawCircle((float) center.x, (float) center.y, (float) radius, paint);
     }
 
-    @Override
-    public Vector2D getCenter() {
-        return center;
-    }
 
     @Override
     public void move(Vector2D movement) {

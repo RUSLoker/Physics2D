@@ -124,6 +124,11 @@ public class Polygon extends Figure2D {
         return new Polygon(vertexes.clone(), center);
     }
 
+    @Override
+    public void setCenter(Vector2D point) {
+        move(point.sub(center));
+    }
+
     private static Vector2D centerCalc(Vector2D[] vertexes){
         double x = 0, y = 0;
         for (Vector2D i : vertexes){

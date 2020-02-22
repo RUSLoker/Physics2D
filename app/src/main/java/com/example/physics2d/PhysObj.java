@@ -49,22 +49,26 @@ public class PhysObj implements Cloneable{
     }
 
     public Vector2D getCenter(){
-        return body.getCenter().clone();
+        return body.getCenter();
     }
     public Vector2D getSpeed(){
-        return velocity.clone();
+        return velocity;
     }
     public Vector2D getAcceleration(){
-        return acceleration.clone();
+        return acceleration;
     }
     public Vector2D getForce(){
-        return force.clone();
+        return force;
     }
     public Figure2D getBody(){
-        return body.clone();
+        return body;
     }
     public double getMass() {
         return mass;
+    }
+
+    public void setMass(double mass){
+        this.mass = mass;
     }
 
     public void setForce(Integer hash, Vector2D force){
@@ -75,6 +79,10 @@ public class PhysObj implements Cloneable{
 //            this.force = force.add(force);
 //        }
         forces.put(hash, force);
+    }
+
+    public void setVelocity(Vector2D velocity){
+        this.velocity = velocity;
     }
 
     public void checkCollisions(PhysObj obj, double time){
@@ -137,8 +145,7 @@ public class PhysObj implements Cloneable{
 
     @NonNull
     @Override
-    protected Object clone() throws CloneNotSupportedException {
-        super.clone();
+    protected PhysObj clone() {
         return new PhysObj(body.clone(), mass, velocity.clone(), acceleration.clone(), force.clone());
     }
 
