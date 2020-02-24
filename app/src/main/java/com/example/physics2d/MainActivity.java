@@ -14,35 +14,16 @@ public class MainActivity extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
     static Border border = new Border(0, 1000, 1000, 0);
-    static public PhysObj[] objs = new PhysObj[]{
-//            new PhysObj(
-//                    new Circle( new Vector2D(500, 600), 30),
-//                    1000000000000000000.0
-//                    , new Vector2D(120, 0)
-//            ),
-//            new PhysObj(
-//                    new Circle( new Vector2D(500, 500), 50),
-//                    1000000000000000000.0
-//                    , new Vector2D(-100, 0)
-//            ),
-//            new PhysObj(
-//                    new Circle( new Vector2D(500, 200), 50),
-//                    5000000000.0
-//                    , new Vector2D(600, 0)
-//            ),
-//            new PhysObj(
-//                    new Circle( new Vector2D(500, 800), 50),
-//                    5000000000.0
-//                    , new Vector2D(-700, 0)
-//            )
-    };
-    Thread myThread = new Thread(this::vrun);
+    static public PhysObj[] objs = new PhysObj[]{};
+    Thread myThread = new Thread(MainActivity::vrun);
     static boolean work = false;
     static Integer pointer = null;
     static PhysObj standart = new PhysObj(
                     new Circle( new Vector2D(500, 500), 100),
                     100.0
             );
+    static double cps = 0;
+    static TextView cpsT;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,24 +31,69 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         myThread.start();
         reloadFields(null);
+        cpsT = findViewById(R.id.cps);
+        drawToggle();
     }
 
     protected void onPause(){
         work = false;
+        drawToggle();
         super.onPause();
     }
 
-    public void vrun() {
-        double time = 0.000005;
+    static void vrun() {
+        double time;
+        boolean speedF1 = false;
+        boolean speedF2 = false;
+        boolean speedF3 = false;
+        boolean speedF4 = false;
+        long countReal = 0;
+        double countSim = 0;
+        long prev = 0;
         while (true) {
             if (work) {
+                for (PhysObj i : objs) {
+                    if(!speedF1) {
+                        speedF1 = i.getSpeed().length > 1000;
+                    }
+                    if(!speedF2) {
+                        speedF2 = i.getSpeed().length > 5000;
+                    }
+                    if(!speedF3) {
+                        speedF3 = i.getSpeed().length > 15000;
+                    }
+                    if(!speedF4) {
+                        speedF4 = i.getSpeed().length > 50000;
+                    }
+                }
+                if (speedF4){
+                    //time = 0.000000001;
+                    time = 1d / 0b1000000000000000000000000000000;
+                    speedF4 = false;
+                } else if (speedF3){
+                    //time = 0.00000001;
+                    time = 1d / 0b1000000000000000000000000000;
+                    speedF3 = false;
+                } else if (speedF2){
+                    //time = 0.0000001;
+                    time = 1d / 0b100000000000000000000000;
+                    speedF2 = false;
+                } else if (speedF1){
+                    //time = 0.000001;
+                    time = 1d / 0b10000000000000000000;
+                    speedF1 = false;
+                } else {
+                    //time = 0.00001;
+                    time = 1d / 0b10000000000000000;
+                }
                 for (int i = 0; i < objs.length; i++) {
                     PhysObj a = objs[i];
                     for (int j = i + 1; j < objs.length; j++) {
                         PhysObj b = objs[j];
                         Vector2D dist = a.getCenter().sub(b.getCenter());
-                        double forceAbs = G * (a.getMass() * b.getMass()) / (dist.length * dist.length);
-                        forceAbs = forceAbs == 1.0 / 0.0 ? 0 : forceAbs;
+                        double forceAbs = G * (a.getMass() * b.getMass())
+                                / (dist.length * dist.length);
+                        forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
                         Vector2D force = dist.setLength(forceAbs);
                         a.setForce(b.hashCode(), force.reverse());
                         b.setForce(a.hashCode(), force);
@@ -85,6 +111,8 @@ public class MainActivity extends AppCompatActivity {
                     i.move(time);
                     i.checkBorder(border);
                 }
+                countReal += System.nanoTime() - prev;
+                countSim += time * 1000000000;
             }
             else {
                 try {
@@ -93,12 +121,22 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
+            if (countReal >= 1000000000) {
+                cps = countReal / countSim;
+                countReal = 0;
+                countSim = 0;
+            }
+            prev = System.nanoTime();
         }
     }
 
     public void toggle(View view){
-        Button toggle = (Button) findViewById(R.id.button);
         work = !work;
+        drawToggle();
+    }
+
+    public void drawToggle(){
+        Button toggle = (Button) findViewById(R.id.button);
         if(work){
             toggle.setText(R.string.pause);
         } else {
@@ -119,6 +157,7 @@ public class MainActivity extends AppCompatActivity {
         objs[pointer] = standart.clone();
         reloadFields(null);
         work = pre;
+        drawToggle();
     }
 
     public void prev(View view){
@@ -129,11 +168,13 @@ public class MainActivity extends AppCompatActivity {
             pointer++;
         }
         reloadFields(null);
+        drawToggle();
     }
 
     public void next(View view){
         pointer++;
         reloadFields(null);
+        drawToggle();
     }
 
     public void delete(View view){
@@ -145,6 +186,9 @@ public class MainActivity extends AppCompatActivity {
             e.printStackTrace();
         }
         if(objs.length != 0) {
+            for (PhysObj i : objs) {
+                i.delForce(objs[pointer].hashCode());
+            }
             PhysObj[] cutted = new PhysObj[objs.length - 1];
             PhysObj[] a = Arrays.copyOf(objs, pointer);
             PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
@@ -154,6 +198,7 @@ public class MainActivity extends AppCompatActivity {
             prev(null);
         }
         work = pre;
+        drawToggle();
     }
 
     public void spCd(View view){
@@ -165,7 +210,7 @@ public class MainActivity extends AppCompatActivity {
                 xSpeed = (TextView) findViewById(R.id.xSpeed),
                 ySpeed = (TextView) findViewById(R.id.ySpeed);
         switch (speed.getVisibility()) {
-            case View.VISIBLE:
+            case View.VISIBLE: {
                 speed.setVisibility(View.INVISIBLE);
                 xSpeed.setVisibility(View.INVISIBLE);
                 ySpeed.setVisibility(View.INVISIBLE);
@@ -173,7 +218,8 @@ public class MainActivity extends AppCompatActivity {
                 xA.setVisibility(View.VISIBLE);
                 yA.setVisibility(View.VISIBLE);
                 break;
-            case View.INVISIBLE:
+            }
+            case View.INVISIBLE: {
                 speed.setVisibility(View.VISIBLE);
                 xSpeed.setVisibility(View.VISIBLE);
                 ySpeed.setVisibility(View.VISIBLE);
@@ -181,6 +227,7 @@ public class MainActivity extends AppCompatActivity {
                 xA.setVisibility(View.INVISIBLE);
                 yA.setVisibility(View.INVISIBLE);
                 break;
+            }
             case View.GONE:
                 break;
         }
@@ -247,12 +294,6 @@ public class MainActivity extends AppCompatActivity {
             ySpeed.setText("");
             next.setVisibility(View.INVISIBLE);
             prev.setVisibility(View.INVISIBLE);
-        }
-
-        if(work){
-            toggle.setText(R.string.pause);
-        } else {
-            toggle.setText(R.string.resume);
         }
     }
 }

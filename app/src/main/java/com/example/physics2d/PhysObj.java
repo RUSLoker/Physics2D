@@ -12,6 +12,7 @@ public class PhysObj implements Cloneable{
     private Vector2D velocity, acceleration, force;
     private double mass;
     private HashMap<Integer, Vector2D> forces = new HashMap<>();
+    private boolean borderChecked = false;
 
 
     public PhysObj(Figure2D body, double mass, Vector2D velocity, Vector2D acceleration, Vector2D force) {
@@ -72,13 +73,13 @@ public class PhysObj implements Cloneable{
     }
 
     public void setForce(Integer hash, Vector2D force){
-//        Vector2D curF;
-//        if ((curF = forces.get(hash)) != null){
-//            this.force = force.add(force.sub(curF));
-//        } else {
-//            this.force = force.add(force);
-//        }
         forces.put(hash, force);
+    }
+
+    public void delForce(Integer hash)  {
+        if(forces.get(hash) != null){
+            forces.remove(hash);
+        }
     }
 
     public void setVelocity(Vector2D velocity){
@@ -88,13 +89,14 @@ public class PhysObj implements Cloneable{
     public void checkCollisions(PhysObj obj, double time){
         Vector2D[] collisions;
         if((collisions = this.body.getCollision(obj.body)).length != 0){
-            Vector2D[] normals = this.body.getNormals(collisions);
+            Vector2D[] normals = obj.body.getNormals(collisions);
             for (int i = 0; i < normals.length; i++) {
-                Vector2D a = normals[i];
+                Vector2D a = normals[i].reverse();
                 double dt = 0;
 
                 double dx = collisions[i].sub(this.getCenter()).length;
                 dx =  ((Circle)body).getRadius() - dx;
+                separate:
                 if(dx > 1){
                     Vector2D relSpeed = obj.velocity.sub(this.velocity);
                     Vector2D relAcc = obj.acceleration.sub(this.acceleration);
@@ -102,12 +104,19 @@ public class PhysObj implements Cloneable{
                     double acc = relAcc.projection(a.reverse());
                     double sqrtD = Math.sqrt(vel*vel - 2*acc*dx);
                     double t = (sqrtD - vel) / acc;
-                    if(t <= 0 || t > time){
+                    if(t <= 0 || t > time || Double.isNaN(t)){
                         t = (-sqrtD - vel) / acc;
                     }
-                    dt = time - t;
-                    this.move(-t);
-                    obj.move(-t);
+                    if(!Double.isNaN(t) && Double.isFinite(t)) {
+                        dt = time - t;
+                        this.move(-t);
+                        obj.move(-t);
+                    } else {
+                        Vector2D movement = a.scale((dx + 1) * 0.5);
+                        this.body.move(movement);
+                        obj.body.move(movement.reverse());
+                        break separate;
+                    }
                 }
 
                 double projA = this.velocity.projection(a);
@@ -118,28 +127,94 @@ public class PhysObj implements Cloneable{
                 v2 -= projB;
                 this.velocity = this.velocity.add(a.scale(v1));
                 obj.velocity = obj.velocity.add(a.scale(v2));
-                this.move(dt);
-                obj.move(dt);
+                if(dt != 0 && !Double.isNaN(dt) && Double.isFinite(dt)) {
+                    this.move(dt);
+                    obj.move(dt);
+                }
             }
         }
     }
 
     public void checkBorder(Border border){
         switch (body.borderCollision(border)){
-            case left:
-            case right:
+            case left: {
+                if (borderChecked) {
+                    double dx = getCenter().x - ((Circle) body).getRadius() - border.L;
+                    body.move(new Vector2D(-dx, 0));
+                }
+                borderChecked = true;
                 velocity = velocity.reverseX();
                 break;
-            case down:
-            case up:
+            }
+            case right: {
+                if (borderChecked) {
+                    double dx = getCenter().x + ((Circle) body).getRadius() - border.R;
+                    body.move(new Vector2D(-dx, 0));
+                }
+                velocity = velocity.reverseX();
+                borderChecked = true;
+                break;
+            }
+            case down: {
+                if (borderChecked) {
+                    double dy = getCenter().y - ((Circle) body).getRadius() - border.D;
+                    body.move(new Vector2D(0, -dy));
+                }
+                borderChecked = true;
                 velocity = velocity.reverseY();
                 break;
-            case ltNdn:
-            case ltNup:
-            case rtNdn:
-            case rtNup:
+            }
+            case up: {
+                if (borderChecked) {
+                    double dy = getCenter().y + ((Circle) body).getRadius() - border.U;
+                    body.move(new Vector2D(0, -dy));
+                }
+                borderChecked = true;
+                velocity = velocity.reverseY();
+                break;
+            }
+            case ltNdn: {
+                if (borderChecked) {
+                    double dx = getCenter().x - ((Circle) body).getRadius() - border.L;
+                    double dy = getCenter().y - ((Circle) body).getRadius() - border.D;
+                    body.move(new Vector2D(-dx, -dy));
+                }
+                borderChecked = true;
                 velocity = velocity.reverse();
                 break;
+            }
+            case ltNup: {
+                if (borderChecked) {
+                    double dx = getCenter().x - ((Circle) body).getRadius() - border.L;
+                    double dy = getCenter().y + ((Circle) body).getRadius() - border.U;
+                    body.move(new Vector2D(-dx, -dy));
+                }
+                borderChecked = true;
+                velocity = velocity.reverse();
+                break;
+            }
+            case rtNdn: {
+                if (borderChecked) {
+                    double dx = getCenter().x + ((Circle) body).getRadius() - border.R;
+                    double dy = getCenter().y - ((Circle) body).getRadius() - border.D;
+                    body.move(new Vector2D(-dx, -dy));
+                }
+                borderChecked = true;
+                velocity = velocity.reverse();
+                break;
+            }
+            case rtNup: {
+                if (borderChecked) {
+                    double dx = getCenter().x + ((Circle) body).getRadius() - border.R;
+                    double dy = getCenter().y + ((Circle) body).getRadius() - border.U;
+                    body.move(new Vector2D(-dx, -dy));
+                }
+                borderChecked = true;
+                velocity = velocity.reverse();
+                break;
+            }
+            default:
+                borderChecked = false;
         }
     }
 
