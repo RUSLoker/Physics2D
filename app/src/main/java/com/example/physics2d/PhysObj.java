@@ -97,7 +97,7 @@ public class PhysObj implements Cloneable{
                 double dx = collisions[i].sub(this.getCenter()).length;
                 dx =  ((Circle)body).getRadius() - dx;
                 separate:
-                if(dx > 1){
+                {
                     Vector2D relSpeed = obj.velocity.sub(this.velocity);
                     Vector2D relAcc = obj.acceleration.sub(this.acceleration);
                     double vel = relSpeed.projection(a.reverse());
@@ -112,7 +112,7 @@ public class PhysObj implements Cloneable{
                         this.move(-t);
                         obj.move(-t);
                     } else {
-                        Vector2D movement = a.scale((dx + 1) * 0.5);
+                        Vector2D movement = a.scale(dx * 0.5);
                         this.body.move(movement);
                         obj.body.move(movement.reverse());
                         break separate;

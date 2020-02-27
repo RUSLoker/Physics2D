@@ -47,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
         boolean speedF2 = false;
         boolean speedF3 = false;
         boolean speedF4 = false;
+        boolean speedF5 = false;
+        boolean speedF6 = false;
+        boolean speedF7 = false;
         long countReal = 0;
         double countSim = 0;
         long prev = 0;
@@ -65,39 +68,39 @@ public class MainActivity extends AppCompatActivity {
                     if(!speedF4) {
                         speedF4 = i.getSpeed().length > 50000;
                     }
+                    if(!speedF5) {
+                        speedF5 = i.getSpeed().length > 100000000;
+                    }
+                    if(!speedF6) {
+                        speedF6 = i.getSpeed().length > 10000000000d;
+                    }
+                    if(!speedF7) {
+                        speedF7 = i.getSpeed().length > 100000000000000d;
+                    }
                 }
-                if (speedF4){
-                    //time = 0.000000001;
+                if (speedF7){
+                    time = 1d / 0b100000000000000000000000000000000000000000000000000000000000000L;
+                    speedF7 = false;
+                } else if (speedF6){
+                    time = 1d / 0b10000000000000000000000000000000000000000000L;
+                    speedF6 = false;
+                } else if (speedF5){
+                    time = 1d / 0b1000000000000000000000000000000000L;
+                    speedF5 = false;
+                }else if (speedF4){
                     time = 1d / 0b1000000000000000000000000000000;
                     speedF4 = false;
                 } else if (speedF3){
-                    //time = 0.00000001;
                     time = 1d / 0b1000000000000000000000000000;
                     speedF3 = false;
                 } else if (speedF2){
-                    //time = 0.0000001;
                     time = 1d / 0b100000000000000000000000;
                     speedF2 = false;
                 } else if (speedF1){
-                    //time = 0.000001;
                     time = 1d / 0b10000000000000000000;
                     speedF1 = false;
                 } else {
-                    //time = 0.00001;
                     time = 1d / 0b10000000000000000;
-                }
-                for (int i = 0; i < objs.length; i++) {
-                    PhysObj a = objs[i];
-                    for (int j = i + 1; j < objs.length; j++) {
-                        PhysObj b = objs[j];
-                        Vector2D dist = a.getCenter().sub(b.getCenter());
-                        double forceAbs = G * (a.getMass() * b.getMass())
-                                / (dist.length * dist.length);
-                        forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
-                        Vector2D force = dist.setLength(forceAbs);
-                        a.setForce(b.hashCode(), force.reverse());
-                        b.setForce(a.hashCode(), force);
-                    }
                 }
                 for (int i = 0; i < objs.length; i++) {
                     PhysObj a = objs[i];
@@ -106,6 +109,19 @@ public class MainActivity extends AppCompatActivity {
                         a.checkCollisions(b, time);
                     }
                 }
+//                for (int i = 0; i < objs.length; i++) {
+//                    PhysObj a = objs[i];
+//                    for (int j = i + 1; j < objs.length; j++) {
+//                        PhysObj b = objs[j];
+//                        Vector2D dist = a.getCenter().sub(b.getCenter());
+//                        double forceAbs = G * (a.getMass() * b.getMass())
+//                                / (dist.length * dist.length);
+//                        forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
+//                        Vector2D force = dist.setLength(forceAbs);
+//                        a.setForce(b.hashCode(), force.reverse());
+//                        b.setForce(a.hashCode(), force);
+//                    }
+//                }
                 for (PhysObj i : objs) {
                     i.calcAccel();
                     i.move(time);
