@@ -11,7 +11,7 @@ public class PhysObj implements Cloneable{
     private Figure2D body;
     private Vector2D velocity, acceleration, force;
     private double mass;
-    private HashMap<Integer, Vector2D> forces = new HashMap<>();
+    HashMap<Integer, Vector2D> forces = new HashMap<>();
     private boolean borderChecked = false;
 
 

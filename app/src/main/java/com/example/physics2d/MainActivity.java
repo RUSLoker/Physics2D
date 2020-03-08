@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,6 +25,9 @@ public class MainActivity extends AppCompatActivity {
             );
     static double cps = 0;
     static TextView cpsT;
+    static TextView checkerT;
+    static double checker;
+    static boolean gravity = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,7 +36,10 @@ public class MainActivity extends AppCompatActivity {
         myThread.start();
         reloadFields(null);
         cpsT = findViewById(R.id.cps);
+        checkerT = findViewById(R.id.checkerT);
         drawToggle();
+        Switch gravitySw = findViewById(R.id.gravitySwitch);
+        gravitySw.setOnCheckedChangeListener((buttonView, isChecked) -> gravChecker(isChecked));
     }
 
     protected void onPause(){
@@ -42,66 +49,32 @@ public class MainActivity extends AppCompatActivity {
     }
 
     static void vrun() {
+        long gap = 0;
         double time;
-        boolean speedF1 = false;
-        boolean speedF2 = false;
-        boolean speedF3 = false;
-        boolean speedF4 = false;
-        boolean speedF5 = false;
-        boolean speedF6 = false;
-        boolean speedF7 = false;
+        double fastest = 0;
         long countReal = 0;
         double countSim = 0;
+        double log2 = Math.log(2);
         long prev = 0;
         while (true) {
             if (work) {
+                fastest = 0;
                 for (PhysObj i : objs) {
-                    if(!speedF1) {
-                        speedF1 = i.getSpeed().length > 1000;
-                    }
-                    if(!speedF2) {
-                        speedF2 = i.getSpeed().length > 5000;
-                    }
-                    if(!speedF3) {
-                        speedF3 = i.getSpeed().length > 15000;
-                    }
-                    if(!speedF4) {
-                        speedF4 = i.getSpeed().length > 50000;
-                    }
-                    if(!speedF5) {
-                        speedF5 = i.getSpeed().length > 100000000;
-                    }
-                    if(!speedF6) {
-                        speedF6 = i.getSpeed().length > 10000000000d;
-                    }
-                    if(!speedF7) {
-                        speedF7 = i.getSpeed().length > 100000000000000d;
-                    }
+                    double x = i.getSpeed().length + i.getAcceleration().length;
+                    if(x > fastest)
+                        fastest = x;
                 }
-                if (speedF7){
-                    time = 1d / 0b100000000000000000000000000000000000000000000000000000000000000L;
-                    speedF7 = false;
-                } else if (speedF6){
-                    time = 1d / 0b10000000000000000000000000000000000000000000L;
-                    speedF6 = false;
-                } else if (speedF5){
-                    time = 1d / 0b1000000000000000000000000000000000L;
-                    speedF5 = false;
-                }else if (speedF4){
-                    time = 1d / 0b1000000000000000000000000000000;
-                    speedF4 = false;
-                } else if (speedF3){
-                    time = 1d / 0b1000000000000000000000000000;
-                    speedF3 = false;
-                } else if (speedF2){
-                    time = 1d / 0b100000000000000000000000;
-                    speedF2 = false;
-                } else if (speedF1){
-                    time = 1d / 0b10000000000000000000;
-                    speedF1 = false;
-                } else {
-                    time = 1d / 0b10000000000000000;
+
+                if(fastest <= 2) time = gap;
+                else {
+                    //checker = Math.ceil(Math.log10(fastest) * Math.log(checker));
+                    checker = Math.log(fastest) / log2;
+                    checker = Math.ceil(checker * (Math.pow(1.1, (checker - 150) / 7.2) + 1));
+
+                    time = Math.pow(2, -checker);
                 }
+                time = time * 1000000000 > gap ? ((double) gap) / 1000000000 : time;
+
                 for (int i = 0; i < objs.length; i++) {
                     PhysObj a = objs[i];
                     for (int j = i + 1; j < objs.length; j++) {
@@ -109,24 +82,32 @@ public class MainActivity extends AppCompatActivity {
                         a.checkCollisions(b, time);
                     }
                 }
-//                for (int i = 0; i < objs.length; i++) {
-//                    PhysObj a = objs[i];
-//                    for (int j = i + 1; j < objs.length; j++) {
-//                        PhysObj b = objs[j];
-//                        Vector2D dist = a.getCenter().sub(b.getCenter());
-//                        double forceAbs = G * (a.getMass() * b.getMass())
-//                                / (dist.length * dist.length);
-//                        forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
-//                        Vector2D force = dist.setLength(forceAbs);
-//                        a.setForce(b.hashCode(), force.reverse());
-//                        b.setForce(a.hashCode(), force);
-//                    }
-//                }
+                if (gravity){
+                    for (int i = 0; i < objs.length; i++) {
+                        PhysObj a = objs[i];
+                        for (int j = i + 1; j < objs.length; j++) {
+                            PhysObj b = objs[j];
+                            Vector2D force;
+                            Vector2D dist = a.getCenter().sub(b.getCenter());
+                            if(dist.length >= ((Circle)a.getBody()).getRadius() + ((Circle)b.getBody()).getRadius()) {
+                                double forceAbs = G * (a.getMass() * b.getMass())
+                                        / (dist.length * dist.length);
+                                forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
+                                force = dist.setLength(forceAbs);
+                            } else {
+                                force = Vector2D.zero();
+                            }
+                            a.setForce(b.hashCode(), force.reverse());
+                            b.setForce(a.hashCode(), force);
+                        }
+                    }
+                }
                 for (PhysObj i : objs) {
                     i.calcAccel();
                     i.move(time);
                     i.checkBorder(border);
                 }
+                gap = System.nanoTime() - prev;
                 countReal += System.nanoTime() - prev;
                 countSim += time * 1000000000;
             }
@@ -137,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
                     e.printStackTrace();
                 }
             }
-            if (countReal >= 1000000000) {
+            if (countReal >= 300000000) {
                 cps = countReal / countSim;
                 countReal = 0;
                 countSim = 0;
@@ -263,6 +244,46 @@ public class MainActivity extends AppCompatActivity {
             cur.setMass(mass);
             cur.setVelocity(new Vector2D(xSpeed, ySpeed));
             reloadFields(null);
+        }
+    }
+
+    public void maTg(View view){
+        View
+                toggles = findViewById(R.id.toggles),
+                mass = findViewById(R.id.mass),
+                massAm = findViewById(R.id.massAmount);
+        switch (toggles.getVisibility()) {
+            case View.VISIBLE: {
+                toggles.setVisibility(View.INVISIBLE);
+                mass.setVisibility(View.VISIBLE);
+                massAm.setVisibility(View.VISIBLE);
+                break;
+            }
+            case View.INVISIBLE: {
+                toggles.setVisibility(View.VISIBLE);
+                mass.setVisibility(View.INVISIBLE);
+                massAm.setVisibility(View.INVISIBLE);
+                break;
+            }
+            case View.GONE:
+                break;
+        }
+    }
+
+    public void gravChecker(boolean isChecked){
+        gravity = isChecked;
+        if(!gravity){
+            boolean pre = work;
+            work = false;
+            try {
+                Thread.sleep(10);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            for (PhysObj i : objs){
+                i.forces.clear();
+            }
+            work = pre;
         }
     }
 

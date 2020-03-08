@@ -31,7 +31,8 @@ public class Visualizer extends View {
             else
                 o.draw(canvas, paint);
         }
-        MainActivity.cpsT.setText(Long.toString((long) MainActivity.cps));
+        MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
+        MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
         if(MainActivity.objs.length > 1) {
             Vector2D k;
             if ((k = MainActivity.objs[1].getCenter()).x != 600) {

@@ -11,4 +11,6 @@
     <string name="size">Размер</string>
     <string name="speed">Скорость</string>
     <string name="toggle">Переключить</string>
+    <string name="toggles">Переключатели</string>
+    <string name="gravitySwitch">Гравитация</string>
 </resources>
