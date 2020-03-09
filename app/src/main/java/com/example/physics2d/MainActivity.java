@@ -1,14 +1,17 @@
 package com.example.physics2d;
 
 import android.os.Bundle;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
+import android.widget.CompoundButton;
 import android.widget.EditText;
 import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -28,6 +31,10 @@ public class MainActivity extends AppCompatActivity {
     static TextView checkerT;
     static double checker;
     static boolean gravity = false;
+    boolean workPrev = work;
+    boolean paused = false;
+    ArrayList<Vector2D> pointers = new ArrayList<>(10);
+    double prevLen;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +46,35 @@ public class MainActivity extends AppCompatActivity {
         checkerT = findViewById(R.id.checkerT);
         drawToggle();
         Switch gravitySw = findViewById(R.id.gravitySwitch);
-        gravitySw.setOnCheckedChangeListener((buttonView, isChecked) -> gravChecker(isChecked));
+        gravitySw.setOnCheckedChangeListener(this::gravChecker);
+        View visulizer = findViewById(R.id.visualizer);
+        visulizer.setOnTouchListener(this::moveBody);
     }
 
     protected void onPause(){
         work = false;
         drawToggle();
         super.onPause();
+    }
+
+    public void pauseSim(){
+        if(!paused) {
+            paused = true;
+            workPrev = work;
+            if (work) {
+                work = false;
+                try {
+                    Thread.sleep(10);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+    }
+
+    public void resumeSim(){
+        work = workPrev;
+        paused = false;
     }
 
     static void vrun() {
@@ -142,18 +171,12 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view){
-        boolean pre = work;
-        work = false;
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        pauseSim();
         pointer = objs.length;
         objs = Arrays.copyOf(objs, objs.length+1);
         objs[pointer] = standart.clone();
         reloadFields(null);
-        work = pre;
+        resumeSim();
         drawToggle();
     }
 
@@ -175,13 +198,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void delete(View view){
-        boolean pre = work;
-        work = false;
-        try {
-            Thread.sleep(10);
-        } catch (InterruptedException e) {
-            e.printStackTrace();
-        }
+        pauseSim();
         if(objs.length != 0) {
             for (PhysObj i : objs) {
                 i.delForce(objs[pointer].hashCode());
@@ -194,7 +211,7 @@ public class MainActivity extends AppCompatActivity {
             objs = cutted;
             prev(null);
         }
-        work = pre;
+        resumeSim();
         drawToggle();
     }
 
@@ -232,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void set(View view){
         if(pointer != null) {
+            pauseSim();
             PhysObj cur = objs[pointer];
             double size = Double.parseDouble(((EditText) findViewById(R.id.sizeAmount)).getText().toString()),
                     mass = Double.parseDouble(((EditText) findViewById(R.id.massAmount)).getText().toString()),
@@ -244,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
             cur.setMass(mass);
             cur.setVelocity(new Vector2D(xSpeed, ySpeed));
             reloadFields(null);
+            resumeSim();
         }
     }
 
@@ -270,21 +289,65 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void gravChecker(boolean isChecked){
+    public void gravChecker(CompoundButton buttonView, boolean isChecked){
         gravity = isChecked;
         if(!gravity){
-            boolean pre = work;
-            work = false;
-            try {
-                Thread.sleep(10);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+            pauseSim();
             for (PhysObj i : objs){
                 i.forces.clear();
             }
-            work = pre;
+            resumeSim();
         }
+    }
+
+    public boolean moveBody(View v, MotionEvent event){
+        double x = event.getX();
+        double y = event.getY();
+        Vector2D point = new Vector2D(x, y);
+        int index = event.getActionIndex();
+        int pointerCount = event.getPointerCount();
+
+        switch (event.getActionMasked()) {
+            case MotionEvent.ACTION_DOWN: // нажатие
+            {
+                pauseSim();
+                if (!objs[pointer].getBody().isInside(point) && pointerCount == 1) {
+                    for (int i = 0; i < objs.length; i++) {
+                        if (objs[i].getBody().isInside(point)) {
+                            pointer = i;
+                            reloadFields(null);
+                            break;
+                        }
+                    }
+                }
+                pointers.add(point);
+                break;
+            }
+            case MotionEvent.ACTION_POINTER_DOWN: {
+                pointers.add(point);
+                break;
+            }
+            case MotionEvent.ACTION_MOVE: // движение
+            {
+                pointers.set(index, point);
+                if (pointerCount == 1) {
+                    objs[pointer].getBody().setCenter(point);
+                    reloadFields(null);
+                }
+                break;
+            }
+            case MotionEvent.ACTION_POINTER_UP:{
+                pointers.remove(index);
+                break;
+            }
+
+            case MotionEvent.ACTION_UP: // отпускание
+            case MotionEvent.ACTION_CANCEL:
+                pointers.clear();
+                resumeSim();
+                break;
+        }
+        return true;
     }
 
 

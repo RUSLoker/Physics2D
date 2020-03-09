@@ -48,6 +48,12 @@ public class Polygon extends Figure2D {
 
     //TODO
     @Override
+    public boolean isInside(Vector2D point) {
+        return false;
+    }
+
+    //TODO
+    @Override
     public Vector2D[] getNormals(Vector2D[] points) {
         return null;
     }

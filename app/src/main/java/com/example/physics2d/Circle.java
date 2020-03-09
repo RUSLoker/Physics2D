@@ -46,6 +46,11 @@ public class Circle extends Figure2D {
     }
 
     @Override
+    public boolean isInside(Vector2D point) {
+        return point.sub(center).length <= radius;
+    }
+
+    @Override
     public Vector2D[] getNormals(Vector2D[] points) {
         Vector2D[] finish = new Vector2D[points.length];
         for (int i = 0; i < finish.length; i++) {
