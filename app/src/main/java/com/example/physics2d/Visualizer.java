@@ -31,6 +31,12 @@ public class Visualizer extends View {
             else
                 o.draw(canvas, paint);
         }
+//        MotionEvent event = MainActivity.motionEvent;
+//        if(event != null) {
+//            for (int i = 0; i < event.getPointerCount(); i++) {
+//                canvas.drawCircle(event.getX(i) - 30, event.getY(i) - 250, 50f, paint);
+//            }
+//        }
         MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
         MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
         if(MainActivity.objs.length > 1) {

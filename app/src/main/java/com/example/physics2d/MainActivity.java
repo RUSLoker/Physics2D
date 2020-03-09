@@ -11,7 +11,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 
 public class MainActivity extends AppCompatActivity {
@@ -33,8 +32,10 @@ public class MainActivity extends AppCompatActivity {
     static boolean gravity = false;
     boolean workPrev = work;
     boolean paused = false;
-    ArrayList<Vector2D> pointers = new ArrayList<>(10);
     double prevLen;
+    double dLen;
+    public static MotionEvent motionEvent = null;
+    Vector2D prevP;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -79,7 +80,7 @@ public class MainActivity extends AppCompatActivity {
 
     static void vrun() {
         long gap = 0;
-        double time;
+        double time = 0;
         double fastest = 0;
         long countReal = 0;
         double countSim = 0;
@@ -89,14 +90,13 @@ public class MainActivity extends AppCompatActivity {
             if (work) {
                 fastest = 0;
                 for (PhysObj i : objs) {
-                    double x = i.getSpeed().length + i.getAcceleration().length;
+                    double x = i.getSpeed().length + i.getAcceleration().length*time;
                     if(x > fastest)
                         fastest = x;
                 }
 
                 if(fastest <= 2) time = gap;
                 else {
-                    //checker = Math.ceil(Math.log10(fastest) * Math.log(checker));
                     checker = Math.log(fastest) / log2;
                     checker = Math.ceil(checker * (Math.pow(1.1, (checker - 150) / 7.2) + 1));
 
@@ -301,49 +301,72 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public boolean moveBody(View v, MotionEvent event){
-        double x = event.getX();
-        double y = event.getY();
-        Vector2D point = new Vector2D(x, y);
         int index = event.getActionIndex();
         int pointerCount = event.getPointerCount();
+        double x = event.getX(0);
+        double y = event.getY(0);
+        Vector2D point = new Vector2D(x, y);
+        motionEvent = event;
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: // нажатие
             {
                 pauseSim();
-                if (!objs[pointer].getBody().isInside(point) && pointerCount == 1) {
-                    for (int i = 0; i < objs.length; i++) {
-                        if (objs[i].getBody().isInside(point)) {
-                            pointer = i;
-                            reloadFields(null);
-                            break;
+                if(objs.length != 0) {
+                    if (!objs[pointer].getBody().isInside(point) && pointerCount == 1) {
+                        for (int i = 0; i < objs.length; i++) {
+                            if (objs[i].getBody().isInside(point)) {
+                                pointer = i;
+                                reloadFields(null);
+                                break;
+                            }
                         }
                     }
                 }
-                pointers.add(point);
+                prevP = point;
                 break;
             }
-            case MotionEvent.ACTION_POINTER_DOWN: {
-                pointers.add(point);
+            case MotionEvent.ACTION_POINTER_DOWN:
+            case MotionEvent.ACTION_POINTER_UP: {
+                if(pointerCount > 1) {
+                    x = event.getX(0);
+                    y = event.getY(0);
+                    Vector2D point1 = new Vector2D(x, y);
+                    x = event.getX(1);
+                    y = event.getY(1);
+                    Vector2D point2 = new Vector2D(x, y);
+                    prevLen = point1.sub(point2).length;
+                }
                 break;
             }
             case MotionEvent.ACTION_MOVE: // движение
             {
-                pointers.set(index, point);
-                if (pointerCount == 1) {
-                    objs[pointer].getBody().setCenter(point);
-                    reloadFields(null);
+                if(objs.length != 0) {
+                    if (pointerCount == 1 && objs[pointer].getBody().isInside(prevP)) {
+                        objs[pointer].getBody().setCenter(point);
+                    } else if(pointerCount > 1) {
+                        x = event.getX(0);
+                        y = event.getY(0);
+                        Vector2D point1 = new Vector2D(x, y);
+                        x = event.getX(1);
+                        y = event.getY(1);
+                        Vector2D point2 = new Vector2D(x, y);
+                        double nLen = point1.sub(point2).length;
+                        dLen = nLen - prevLen;
+                        prevLen = nLen;
+                        double radius = ((Circle) objs[pointer].getBody()).getRadius();
+                        if (radius + dLen > 10) {
+                            ((Circle) objs[pointer].getBody()).setRadius(radius + dLen);
+                        }
+                    }
                 }
-                break;
-            }
-            case MotionEvent.ACTION_POINTER_UP:{
-                pointers.remove(index);
+                prevP = point;
+                reloadFields(null);
                 break;
             }
 
             case MotionEvent.ACTION_UP: // отпускание
             case MotionEvent.ACTION_CANCEL:
-                pointers.clear();
                 resumeSim();
                 break;
         }
