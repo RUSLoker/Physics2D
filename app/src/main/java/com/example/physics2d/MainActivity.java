@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onPause(){
+        workPrev = work;
         work = false;
         drawToggle();
         super.onPause();
