@@ -65,6 +65,33 @@
                 android:ems="10"
                 android:inputType="numberDecimal"
                 android:hint="@string/mass"/>
+
+            <TextView
+                android:id="@+id/coords"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginVertical="5dp"
+                android:text="@string/coords"
+                android:textAlignment="center"
+                android:textSize="21sp" />
+
+            <EditText
+                android:id="@+id/xAmount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="x"/>
+
+            <EditText
+                android:id="@+id/yAmount"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:autofillHints=""
+                android:ems="10"
+                android:inputType="numberDecimal"
+                android:hint="y"/>
         </LinearLayout>
     </ScrollView>
 
