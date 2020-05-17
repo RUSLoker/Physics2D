@@ -11,6 +11,8 @@ public class Visualizer extends View {
 
     Paint paint = new Paint();
     Paint paintSpec = new Paint();
+    public static double x0 = 0;
+    public static double y0 = 0;
 
     public Visualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,10 +28,10 @@ public class Visualizer extends View {
         super.onDraw(canvas);
         for(int i = 0; i < MainActivity.objs.length; i++){
             PhysObj o = MainActivity.objs[i];
-            if(i == MainActivity.pointer)
-                o.draw(canvas, paintSpec);
+            if(MainActivity.pointer != null && i == MainActivity.pointer)
+                o.draw(x0, y0, canvas, paintSpec);
             else
-                o.draw(canvas, paint);
+                o.draw(x0, y0, canvas, paint);
         }
 //        MotionEvent event = MainActivity.motionEvent;
 //        if(event != null) {

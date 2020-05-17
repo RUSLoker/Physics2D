@@ -94,8 +94,8 @@ public class Circle extends Figure2D {
     }
 
     @Override
-    public void draw(Canvas canvas, Paint paint) {
-        canvas.drawCircle((float) center.x, (float) center.y, (float) radius, paint);
+    public void draw(double x, double y, Canvas canvas, Paint paint) {
+        canvas.drawCircle((float) (center.x + x), (float) (center.y + y), (float) radius, paint);
     }
 
 

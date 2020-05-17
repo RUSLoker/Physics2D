@@ -38,6 +38,9 @@ public class MainActivity extends AppCompatActivity {
     double dLen;
     public static MotionEvent motionEvent = null;
     Vector2D prevP;
+    boolean scaling = false;
+    double pTX = -1;
+    double pTY = -1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -202,7 +205,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void delete(View view){
         pauseSim();
-        if(objs.length != 0) {
+        if(pointer != null && objs.length != 0) {
             for (PhysObj i : objs) {
                 i.delForce(objs[pointer].hashCode());
             }
@@ -325,21 +328,28 @@ public class MainActivity extends AppCompatActivity {
         int pointerCount = event.getPointerCount();
         double x = event.getX(0);
         double y = event.getY(0);
-        Vector2D point = new Vector2D(x, y);
+        Vector2D point = new Vector2D(x - Visualizer.x0, y - Visualizer.y0);
         motionEvent = event;
+
 
         switch (event.getActionMasked()) {
             case MotionEvent.ACTION_DOWN: // нажатие
             {
                 pauseSim();
                 if(objs.length != 0) {
-                    if (!objs[pointer].getBody().isInside(point) && pointerCount == 1) {
+                    if (MainActivity.pointer == null || !objs[pointer].getBody().isInside(point) && pointerCount == 1) {
+                        boolean touched = false;
                         for (int i = 0; i < objs.length; i++) {
                             if (objs[i].getBody().isInside(point)) {
+                                touched = true;
                                 pointer = i;
                                 reloadFields(null);
                                 break;
                             }
+                        }
+                        if(!touched && pointerCount < 2){
+                            pointer = null;
+                            reloadFields(null);
                         }
                     }
                 }
@@ -348,7 +358,7 @@ public class MainActivity extends AppCompatActivity {
             }
             case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_POINTER_UP: {
-                if(pointerCount > 1) {
+                if(MainActivity.pointer != null && pointerCount > 1) {
                     x = event.getX(0);
                     y = event.getY(0);
                     Vector2D point1 = new Vector2D(x, y);
@@ -361,10 +371,22 @@ public class MainActivity extends AppCompatActivity {
             }
             case MotionEvent.ACTION_MOVE: // движение
             {
-                if(objs.length != 0) {
-                    if (pointerCount == 1 && objs[pointer].getBody().isInside(prevP)) {
+                if(MainActivity.pointer == null){
+                    if(pTX == -1 || pTY == -1){
+                        pTX = x;
+                        pTY = y;
+                    } else {
+                        Visualizer.x0 += x - pTX;
+                        Visualizer.y0 += y - pTY;
+                        pTX = x;
+                        pTY = y;
+                    }
+                }
+                else if(objs.length != 0) {
+                    if (!scaling && pointerCount == 1 && objs[pointer].getBody().isInside(prevP)) {
                         objs[pointer].getBody().setCenter(point);
                     } else if(pointerCount > 1) {
+                        scaling = true;
                         x = event.getX(0);
                         y = event.getY(0);
                         Vector2D point1 = new Vector2D(x, y);
@@ -388,6 +410,9 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP: // отпускание
             case MotionEvent.ACTION_CANCEL:
                 resumeSim();
+                scaling = false;
+                pTX = -1;
+                pTY = -1;
                 break;
         }
         return true;
