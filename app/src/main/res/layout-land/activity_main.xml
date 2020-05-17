@@ -17,173 +17,207 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <LinearLayout
-
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:orientation="vertical"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
-
-        <ScrollView
+            android:id="@+id/propMenu"
             android:layout_width="wrap_content"
-            android:layout_height="290dp"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
 
-            <LinearLayout
-
+            <ScrollView
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="vertical"
+                android:layout_height="200dp"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent">
 
-                <TextView
-                    android:id="@+id/size"
-                    android:layout_width="match_parent"
+                <LinearLayout
+
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:text="@string/size"
-                    android:textAlignment="center"
-                    android:textSize="21sp" />
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintTop_toTopOf="parent">
 
-                <EditText
-                    android:id="@+id/sizeAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/size"/>
+                    <TextView
+                        android:id="@+id/size"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:text="@string/size"
+                        android:textAlignment="center"
+                        android:textSize="21sp" />
 
-                <TextView
-                    android:id="@+id/mass"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:text="@string/mass"
-                    android:textAlignment="center"
-                    android:textSize="21sp" />
+                    <EditText
+                        android:id="@+id/sizeAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="@string/size"
+                        android:inputType="numberDecimal" />
 
-                <EditText
-                    android:id="@+id/massAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="@string/mass"/>
+                    <TextView
+                        android:id="@+id/mass"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:text="@string/mass"
+                        android:textAlignment="center"
+                        android:textSize="21sp" />
 
-                <TextView
-                android:id="@+id/coords"
+                    <EditText
+                        android:id="@+id/massAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="@string/mass"
+                        android:inputType="numberDecimal" />
+
+                    <TextView
+                        android:id="@+id/coords"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:text="@string/coords"
+                        android:textAlignment="center"
+                        android:textSize="21sp" />
+
+                    <EditText
+                        android:id="@+id/xAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="x"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/yAmount"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="y"
+                        android:inputType="numberDecimal" />
+
+                    <TextView
+                        android:id="@+id/speed"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:text="@string/speed"
+                        android:textAlignment="center"
+                        android:textSize="21sp" />
+
+                    <EditText
+                        android:id="@+id/xSpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="x"
+                        android:inputType="numberDecimal" />
+
+                    <EditText
+                        android:id="@+id/ySpeed"
+                        android:layout_width="match_parent"
+                        android:layout_height="50dp"
+                        android:autofillHints=""
+                        android:ems="10"
+                        android:hint="y"
+                        android:inputType="numberDecimal" />
+
+                    <TextView
+                        android:id="@+id/togglesHead"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginVertical="5dp"
+                        android:text="@string/toggles"
+                        android:textAlignment="center"
+                        android:textSize="21sp" />
+
+                    <Switch
+                        android:id="@+id/gravitySwitch"
+                        android:layout_width="match_parent"
+                        android:layout_height="0dp"
+                        android:layout_marginVertical="5dp"
+                        android:checked="false"
+                        android:text="@string/gravitySwitch"
+                        android:textSize="21sp" />
+
+                </LinearLayout>
+            </ScrollView>
+
+            <Button
+                android:id="@+id/set"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginVertical="5dp"
-                android:text="@string/coords"
+                android:onClick="set"
+                android:text="@string/set"
                 android:textAlignment="center"
                 android:textSize="21sp" />
 
-                <EditText
-                    android:id="@+id/xAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="x"/>
+            <LinearLayout
 
-                <EditText
-                    android:id="@+id/yAmount"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="y"/>
-                <TextView
-                    android:id="@+id/speed"
-                    android:layout_width="match_parent"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <Button
+                    android:id="@+id/delete"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:text="@string/speed"
+                    android:layout_margin="5dp"
+                    android:onClick="delete"
+                    android:text="@string/delete"
                     android:textAlignment="center"
                     android:textSize="21sp" />
 
-                <EditText
-                    android:id="@+id/xSpeed"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="x"/>
-
-                <EditText
-                    android:id="@+id/ySpeed"
-                    android:layout_width="match_parent"
-                    android:layout_height="50dp"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="numberDecimal"
-                    android:hint="y"/>
-                <TextView
-                    android:id="@+id/togglesHead"
-                    android:layout_width="match_parent"
+                <Button
+                    android:id="@+id/add"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginVertical="5dp"
-                    android:text="@string/toggles"
+                    android:layout_margin="5dp"
+                    android:onClick="add"
+                    android:text="@string/add"
                     android:textAlignment="center"
                     android:textSize="21sp" />
-                <Switch
-                    android:id="@+id/gravitySwitch"
-                    android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:textSize="21sp"
-                    android:layout_marginVertical="5dp"
-                    android:checked="false"
-                    android:text="@string/gravitySwitch" />
-
             </LinearLayout>
-        </ScrollView>
+        </LinearLayout>
+
+    <Button
+        android:id="@+id/opener"
+        android:layout_width="33dp"
+        android:layout_height="110dp"
+        android:onClick="rollLMenu"
+        android:text="roll"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/propMenu"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <Button
-            android:id="@+id/set"
-            android:layout_width="match_parent"
+            android:id="@+id/button"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
-            android:onClick="set"
-            android:text="@string/set"
+            android:layout_margin="5dp"
+            android:onClick="toggle"
+            android:text="@string/toggle"
             android:textAlignment="center"
             android:textSize="21sp" />
-        <LinearLayout
 
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <Button
-                android:id="@+id/delete"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:text="@string/delete"
-                android:onClick="delete"
-                android:textAlignment="center"
-                android:textSize="21sp" />
-            <Button
-                android:id="@+id/add"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="5dp"
-                android:onClick="add"
-                android:text="@string/add"
-                android:textAlignment="center"
-                android:textSize="21sp" />
-        </LinearLayout>
     </LinearLayout>
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,5 +1,7 @@
 package com.example.physics2d;
 
+import android.animation.AnimatorSet;
+import android.animation.ObjectAnimator;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -16,7 +18,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
-    static Border border = new Border(0, 1000, 1000, 0);
+    static Border border = new Border(0, 2200, 1000, 0);
     static public PhysObj[] objs = new PhysObj[]{};
     Thread myThread = new Thread(MainActivity::vrun);
     static boolean work = false;
@@ -290,6 +292,23 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    public void rollLMenu(View view){
+        View menu = findViewById(R.id.propMenu);
+        AnimatorSet set = new AnimatorSet();
+        if(view.getX() != 0) {
+            set.playTogether(
+                    ObjectAnimator.ofFloat(menu, View.X, 0, -menu.getRight()),
+                    ObjectAnimator.ofFloat(view, View.X, menu.getRight(), 0)
+            );
+        } else {
+            set.playTogether(
+                    ObjectAnimator.ofFloat(menu, View.X, -menu.getRight(), 0),
+                    ObjectAnimator.ofFloat(view, View.X, 0, menu.getRight())
+            );
+        }
+        set.start();
+    }
+
     public void gravChecker(CompoundButton buttonView, boolean isChecked){
         gravity = isChecked;
         if(!gravity){
@@ -374,7 +393,6 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
-
     public void reloadFields(View view){
         TextView number = (TextView) findViewById(R.id.number);
         EditText
@@ -391,33 +409,33 @@ public class MainActivity extends AppCompatActivity {
 
         if(pointer != null) {
             PhysObj cur = objs[pointer];
-            number.setText(Integer.toString(pointer));
+            //number.setText(Integer.toString(pointer));
             size.setText(Double.toString(((Circle) cur.getBody()).getRadius()));
             mass.setText(Double.toString(cur.getMass()));
             xA.setText(Double.toString(cur.getCenter().x));
             yA.setText(Double.toString(cur.getCenter().y));
             xSpeed.setText(Double.toString(cur.getSpeed().x));
             ySpeed.setText(Double.toString(cur.getSpeed().y));
-            if (pointer < objs.length - 1) {
-                next.setVisibility(View.VISIBLE);
-            } else {
-                next.setVisibility(View.INVISIBLE);
-            }
-            if (pointer == 0) {
-                prev.setVisibility(View.INVISIBLE);
-            } else {
-                prev.setVisibility(View.VISIBLE);
-            }
+//            if (pointer < objs.length - 1) {
+//                next.setVisibility(View.VISIBLE);
+//            } else {
+//                next.setVisibility(View.INVISIBLE);
+//            }
+//            if (pointer == 0) {
+//                prev.setVisibility(View.INVISIBLE);
+//            } else {
+//                prev.setVisibility(View.VISIBLE);
+//            }
         } else {
-            number.setText("");
+            //number.setText("");
             size.setText("");
             mass.setText("");
             xA.setText("");
             yA.setText("");
             xSpeed.setText("");
             ySpeed.setText("");
-            next.setVisibility(View.INVISIBLE);
-            prev.setVisibility(View.INVISIBLE);
+//            next.setVisibility(View.INVISIBLE);
+//            prev.setVisibility(View.INVISIBLE);
         }
     }
 }
