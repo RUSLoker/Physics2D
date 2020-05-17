@@ -41,15 +41,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-//        myThread.start();
-//        reloadFields(null);
-//        cpsT = findViewById(R.id.cps);
-//        checkerT = findViewById(R.id.checkerT);
-//        drawToggle();
-//        Switch gravitySw = findViewById(R.id.gravitySwitch);
-//        gravitySw.setOnCheckedChangeListener(this::gravChecker);
-//        View visulizer = findViewById(R.id.visualizer);
-//        visulizer.setOnTouchListener(this::moveBody);
+        myThread.start();
+        reloadFields(null);
+        cpsT = findViewById(R.id.cps);
+        checkerT = findViewById(R.id.checkerT);
+        drawToggle();
+        Switch gravitySw = findViewById(R.id.gravitySwitch);
+        gravitySw.setOnCheckedChangeListener(this::gravChecker);
+        View visulizer = findViewById(R.id.visualizer);
+        visulizer.setOnTouchListener(this::moveBody);
     }
 
     protected void onPause(){

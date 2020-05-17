@@ -37,14 +37,14 @@ public class Visualizer extends View {
 //                canvas.drawCircle(event.getX(i) - 30, event.getY(i) - 250, 50f, paint);
 //            }
 //        }
-        MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
-        MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
-        if(MainActivity.objs.length > 1) {
-            Vector2D k;
-            if ((k = MainActivity.objs[1].getCenter()).x != 600) {
-                //System.out.println(123);
-            }
-        }
+//        MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
+//        MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
+//        if(MainActivity.objs.length > 1) {
+//            Vector2D k;
+//            if ((k = MainActivity.objs[1].getCenter()).x != 600) {
+//                //System.out.println(123);
+//            }
+//        }
         invalidate();
     }
 
