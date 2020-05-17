@@ -13,6 +13,7 @@ public class Visualizer extends View {
     Paint paintSpec = new Paint();
     public static double x0 = 0;
     public static double y0 = 0;
+    public static double scale = 0.5;
 
     public Visualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -26,12 +27,13 @@ public class Visualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        canvas.drawCircle((float) (x0), (float)(y0), (float)(100*scale), paint);
         for(int i = 0; i < MainActivity.objs.length; i++){
             PhysObj o = MainActivity.objs[i];
             if(MainActivity.pointer != null && i == MainActivity.pointer)
-                o.draw(x0, y0, canvas, paintSpec);
+                o.draw(x0, y0, scale, canvas, paintSpec);
             else
-                o.draw(x0, y0, canvas, paint);
+                o.draw(x0, y0, scale, canvas, paint);
         }
 //        MotionEvent event = MainActivity.motionEvent;
 //        if(event != null) {

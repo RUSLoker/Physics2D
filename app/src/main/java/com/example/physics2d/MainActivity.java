@@ -34,7 +34,7 @@ public class MainActivity extends AppCompatActivity {
     static boolean gravity = false;
     boolean workPrev = work;
     boolean paused = false;
-    double prevLen;
+    double prevLen = -1;
     double dLen;
     public static MotionEvent motionEvent = null;
     Vector2D prevP;
@@ -328,7 +328,8 @@ public class MainActivity extends AppCompatActivity {
         int pointerCount = event.getPointerCount();
         double x = event.getX(0);
         double y = event.getY(0);
-        Vector2D point = new Vector2D(x - Visualizer.x0, y - Visualizer.y0);
+        Vector2D point = new Vector2D(x, y).sub(
+                new Vector2D(Visualizer.x0, Visualizer.y0)).scale(1/Visualizer.scale);
         motionEvent = event;
 
 
@@ -349,6 +350,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         if(!touched && pointerCount < 2){
                             pointer = null;
+                            resumeSim();
                             reloadFields(null);
                         }
                     }
@@ -372,14 +374,35 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_MOVE: // движение
             {
                 if(MainActivity.pointer == null){
-                    if(pTX == -1 || pTY == -1){
-                        pTX = x;
-                        pTY = y;
-                    } else {
-                        Visualizer.x0 += x - pTX;
-                        Visualizer.y0 += y - pTY;
-                        pTX = x;
-                        pTY = y;
+                    if(pointerCount == 1 && !scaling) {
+                        if (pTX == -1 || pTY == -1) {
+                            pTX = x;
+                            pTY = y;
+                        } else {
+                            Visualizer.x0 += (x - pTX);
+                            Visualizer.y0 += (y - pTY);
+                            pTX = x;
+                            pTY = y;
+                        }
+                    } else if(pointerCount > 1){
+                        scaling = true;
+                        Vector2D
+                                p1 = new Vector2D(event.getX(0), event.getY(0)),
+                                p2 = new Vector2D(event.getX(1), event.getY(1)),
+                                mean = Vector2D.mean(p1, p2).sub(
+                                        new Vector2D(Visualizer.x0, Visualizer.y0));
+                        double length = p1.sub(p2).length;
+                        if(prevLen == -1){
+                            prevLen = length;
+                        }
+                        double sp = Visualizer.scale;
+                        if(Visualizer.scale + 0.004 * (length - prevLen) > 0.1)
+                            Visualizer.scale += 0.004 * (length - prevLen);
+                        double delta = sp/Visualizer.scale;
+                        mean = mean.sub(mean.scale(delta));
+                        Visualizer.x0 -= mean.x;
+                        Visualizer.y0 -= mean.y;
+                        prevLen = length;
                     }
                 }
                 else if(objs.length != 0) {
@@ -398,7 +421,7 @@ public class MainActivity extends AppCompatActivity {
                         prevLen = nLen;
                         double radius = ((Circle) objs[pointer].getBody()).getRadius();
                         if (radius + dLen > 10) {
-                            ((Circle) objs[pointer].getBody()).setRadius(radius + dLen);
+                            ((Circle) objs[pointer].getBody()).setRadius(radius + dLen/Visualizer.scale);
                         }
                     }
                 }
@@ -410,6 +433,7 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_UP: // отпускание
             case MotionEvent.ACTION_CANCEL:
                 resumeSim();
+                prevLen = -1;
                 scaling = false;
                 pTX = -1;
                 pTY = -1;

@@ -4,9 +4,9 @@ import androidx.annotation.NonNull;
 
 public class Vector2D implements Cloneable {
 
-    public final double x, y, length, sqrLength;
+    final double x, y, length, sqrLength;
 
-    public Vector2D(double x, double y){
+    Vector2D(double x, double y){
         this.x = x;
         this.y = y;
         sqrLength = sqrLength(x, y);
@@ -43,50 +43,54 @@ public class Vector2D implements Cloneable {
         return vector;
     }
 
-    public Vector2D sub(@NonNull Vector2D v){
+    Vector2D sub(@NonNull Vector2D v){
         return new Vector2D(this.x - v.x, this.y - v.y);
     }
 
-    public Vector2D scale(double mult){
+    Vector2D scale(double mult){
         return new Vector2D(this.x * mult, this.y * mult,
                 length * mult, sqrLength * mult*mult);
     }
 
-    public Vector2D reverse(){
+    Vector2D reverse(){
         return new Vector2D(-this.x, -this.y, length, sqrLength);
     }
 
-    public Vector2D reverseX(){
+    Vector2D reverseX(){
         return new Vector2D(-this.x, this.y, length, sqrLength);
     }
 
-    public Vector2D reverseY(){
+    Vector2D reverseY(){
         return new Vector2D(this.x, -this.y, length, sqrLength);
     }
 
-    public static double length(double x, double y){
+    static double length(double x, double y){
         return Math.sqrt(x*x + y*y);
     }
 
-    public static double sqrLength(double x, double y){
+    static double sqrLength(double x, double y){
         return x*x + y*y;
+    }
+
+    static Vector2D mean(Vector2D a, Vector2D b){
+        return new Vector2D((a.x + b.x)/2, (a.y + b.y)/2);
     }
 
     public Vector2D rotate(double angle){
         return rotate(Math.sin(angle), Math.cos(angle));
     }
 
-    public Vector2D rotate(double sinA, double cosA){
+    Vector2D rotate(double sinA, double cosA){
         double x = this.x * cosA - this.y * sinA;
         double y = this.y * cosA + this.x * sinA;
         return new Vector2D(x, y).setLength(length);
     }
 
-    public static Vector2D zero() {
+    static Vector2D zero() {
         return new Vector2D();
     }
 
-    public Vector2D normalize(){
+    Vector2D normalize(){
         if (length == 0){
             return new Vector2D(this);
         }
@@ -94,7 +98,7 @@ public class Vector2D implements Cloneable {
         return new Vector2D(x/len, y/len, 1, 1);
     }
 
-    public double scalar(Vector2D v){
+    double scalar(Vector2D v){
         return this.x * v.x + this.y * v.y;
     }
 
@@ -111,25 +115,24 @@ public class Vector2D implements Cloneable {
         );
     }
 
-    public static double prodZ(Vector2D a, Vector2D b){
+    static double prodZ(Vector2D a, Vector2D b){
         return a.x * b.y - a.y * b.x;
     }
 
-    public static double angleBetween(Vector2D a, Vector2D b){
+    static double angleBetween(Vector2D a, Vector2D b){
         return Math.acos(a.normalize().scalar(b.normalize()));
     }
 
-    public Vector2D setLength(double len){
+    Vector2D setLength(double len){
         if (length == len){
             return this.clone();
         }
         return this.normalize().scale(len);
     }
 
-    public double projection(Vector2D b){
+    double projection(Vector2D b){
         b = b.normalize();
-        double scalar = this.scalar(b);
-        return scalar;
+        return this.scalar(b);
     }
 
 

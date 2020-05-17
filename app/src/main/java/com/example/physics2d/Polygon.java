@@ -65,7 +65,7 @@ public class Polygon extends Figure2D {
     }
 
     @Override
-    public void draw(double x, double y, Canvas canvas, Paint paint){
+    public void draw(double x, double y, double scale, Canvas canvas, Paint paint){
         int i = 1;
         for (; i < vertexes.length; i++) {
             canvas.drawLine(

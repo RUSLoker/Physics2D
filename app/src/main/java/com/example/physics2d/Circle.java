@@ -8,12 +8,12 @@ public class Circle extends Figure2D {
     private Vector2D center;
     private double radius;
 
-    public Circle(Vector2D center, double radius) {
+    Circle(Vector2D center, double radius) {
         this.center = center.clone();
         this.radius = radius;
     }
 
-    public double getRadius(){
+    double getRadius(){
         return radius;
     }
 
@@ -22,7 +22,7 @@ public class Circle extends Figure2D {
         return center;
     }
 
-    public void setRadius(double radius){
+    void setRadius(double radius){
         this.radius = radius;
     }
 
@@ -94,8 +94,12 @@ public class Circle extends Figure2D {
     }
 
     @Override
-    public void draw(double x, double y, Canvas canvas, Paint paint) {
-        canvas.drawCircle((float) (center.x + x), (float) (center.y + y), (float) radius, paint);
+    public void draw(double x, double y, double scale, Canvas canvas, Paint paint) {
+        canvas.drawCircle(
+                (float) (center.x * scale + x),
+                (float) (center.y * scale + y),
+                (float) (radius*scale), paint
+        );
     }
 
 

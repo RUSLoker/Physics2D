@@ -15,25 +15,25 @@ public class PhysObj implements Cloneable{
     private boolean borderChecked = false;
 
 
-    public PhysObj(Figure2D body, double mass, Vector2D velocity, Vector2D acceleration, Vector2D force) {
+    PhysObj(Figure2D body, double mass, Vector2D velocity, Vector2D acceleration, Vector2D force) {
         this.body = body;
         this.velocity = velocity.clone();
         this.acceleration = acceleration.clone();
         this.mass = mass;
         this.force = force.clone();
     }
-    public PhysObj(Figure2D body , double mass) {
+    PhysObj(Figure2D body , double mass) {
         this(body, mass, Vector2D.zero(), Vector2D.zero(), Vector2D.zero());
     }
     public PhysObj(Figure2D body , double mass, Vector2D velocity) {
         this(body, mass, velocity, Vector2D.zero(), Vector2D.zero());
     }
 
-    public void draw(double x, double y, Canvas canvas, Paint paint){
-        body.draw(x, y, canvas, paint);
+    void draw(double x, double y, double scale, Canvas canvas, Paint paint){
+        body.draw(x, y, scale, canvas, paint);
     }
 
-    public void calcAccel(){
+    void calcAccel(){
         force = Vector2D.zero();
         for (Vector2D i : forces.values()){
             force = force.add(i);
@@ -41,7 +41,7 @@ public class PhysObj implements Cloneable{
         acceleration = force.scale(1/mass);
     }
 
-    public void move(double time){
+    void move(double time){
         body.move(new Vector2D(
                 velocity.x*time + acceleration.x * time*time/2,
                 velocity.y*time + acceleration.y * time*time/2
@@ -49,44 +49,44 @@ public class PhysObj implements Cloneable{
         velocity = velocity.add(acceleration.scale(time));
     }
 
-    public Vector2D getCenter(){
+    Vector2D getCenter(){
         return body.getCenter();
     }
-    public Vector2D getSpeed(){
+    Vector2D getSpeed(){
         return velocity;
     }
-    public Vector2D getAcceleration(){
+    Vector2D getAcceleration(){
         return acceleration;
     }
-    public Vector2D getForce(){
+    Vector2D getForce(){
         return force;
     }
-    public Figure2D getBody(){
+    Figure2D getBody(){
         return body;
     }
-    public double getMass() {
+    double getMass() {
         return mass;
     }
 
-    public void setMass(double mass){
+    void setMass(double mass){
         this.mass = mass;
     }
 
-    public void setForce(Integer hash, Vector2D force){
+    void setForce(Integer hash, Vector2D force){
         forces.put(hash, force);
     }
 
-    public void delForce(Integer hash)  {
+    void delForce(Integer hash)  {
         if(forces.get(hash) != null){
             forces.remove(hash);
         }
     }
 
-    public void setVelocity(Vector2D velocity){
+    void setVelocity(Vector2D velocity){
         this.velocity = velocity;
     }
 
-    public void checkCollisions(PhysObj obj, double time){
+    void checkCollisions(PhysObj obj, double time){
         Vector2D[] collisions;
         if((collisions = this.body.getCollision(obj.body)).length != 0){
             Vector2D[] normals = obj.body.getNormals(collisions);
@@ -135,7 +135,7 @@ public class PhysObj implements Cloneable{
         }
     }
 
-    public void checkBorder(Border border){
+    void checkBorder(Border border){
         switch (body.borderCollision(border)){
             case left: {
                 if (borderChecked) {
