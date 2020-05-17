@@ -27,7 +27,6 @@ public class Visualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        canvas.drawCircle((float) (x0), (float)(y0), (float)(100*scale), paint);
         for(int i = 0; i < MainActivity.objs.length; i++){
             PhysObj o = MainActivity.objs[i];
             if(MainActivity.pointer != null && i == MainActivity.pointer)
