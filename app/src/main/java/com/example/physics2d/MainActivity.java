@@ -18,7 +18,7 @@ import java.util.Arrays;
 public class MainActivity extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
-    static Border border = new Border(0, 2200, 1000, 0);
+    static Border border = new Border(-10000, 10000, 10000, -10000);
     static public PhysObj[] objs = new PhysObj[]{};
     Thread myThread = new Thread(MainActivity::vrun);
     static boolean work = false;
@@ -92,61 +92,72 @@ public class MainActivity extends AppCompatActivity {
         double countSim = 0;
         double log2 = Math.log(2);
         long prev = 0;
+        boolean needCheck = false;
         while (true) {
             if (work) {
-                fastest = 0;
-                for (PhysObj i : objs) {
-                    double x = i.getSpeed().length + i.getAcceleration().length*time;
-                    if(x > fastest)
-                        fastest = x;
-                }
-
-                if(fastest <= 2) time = gap;
-                else {
-                    checker = Math.log(fastest) / log2;
-                    checker = Math.ceil(checker * (Math.pow(1.1, (checker - 150) / 7.2) + 1));
-
-                    time = Math.pow(2, -checker);
-                }
-                time = time * 1000000000 > gap ? ((double) gap) / 1000000000 : time;
-
-                for (int i = 0; i < objs.length; i++) {
-                    PhysObj a = objs[i];
-                    for (int j = i + 1; j < objs.length; j++) {
-                        PhysObj b = objs[j];
-                        a.checkCollisions(b, time);
+                synchronized (objs) {
+                    fastest = 0;
+                    for (PhysObj i : objs) {
+                        double x = i.getSpeed().length + i.getAcceleration().length * time;
+                        if (x > fastest)
+                            fastest = x;
                     }
-                }
-                if (gravity){
+
+                    if (fastest <= 2) time = gap;
+                    else {
+                        checker = Math.log(fastest) / log2;
+                        checker = Math.ceil(checker * (Math.pow(1.1, (checker - 150) / 7.2) + 1));
+
+                        time = Math.pow(2, -checker);
+                    }
+                    time = time * 1000000000 > gap ? ((double) gap) / 1000000000 : time;
+
+
+                    PhysObj a, b;
                     for (int i = 0; i < objs.length; i++) {
-                        PhysObj a = objs[i];
+                        a = objs[i];
                         for (int j = i + 1; j < objs.length; j++) {
-                            PhysObj b = objs[j];
-                            Vector2D force;
-                            Vector2D dist = a.getCenter().sub(b.getCenter());
-                            if(dist.length >= ((Circle)a.getBody()).getRadius() + ((Circle)b.getBody()).getRadius()) {
-                                double forceAbs = G * (a.getMass() * b.getMass())
-                                        / (dist.length * dist.length);
-                                forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
-                                force = dist.setLength(forceAbs);
+                            b = objs[j];
+                            if (a != null && b != null) {
+                                a.checkCollisions(b, time);
                             } else {
-                                force = Vector2D.zero();
+                                System.out.println(a + " " + b);
                             }
-                            a.setForce(b.hashCode(), force.reverse());
-                            b.setForce(a.hashCode(), force);
                         }
                     }
+
+
+                    if (gravity) {
+                        for (int i = 0; i < objs.length; i++) {
+                            a = objs[i];
+                            for (int j = i + 1; j < objs.length; j++) {
+                                b = objs[j];
+                                Vector2D force;
+                                Vector2D dist = a.getCenter().sub(b.getCenter());
+                                if (dist.length >= ((Circle) a.getBody()).getRadius() + ((Circle) b.getBody()).getRadius()) {
+                                    double forceAbs = G * (a.getMass() * b.getMass())
+                                            / (dist.length * dist.length);
+                                    forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
+                                    force = dist.setLength(forceAbs);
+                                } else {
+                                    force = Vector2D.zero();
+                                }
+                                a.setForce(b.hashCode(), force.reverse());
+                                b.setForce(a.hashCode(), force);
+                            }
+                        }
+                    }
+
+                    for (PhysObj i : objs) {
+                        i.calcAccel();
+                        i.move(time);
+                        i.checkBorder(border);
+                    }
+                    gap = System.nanoTime() - prev;
+                    countReal += System.nanoTime() - prev;
+                    countSim += time * 1000000000;
                 }
-                for (PhysObj i : objs) {
-                    i.calcAccel();
-                    i.move(time);
-                    i.checkBorder(border);
-                }
-                gap = System.nanoTime() - prev;
-                countReal += System.nanoTime() - prev;
-                countSim += time * 1000000000;
-            }
-            else {
+            } else {
                 try {
                     Thread.sleep(100);
                 } catch (InterruptedException e) {
@@ -159,6 +170,7 @@ public class MainActivity extends AppCompatActivity {
                 countSim = 0;
             }
             prev = System.nanoTime();
+
         }
     }
 
@@ -177,13 +189,49 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view){
-        pauseSim();
-        pointer = objs.length;
-        objs = Arrays.copyOf(objs, objs.length+1);
-        objs[pointer] = standart.clone();
-        reloadFields(null);
-        resumeSim();
-        drawToggle();
+        new Thread(){
+            @Override
+            public void run(){
+                synchronized (objs) {
+                    pauseSim();
+                    pointer = objs.length;
+                    objs = Arrays.copyOf(objs, objs.length + 1);
+                    objs[pointer] = standart.clone();
+                    pointer = null;
+                    PhysObj a, b;
+                    boolean needCheck = true;
+                    while (needCheck) {
+                        needCheck = false;
+                        for (int i = 0; i < objs.length; i++) {
+                            a = objs[i];
+                            for (int j = i + 1; j < objs.length; j++) {
+                                b = objs[j];
+                                if (a != null && b != null) {
+                                    Circle bA, bB;
+                                    bA = (Circle) a.getBody();
+                                    bB = (Circle) b.getBody();
+                                    if (bA.getCenter().sub(bB.getCenter()).length <
+                                            bA.getRadius() + bB.getRadius() ) {
+                                        needCheck = true;
+                                        Vector2D move = bA.getCenter().sub(bB.getCenter()).
+                                                setLength((bA.getRadius() + bB.getRadius() -
+                                                        bA.getCenter().sub(bB.getCenter()).length) / 2 + 0.5);
+                                        bA.move(move);
+                                        bB.move(move.reverse());
+                                    }
+                                } else {
+                                    System.out.println(a + " " + b);
+                                }
+                            }
+                        }
+                    }
+                    reloadFields(null);
+                    resumeSim();
+                }
+            }
+        }.start();
+        //reloadFields(null);
+        //drawToggle();
     }
 
     public void prev(View view){
@@ -205,18 +253,25 @@ public class MainActivity extends AppCompatActivity {
 
     public void delete(View view){
         pauseSim();
-        if(pointer != null && objs.length != 0) {
-            for (PhysObj i : objs) {
-                i.delForce(objs[pointer].hashCode());
+        new Thread() {
+            @Override
+            public void run() {
+                synchronized (objs) {
+                    if (pointer != null && objs.length != 0) {
+                        for (PhysObj i : objs) {
+                            i.delForce(objs[pointer].hashCode());
+                        }
+                        PhysObj[] cutted = new PhysObj[objs.length - 1];
+                        PhysObj[] a = Arrays.copyOf(objs, pointer);
+                        PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
+                        System.arraycopy(a, 0, cutted, 0, a.length);
+                        System.arraycopy(b, 0, cutted, a.length, b.length);
+                        objs = cutted;
+                        prev(null);
+                    }
+                }
             }
-            PhysObj[] cutted = new PhysObj[objs.length - 1];
-            PhysObj[] a = Arrays.copyOf(objs, pointer);
-            PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
-            System.arraycopy(a, 0, cutted, 0, a.length);
-            System.arraycopy(b, 0, cutted, a.length, b.length);
-            objs = cutted;
-            prev(null);
-        }
+        }.start();
         resumeSim();
         drawToggle();
     }
@@ -374,6 +429,7 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_MOVE: // движение
             {
                 if(MainActivity.pointer == null){
+                    //Field moving
                     if(pointerCount == 1 && !scaling) {
                         if (pTX == -1 || pTY == -1) {
                             pTX = x;
@@ -385,6 +441,7 @@ public class MainActivity extends AppCompatActivity {
                             pTY = y;
                         }
                     } else if(pointerCount > 1){
+                        //Zooming
                         scaling = true;
                         Vector2D
                                 p1 = new Vector2D(event.getX(0), event.getY(0)),
@@ -396,7 +453,7 @@ public class MainActivity extends AppCompatActivity {
                             prevLen = length;
                         }
                         double sp = Visualizer.scale;
-                        if(Visualizer.scale + 0.004 * (length - prevLen) > 0.1)
+                        if(Visualizer.scale + 0.004 * (length - prevLen) > 0.01)
                             Visualizer.scale += 0.004 * (length - prevLen);
                         double delta = sp/Visualizer.scale;
                         mean = mean.sub(mean.scale(delta));
