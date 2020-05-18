@@ -18,9 +18,9 @@ public class Visualizer extends View {
     public Visualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
         paint.setStrokeWidth(10);
-        paint.setStyle(Paint.Style.STROKE);
+        paint.setStyle(Paint.Style.FILL);
         paintSpec.setStrokeWidth(10);
-        paintSpec.setStyle(Paint.Style.STROKE);
+        paintSpec.setStyle(Paint.Style.FILL);
         paintSpec.setColor(Color.RED);
     }
 

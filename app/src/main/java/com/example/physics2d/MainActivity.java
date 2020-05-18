@@ -14,6 +14,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 
 import java.util.Arrays;
+import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -189,7 +190,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void add(View view){
-        new Thread(){
+        Thread add = new Thread(){
             @Override
             public void run(){
                 synchronized (objs) {
@@ -197,7 +198,6 @@ public class MainActivity extends AppCompatActivity {
                     pointer = objs.length;
                     objs = Arrays.copyOf(objs, objs.length + 1);
                     objs[pointer] = standart.clone();
-                    pointer = null;
                     PhysObj a, b;
                     boolean needCheck = true;
                     while (needCheck) {
@@ -210,12 +210,21 @@ public class MainActivity extends AppCompatActivity {
                                     Circle bA, bB;
                                     bA = (Circle) a.getBody();
                                     bB = (Circle) b.getBody();
-                                    if (bA.getCenter().sub(bB.getCenter()).length <
+                                    if (bA.getCenter().sub(bB.getCenter()).length == 0){
+                                        needCheck = true;
+                                        Random random = new Random();
+                                        Vector2D move = new Vector2D(random.nextDouble(), random.nextDouble()).
+                                                setLength((bA.getRadius() + bB.getRadius() -
+                                                        bA.getCenter().sub(bB.getCenter()).length) / 2 + 0.1);
+                                        bA.move(move);
+                                        bB.move(move.reverse());
+                                    }
+                                    else if (bA.getCenter().sub(bB.getCenter()).length <
                                             bA.getRadius() + bB.getRadius() ) {
                                         needCheck = true;
                                         Vector2D move = bA.getCenter().sub(bB.getCenter()).
                                                 setLength((bA.getRadius() + bB.getRadius() -
-                                                        bA.getCenter().sub(bB.getCenter()).length) / 2 + 0.5);
+                                                        bA.getCenter().sub(bB.getCenter()).length) / 2 + 0.1);
                                         bA.move(move);
                                         bB.move(move.reverse());
                                     }
@@ -229,20 +238,26 @@ public class MainActivity extends AppCompatActivity {
                     resumeSim();
                 }
             }
-        }.start();
-        //reloadFields(null);
-        //drawToggle();
+        };
+        add.start();
+        try {
+            add.join();
+        }catch (Exception e){}
+        reloadFields(null);
+        drawToggle();
     }
 
     public void prev(View view){
-        pointer--;
-        if(pointer<0 && objs.length == 0){
-            pointer = null;
-        } else if(pointer<0){
-            pointer++;
+        if(pointer != null) {
+            pointer--;
+            if (pointer < 0 && objs.length == 0) {
+                pointer = null;
+            } else if (pointer < 0) {
+                pointer++;
+            }
+            reloadFields(null);
+            drawToggle();
         }
-        reloadFields(null);
-        drawToggle();
     }
 
     public void next(View view){
@@ -252,28 +267,36 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void delete(View view){
-        pauseSim();
-        new Thread() {
-            @Override
-            public void run() {
-                synchronized (objs) {
-                    if (pointer != null && objs.length != 0) {
-                        for (PhysObj i : objs) {
-                            i.delForce(objs[pointer].hashCode());
+        if (pointer != null && objs.length != 0) {
+            Thread a = new Thread() {
+                @Override
+                public void run() {
+                    synchronized (objs) {
+                        pauseSim();
+                        if (pointer != null && objs.length != 0) {
+                            for (PhysObj i : objs) {
+                                i.delForce(objs[pointer].hashCode());
+                            }
+                            PhysObj[] cutted = new PhysObj[objs.length - 1];
+                            PhysObj[] a = Arrays.copyOf(objs, pointer);
+                            PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
+                            System.arraycopy(a, 0, cutted, 0, a.length);
+                            System.arraycopy(b, 0, cutted, a.length, b.length);
+                            objs = cutted;
+
                         }
-                        PhysObj[] cutted = new PhysObj[objs.length - 1];
-                        PhysObj[] a = Arrays.copyOf(objs, pointer);
-                        PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
-                        System.arraycopy(a, 0, cutted, 0, a.length);
-                        System.arraycopy(b, 0, cutted, a.length, b.length);
-                        objs = cutted;
-                        prev(null);
+                        resumeSim();
                     }
                 }
+            };
+            a.start();
+            try {
+                a.join();
+            } catch (Exception e) {
             }
-        }.start();
-        resumeSim();
-        drawToggle();
+            prev(null);
+            drawToggle();
+        }
     }
 
     public void spCd(View view){
