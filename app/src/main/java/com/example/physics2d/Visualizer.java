@@ -40,7 +40,7 @@ public class Visualizer extends View {
 //                canvas.drawCircle(event.getX(i) - 30, event.getY(i) - 250, 50f, paint);
 //            }
 //        }
-//        MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
+        MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
 //        MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
 //        if(MainActivity.objs.length > 1) {
 //            Vector2D k;

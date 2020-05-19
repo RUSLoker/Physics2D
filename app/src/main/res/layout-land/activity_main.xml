@@ -150,15 +150,34 @@
             </LinearLayout>
         </ScrollView>
 
+    <LinearLayout
+
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
         <Button
             android:id="@+id/set"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginVertical="5dp"
+            android:layout_margin="5dp"
             android:onClick="set"
             android:text="@string/set"
             android:textAlignment="center"
             android:textSize="21sp" />
+        <Button
+            android:id="@+id/clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="5dp"
+            android:onClick="clear"
+            android:text="@string/clear"
+            android:textAlignment="center"
+            android:textSize="21sp" />
+
+        </LinearLayout>
 
         <LinearLayout
 
@@ -188,6 +207,14 @@
                 android:textAlignment="center"
                 android:textSize="21sp" />
         </LinearLayout>
+
+        <EditText
+            android:id="@+id/AddCount"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:inputType="number" />
+
     </LinearLayout>
 
     <Button
@@ -200,25 +227,29 @@
         app:layout_constraintStart_toEndOf="@+id/propMenu"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <LinearLayout
+    <Button
+        android:id="@+id/button"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:orientation="horizontal"
+        android:layout_margin="5dp"
+        android:onClick="toggle"
+        android:text="@string/toggle"
+        android:textAlignment="center"
+        android:textSize="21sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent" />
 
-        <Button
-            android:id="@+id/button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_margin="5dp"
-            android:onClick="toggle"
-            android:text="@string/toggle"
-            android:textAlignment="center"
-            android:textSize="21sp" />
-
-    </LinearLayout>
+    <TextView
+        android:id="@+id/cps"
+        android:layout_width="86dp"
+        android:layout_height="38dp"
+        android:layout_marginLeft="10dp"
+        android:gravity="center_vertical"
+        android:text="TextView"
+        app:layout_constraintBottom_toBottomOf="@+id/button"
+        app:layout_constraintStart_toEndOf="@+id/button"
+        app:layout_constraintTop_toTopOf="@+id/visualizer" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

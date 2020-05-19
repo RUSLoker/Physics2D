@@ -12,4 +12,5 @@
     <string name="pause">Pause</string>
     <string name="toggles">Toggles</string>
     <string name="gravitySwitch">Gravity</string>
+    <string name="clear">Clear</string>
 </resources>

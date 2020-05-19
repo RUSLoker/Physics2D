@@ -13,21 +13,23 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Random;
 
 public class MainActivity extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
-    static Border border = new Border(-10000, 10000, 10000, -10000);
+    static Border border = new Border(-100000, 100000, 100000, -100000);
     static public PhysObj[] objs = new PhysObj[]{};
     Thread myThread = new Thread(MainActivity::vrun);
     static boolean work = false;
     static Integer pointer = null;
     static PhysObj standart = new PhysObj(
-                    new Circle( new Vector2D(500, 500), 100),
-                    100.0
-            );
+            new Circle(new Vector2D(500, 500), 100),
+            100.0
+    );
     static double cps = 0;
     static TextView cpsT;
     static TextView checkerT;
@@ -42,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     boolean scaling = false;
     double pTX = -1;
     double pTY = -1;
+    Thread add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,15 +61,15 @@ public class MainActivity extends AppCompatActivity {
         visulizer.setOnTouchListener(this::moveBody);
     }
 
-    protected void onPause(){
+    protected void onPause() {
         workPrev = work;
         work = false;
         drawToggle();
         super.onPause();
     }
 
-    public void pauseSim(){
-        if(!paused) {
+    public void pauseSim() {
+        if (!paused) {
             paused = true;
             workPrev = work;
             if (work) {
@@ -80,7 +83,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void resumeSim(){
+    public void resumeSim() {
         work = workPrev;
         paused = false;
     }
@@ -107,7 +110,7 @@ public class MainActivity extends AppCompatActivity {
                     if (fastest <= 2) time = gap;
                     else {
                         checker = Math.log(fastest) / log2;
-                        checker = Math.ceil(checker * (Math.pow(1.1, (checker - 150) / 7.2) + 1));
+                        checker = Math.ceil(checker * (Math.pow(1.1, (checker - 5550) / 10) + 1));
 
                         time = Math.pow(2, -checker);
                     }
@@ -152,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     for (PhysObj i : objs) {
                         i.calcAccel();
                         i.move(time);
-                        i.checkBorder(border);
+                        //i.checkBorder(border);
                     }
                     gap = System.nanoTime() - prev;
                     countReal += System.nanoTime() - prev;
@@ -175,29 +178,41 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void toggle(View view){
+    public void toggle(View view) {
         work = !work;
         drawToggle();
     }
 
-    public void drawToggle(){
+    public void drawToggle() {
         Button toggle = (Button) findViewById(R.id.button);
-        if(work){
+        if (work) {
             toggle.setText(R.string.pause);
         } else {
             toggle.setText(R.string.resume);
         }
     }
 
-    public void add(View view){
-        Thread add = new Thread(){
+    public void add(View view) {
+        if (add != null && add.isAlive()) {
+            return;
+        }
+        int count = 1;
+        String str = ((EditText) findViewById(R.id.AddCount)).getText().toString();
+        if (!str.equals("")) {
+            count = Integer.parseInt(str);
+        }
+        int finalCount = count;
+
+        add = new Thread() {
             @Override
-            public void run(){
+            public void run() {
                 synchronized (objs) {
                     pauseSim();
                     pointer = objs.length;
-                    objs = Arrays.copyOf(objs, objs.length + 1);
-                    objs[pointer] = standart.clone();
+                    objs = Arrays.copyOf(objs, objs.length + finalCount);
+                    for (int i = pointer; i < objs.length; i++) {
+                        objs[i] = standart.clone();
+                    }
                     PhysObj a, b;
                     boolean needCheck = true;
                     while (needCheck) {
@@ -210,7 +225,7 @@ public class MainActivity extends AppCompatActivity {
                                     Circle bA, bB;
                                     bA = (Circle) a.getBody();
                                     bB = (Circle) b.getBody();
-                                    if (bA.getCenter().sub(bB.getCenter()).length == 0){
+                                    if (bA.getCenter().sub(bB.getCenter()).length == 0) {
                                         needCheck = true;
                                         Random random = new Random();
                                         Vector2D move = new Vector2D(random.nextDouble(), random.nextDouble()).
@@ -218,9 +233,8 @@ public class MainActivity extends AppCompatActivity {
                                                         bA.getCenter().sub(bB.getCenter()).length) / 2 + 0.1);
                                         bA.move(move);
                                         bB.move(move.reverse());
-                                    }
-                                    else if (bA.getCenter().sub(bB.getCenter()).length <
-                                            bA.getRadius() + bB.getRadius() ) {
+                                    } else if (bA.getCenter().sub(bB.getCenter()).length <
+                                            bA.getRadius() + bB.getRadius()) {
                                         needCheck = true;
                                         Vector2D move = bA.getCenter().sub(bB.getCenter()).
                                                 setLength((bA.getRadius() + bB.getRadius() -
@@ -240,15 +254,10 @@ public class MainActivity extends AppCompatActivity {
             }
         };
         add.start();
-        try {
-            add.join();
-        }catch (Exception e){}
-        reloadFields(null);
-        drawToggle();
     }
 
-    public void prev(View view){
-        if(pointer != null) {
+    public void prev(View view) {
+        if (pointer != null) {
             pointer--;
             if (pointer < 0 && objs.length == 0) {
                 pointer = null;
@@ -260,13 +269,13 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void next(View view){
+    public void next(View view) {
         pointer++;
         reloadFields(null);
         drawToggle();
     }
 
-    public void delete(View view){
+    public void delete(View view) {
         if (pointer != null && objs.length != 0) {
             Thread a = new Thread() {
                 @Override
@@ -297,6 +306,18 @@ public class MainActivity extends AppCompatActivity {
             prev(null);
             drawToggle();
         }
+    }
+
+    public void clear(View view) {
+        if (objs.length != 0) {
+            pauseSim();
+            pointer = null;
+            objs = new PhysObj[]{};
+            resumeSim();
+        }
+        reloadFields(null);
+        drawToggle();
+
     }
 
     public void spCd(View view){

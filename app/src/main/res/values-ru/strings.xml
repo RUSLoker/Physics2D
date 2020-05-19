@@ -13,4 +13,5 @@
     <string name="toggle">Переключить</string>
     <string name="toggles">Переключатели</string>
     <string name="gravitySwitch">Гравитация</string>
+    <string name="clear">Очистить</string>
 </resources>

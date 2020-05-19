@@ -2,6 +2,7 @@ package com.example.physics2d;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;
+import android.os.AsyncTask;
 
 import androidx.annotation.NonNull;
 
