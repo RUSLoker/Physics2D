@@ -27,9 +27,9 @@ public class Visualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for(int i = 0; i < MainActivity.objs.length; i++){
-            PhysObj o = MainActivity.objs[i];
-            if(MainActivity.pointer != null && i == MainActivity.pointer)
+        for (int i = 0; i < MainActivity.objs.size(); i++) {
+            PhysObj o = MainActivity.objs.get(i);
+            if (MainActivity.pointer != null && i == MainActivity.pointer)
                 o.draw(x0, y0, scale, canvas, paintSpec);
             else
                 o.draw(x0, y0, scale, canvas, paint);
@@ -42,7 +42,7 @@ public class Visualizer extends View {
 //        }
         MainActivity.cpsT.setText(String.format("%.3g", MainActivity.cps));
 //        MainActivity.checkerT.setText(Long.toString((long) MainActivity.checker));
-//        if(MainActivity.objs.length > 1) {
+//        if(MainActivity.objs.size() > 1) {
 //            Vector2D k;
 //            if ((k = MainActivity.objs[1].getCenter()).x != 600) {
 //                //System.out.println(123);

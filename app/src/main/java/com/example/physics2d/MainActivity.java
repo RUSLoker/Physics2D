@@ -21,8 +21,8 @@ import java.util.Random;
 public class MainActivity extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
-    static Border border = new Border(-100000, 100000, 100000, -100000);
-    static public PhysObj[] objs = new PhysObj[]{};
+    static Border border = new Border(-1000, 1000, 1000, -1000);
+    static final public ArrayList<PhysObj> objs = new ArrayList<>(10);
     Thread myThread = new Thread(MainActivity::vrun);
     static boolean work = false;
     static Integer pointer = null;
@@ -118,10 +118,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                     PhysObj a, b;
-                    for (int i = 0; i < objs.length; i++) {
-                        a = objs[i];
-                        for (int j = i + 1; j < objs.length; j++) {
-                            b = objs[j];
+                    for (int i = 0; i < objs.size(); i++) {
+                        a = objs.get(i);
+                        for (int j = i + 1; j < objs.size(); j++) {
+                            b = objs.get(j);
                             if (a != null && b != null) {
                                 a.checkCollisions(b, time);
                             } else {
@@ -132,10 +132,10 @@ public class MainActivity extends AppCompatActivity {
 
 
                     if (gravity) {
-                        for (int i = 0; i < objs.length; i++) {
-                            a = objs[i];
-                            for (int j = i + 1; j < objs.length; j++) {
-                                b = objs[j];
+                        for (int i = 0; i < objs.size(); i++) {
+                            a = objs.get(i);
+                            for (int j = i + 1; j < objs.size(); j++) {
+                                b = objs.get(j);
                                 Vector2D force;
                                 Vector2D dist = a.getCenter().sub(b.getCenter());
                                 if (dist.length >= ((Circle) a.getBody()).getRadius() + ((Circle) b.getBody()).getRadius()) {
@@ -155,7 +155,7 @@ public class MainActivity extends AppCompatActivity {
                     for (PhysObj i : objs) {
                         i.calcAccel();
                         i.move(time);
-                        //i.checkBorder(border);
+                        i.checkBorder(border);
                     }
                     gap = System.nanoTime() - prev;
                     countReal += System.nanoTime() - prev;
@@ -208,19 +208,18 @@ public class MainActivity extends AppCompatActivity {
             public void run() {
                 synchronized (objs) {
                     pauseSim();
-                    pointer = objs.length;
-                    objs = Arrays.copyOf(objs, objs.length + finalCount);
-                    for (int i = pointer; i < objs.length; i++) {
-                        objs[i] = standart.clone();
+                    pointer = objs.size();
+                    for (int i = pointer; i < pointer+finalCount; i++) {
+                        objs.add(standart.clone());
                     }
                     PhysObj a, b;
                     boolean needCheck = true;
                     while (needCheck) {
                         needCheck = false;
-                        for (int i = 0; i < objs.length; i++) {
-                            a = objs[i];
-                            for (int j = i + 1; j < objs.length; j++) {
-                                b = objs[j];
+                        for (int i = 0; i < objs.size(); i++) {
+                            a = objs.get(i);
+                            for (int j = i + 1; j < objs.size(); j++) {
+                                b = objs.get(j);
                                 if (a != null && b != null) {
                                     Circle bA, bB;
                                     bA = (Circle) a.getBody();
@@ -259,7 +258,7 @@ public class MainActivity extends AppCompatActivity {
     public void prev(View view) {
         if (pointer != null) {
             pointer--;
-            if (pointer < 0 && objs.length == 0) {
+            if (pointer < 0 && objs.size() == 0) {
                 pointer = null;
             } else if (pointer < 0) {
                 pointer++;
@@ -276,22 +275,17 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void delete(View view) {
-        if (pointer != null && objs.length != 0) {
+        if (pointer != null && objs.size() != 0) {
             Thread a = new Thread() {
                 @Override
                 public void run() {
                     synchronized (objs) {
                         pauseSim();
-                        if (pointer != null && objs.length != 0) {
+                        if (pointer != null && objs.size() != 0) {
                             for (PhysObj i : objs) {
-                                i.delForce(objs[pointer].hashCode());
+                                i.delForce(objs.get(pointer).hashCode());
                             }
-                            PhysObj[] cutted = new PhysObj[objs.length - 1];
-                            PhysObj[] a = Arrays.copyOf(objs, pointer);
-                            PhysObj[] b = Arrays.copyOfRange(objs, pointer + 1, objs.length);
-                            System.arraycopy(a, 0, cutted, 0, a.length);
-                            System.arraycopy(b, 0, cutted, a.length, b.length);
-                            objs = cutted;
+                            objs.remove((int)pointer);
 
                         }
                         resumeSim();
@@ -309,10 +303,10 @@ public class MainActivity extends AppCompatActivity {
     }
 
     public void clear(View view) {
-        if (objs.length != 0) {
+        if (objs.size() != 0) {
             pauseSim();
             pointer = null;
-            objs = new PhysObj[]{};
+            objs.clear();
             resumeSim();
         }
         reloadFields(null);
@@ -355,7 +349,7 @@ public class MainActivity extends AppCompatActivity {
     public void set(View view){
         if(pointer != null) {
             pauseSim();
-            PhysObj cur = objs[pointer];
+            PhysObj cur = objs.get(pointer);
             double size = Double.parseDouble(((EditText) findViewById(R.id.sizeAmount)).getText().toString()),
                     mass = Double.parseDouble(((EditText) findViewById(R.id.massAmount)).getText().toString()),
                     xA = Double.parseDouble(((EditText) findViewById(R.id.xAmount)).getText().toString()),
@@ -436,11 +430,11 @@ public class MainActivity extends AppCompatActivity {
             case MotionEvent.ACTION_DOWN: // нажатие
             {
                 pauseSim();
-                if(objs.length != 0) {
-                    if (MainActivity.pointer == null || !objs[pointer].getBody().isInside(point) && pointerCount == 1) {
+                if(objs.size() != 0) {
+                    if (MainActivity.pointer == null || !objs.get(pointer).getBody().isInside(point) && pointerCount == 1) {
                         boolean touched = false;
-                        for (int i = 0; i < objs.length; i++) {
-                            if (objs[i].getBody().isInside(point)) {
+                        for (int i = 0; i < objs.size(); i++) {
+                            if (objs.get(i).getBody().isInside(point)) {
                                 touched = true;
                                 pointer = i;
                                 reloadFields(null);
@@ -506,9 +500,9 @@ public class MainActivity extends AppCompatActivity {
                         prevLen = length;
                     }
                 }
-                else if(objs.length != 0) {
-                    if (!scaling && pointerCount == 1 && objs[pointer].getBody().isInside(prevP)) {
-                        objs[pointer].getBody().setCenter(point);
+                else if(objs.size() != 0) {
+                    if (!scaling && pointerCount == 1 && objs.get(pointer).getBody().isInside(prevP)) {
+                        objs.get(pointer).getBody().setCenter(point);
                     } else if(pointerCount > 1) {
                         scaling = true;
                         x = event.getX(0);
@@ -520,9 +514,9 @@ public class MainActivity extends AppCompatActivity {
                         double nLen = point1.sub(point2).length;
                         dLen = nLen - prevLen;
                         prevLen = nLen;
-                        double radius = ((Circle) objs[pointer].getBody()).getRadius();
+                        double radius = ((Circle) objs.get(pointer).getBody()).getRadius();
                         if (radius + dLen > 10) {
-                            ((Circle) objs[pointer].getBody()).setRadius(radius + dLen/Visualizer.scale);
+                            ((Circle) objs.get(pointer).getBody()).setRadius(radius + dLen/Visualizer.scale);
                         }
                     }
                 }
@@ -558,7 +552,7 @@ public class MainActivity extends AppCompatActivity {
                 toggle = (Button) findViewById(R.id.button);
 
         if(pointer != null) {
-            PhysObj cur = objs[pointer];
+            PhysObj cur = objs.get(pointer);
             //number.setText(Integer.toString(pointer));
             size.setText(Double.toString(((Circle) cur.getBody()).getRadius()));
             mass.setText(Double.toString(cur.getMass()));
@@ -566,7 +560,7 @@ public class MainActivity extends AppCompatActivity {
             yA.setText(Double.toString(cur.getCenter().y));
             xSpeed.setText(Double.toString(cur.getSpeed().x));
             ySpeed.setText(Double.toString(cur.getSpeed().y));
-//            if (pointer < objs.length - 1) {
+//            if (pointer < objs.size() - 1) {
 //                next.setVisibility(View.VISIBLE);
 //            } else {
 //                next.setVisibility(View.INVISIBLE);
