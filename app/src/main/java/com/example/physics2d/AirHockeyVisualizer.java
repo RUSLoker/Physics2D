@@ -5,6 +5,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.util.AttributeSet;
+import android.view.MotionEvent;
 import android.view.View;
 
 public class AirHockeyVisualizer extends View {
@@ -13,7 +14,7 @@ public class AirHockeyVisualizer extends View {
     Paint paintSpec = new Paint();
     public static double x0 = 0;
     public static double y0 = 0;
-    public static double scale = 0.5;
+    public static double scale = 1;
 
     public AirHockeyVisualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -37,7 +38,7 @@ public class AirHockeyVisualizer extends View {
 //        MotionEvent event = AirHockey.motionEvent;
 //        if(event != null) {
 //            for (int i = 0; i < event.getPointerCount(); i++) {
-//                canvas.drawCircle(event.getX(i) - 30, event.getY(i) - 250, 50f, paint);
+//                canvas.drawCircle(event.getX(i), event.getY(i), 50f, paint);
 //            }
 //        }
 //        AirHockey.checkerT.setText(Long.toString((long) AirHockey.checker));

@@ -1,14 +1,10 @@
 package com.example.physics2d;
 
-import android.animation.AnimatorSet;
-import android.animation.ObjectAnimator;
+import android.app.ActionBar;
+import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.Button;
-import android.widget.CompoundButton;
-import android.widget.EditText;
-import android.widget.Switch;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -19,20 +15,17 @@ import java.util.Random;
 public class AirHockey extends AppCompatActivity {
 
     static double G = 6.67 * Math.pow(10, -11);
-    static Border border = new Border(-1000, 1000, 1000, -1000);
+    static Border border = new Border(0, 1920, 1080, 0);
     static final public ArrayList<PhysObj> objs = new ArrayList<>(10);
-    Thread myThread = new Thread(SimulationActivity::vrun);
+    Thread myThread = new Thread(AirHockey::vrun);
     static boolean work = false;
     static Integer pointer = null;
     static PhysObj standart = new PhysObj(
-            new Circle(new Vector2D(500, 500), 100),
+            new Circle(new Vector2D(800, 1700), 100),
             100.0
     );
     static double cps = 0;
-    static TextView cpsT;
-    static TextView checkerT;
     static double checker;
-    static boolean gravity = false;
     boolean workPrev = work;
     boolean paused = false;
     double prevLen = -1;
@@ -52,6 +45,11 @@ public class AirHockey extends AppCompatActivity {
         View visulizer = findViewById(R.id.visualizer);
         visulizer.setOnTouchListener(this::moveBody);
         add(null);
+        objs.add(new PhysObj(
+                new Circle(new Vector2D(500, 500), 100),
+                100.0
+        ));
+        work = true;
     }
 
     protected void onPause() {
@@ -119,28 +117,6 @@ public class AirHockey extends AppCompatActivity {
                         }
                     }
 
-
-                    if (gravity) {
-                        for (int i = 0; i < objs.size(); i++) {
-                            a = objs.get(i);
-                            for (int j = i + 1; j < objs.size(); j++) {
-                                b = objs.get(j);
-                                Vector2D force;
-                                Vector2D dist = a.getCenter().sub(b.getCenter());
-                                if (dist.length >= ((Circle) a.getBody()).getRadius() + ((Circle) b.getBody()).getRadius()) {
-                                    double forceAbs = G * (a.getMass() * b.getMass())
-                                            / (dist.length * dist.length);
-                                    forceAbs = Double.isInfinite(forceAbs) ? 0 : forceAbs;
-                                    force = dist.setLength(forceAbs);
-                                } else {
-                                    force = Vector2D.zero();
-                                }
-                                a.setForce(b.hashCode(), force.reverse());
-                                b.setForce(a.hashCode(), force);
-                            }
-                        }
-                    }
-
                     for (int i = 0; i < objs.size(); i+= 5){
                         double finalTime = time;
                         int finalI = i;
@@ -151,7 +127,7 @@ public class AirHockey extends AppCompatActivity {
                                     PhysObj cur = objs.get(j);
                                     cur.calcAccel();
                                     cur.move(finalTime);
-                                    //i.checkBorder(border);
+                                    cur.checkBorder(border);
                                 }
                             }
                         }.start();
@@ -300,7 +276,7 @@ public class AirHockey extends AppCompatActivity {
         double x = event.getX(0);
         double y = event.getY(0);
         Vector2D point = new Vector2D(x, y).sub(
-                new Vector2D(Visualizer.x0, Visualizer.y0)).scale(1/Visualizer.scale);
+                new Vector2D(AirHockeyVisualizer.x0, AirHockeyVisualizer.y0)).scale(1/AirHockeyVisualizer.scale);
         motionEvent = event;
 
 
@@ -309,7 +285,7 @@ public class AirHockey extends AppCompatActivity {
             {
                 pauseSim();
                 if(objs.size() != 0) {
-                    if (SimulationActivity.pointer == null || !objs.get(pointer).getBody().isInside(point) && pointerCount == 1) {
+                    if (AirHockey.pointer == null || !objs.get(pointer).getBody().isInside(point) && pointerCount == 1) {
                         boolean touched = false;
                         for (int i = 0; i < objs.size(); i++) {
                             if (objs.get(i).getBody().isInside(point)) {
@@ -331,7 +307,7 @@ public class AirHockey extends AppCompatActivity {
             }
             case MotionEvent.ACTION_POINTER_DOWN:
             case MotionEvent.ACTION_POINTER_UP: {
-                if(SimulationActivity.pointer != null && pointerCount > 1) {
+                if(AirHockey.pointer != null && pointerCount > 1) {
                     x = event.getX(0);
                     y = event.getY(0);
                     Vector2D point1 = new Vector2D(x, y);
@@ -344,59 +320,23 @@ public class AirHockey extends AppCompatActivity {
             }
             case MotionEvent.ACTION_MOVE: // движение
             {
-                if(SimulationActivity.pointer == null){
-                    //Field moving
-                    if(pointerCount == 1 && !scaling) {
-                        if (pTX == -1 || pTY == -1) {
-                            pTX = x;
-                            pTY = y;
-                        } else {
-                            Visualizer.x0 += (x - pTX);
-                            Visualizer.y0 += (y - pTY);
-                            pTX = x;
-                            pTY = y;
-                        }
-                    } else if(pointerCount > 1){
-                        //Zooming
-                        scaling = true;
-                        Vector2D
-                                p1 = new Vector2D(event.getX(0), event.getY(0)),
-                                p2 = new Vector2D(event.getX(1), event.getY(1)),
-                                mean = Vector2D.mean(p1, p2).sub(
-                                        new Vector2D(Visualizer.x0, Visualizer.y0));
-                        double length = p1.sub(p2).length;
-                        if(prevLen == -1){
-                            prevLen = length;
-                        }
-                        double sp = Visualizer.scale;
-                        if(Visualizer.scale + 0.004 * (length - prevLen) > 0.01)
-                            Visualizer.scale += 0.004 * (length - prevLen);
-                        double delta = sp/Visualizer.scale;
-                        mean = mean.sub(mean.scale(delta));
-                        Visualizer.x0 -= mean.x;
-                        Visualizer.y0 -= mean.y;
-                        prevLen = length;
-                    }
-                }
+                if(AirHockey.pointer == null);
                 else if(objs.size() != 0) {
-                    if (!scaling && pointerCount == 1 && objs.get(pointer).getBody().isInside(prevP)) {
-
+                    if (pointerCount == 1 && objs.get(pointer).getBody().isInside(prevP)) {
                         objs.get(pointer).getBody().setCenter(point);
                     } else if(pointerCount > 1) {
-                        scaling = true;
                         x = event.getX(0);
                         y = event.getY(0);
-                        Vector2D point1 = new Vector2D(x, y);
+                        Vector2D point1 = new Vector2D(x, y).sub(
+                                new Vector2D(AirHockeyVisualizer.x0, AirHockeyVisualizer.y0)).scale(1/AirHockeyVisualizer.scale);
                         x = event.getX(1);
                         y = event.getY(1);
-                        Vector2D point2 = new Vector2D(x, y);
-                        double nLen = point1.sub(point2).length;
-                        dLen = nLen - prevLen;
-                        prevLen = nLen;
-                        double radius = ((Circle) objs.get(pointer).getBody()).getRadius();
-                        if (radius + dLen > 10) {
-                            ((Circle) objs.get(pointer).getBody()).setRadius(radius + dLen/Visualizer.scale);
-                        }
+                        Vector2D point2 = new Vector2D(x, y).sub(
+                                new Vector2D(AirHockeyVisualizer.x0, AirHockeyVisualizer.y0)).scale(1/AirHockeyVisualizer.scale);
+                        objs.get(0).getBody().setCenter(point1);
+                        objs.get(0).checkBorder(border);
+                        objs.get(1).getBody().setCenter(point2);
+                        objs.get(1).checkBorder(border);
                     }
                 }
                 prevP = point;
