@@ -28,12 +28,14 @@ public class AirHockeyVisualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < AirHockey.objs.size(); i++) {
-            PhysObj o = AirHockey.objs.get(i);
-            if (AirHockey.pointer != null && i == AirHockey.pointer)
-                o.draw(x0, y0, scale, canvas, paintSpec);
-            else
-                o.draw(x0, y0, scale, canvas, paint);
+        for (int i = 0; i < AirHockey.objs.length; i++) {
+            PhysObj o = AirHockey.objs[i];
+            if (o != null) {
+                if (AirHockey.pointer != null && i == AirHockey.pointer)
+                    o.draw(x0, y0, scale, canvas, paintSpec);
+                else
+                    o.draw(x0, y0, scale, canvas, paint);
+            }
         }
 //        MotionEvent event = AirHockey.motionEvent;
 //        if(event != null) {
