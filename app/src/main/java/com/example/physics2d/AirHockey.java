@@ -19,10 +19,6 @@ public class AirHockey extends AppCompatActivity {
     Thread myThread = new Thread(AirHockey::vrun);
     static boolean work = false;
     static Integer pointer = null;
-    static PhysObj standart = new PhysObj(
-            new Circle(new Vector2D(800, 1700), 100),
-            100.0
-    );
     static double cps = 0;
     static double checker;
     boolean workPrev = work;
@@ -34,7 +30,6 @@ public class AirHockey extends AppCompatActivity {
     boolean scaling = false;
     double pTX = -1;
     double pTY = -1;
-    Thread add;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
