@@ -2,9 +2,10 @@ package com.example.physics2d;
 
 public class Manipulator {
     private Vector2D stPos, deltaVector;
-    private final static double maxLen = 100;
+    private final static double maxLen = 300;
     private boolean started;
     Manipulator(){
+        deltaVector = Vector2D.zero();
         started = false;
     }
 
@@ -23,11 +24,13 @@ public class Manipulator {
     void calcDelta(Vector2D p) throws Exception {
         if (!started)
             throw new Exception("You may call set() method before calculating delta Vector");
-        if (p.length < maxLen) {
-            deltaVector = p.sub(stPos).scale(1 / maxLen);
+        Vector2D lenVector = p.sub(stPos);
+        if (lenVector.length < maxLen) {
+            deltaVector = lenVector.scale(1 / maxLen);
         } else {
-            deltaVector = p.sub(stPos).normalize();
+            deltaVector = lenVector.normalize();
         }
+        System.out.println(deltaVector.length + " " + lenVector.length);
     }
 
     Vector2D getDelta(){
@@ -35,7 +38,8 @@ public class Manipulator {
     }
 
     Vector2D getManipPoint(){
-        return stPos.add(deltaVector.scale(maxLen));
+        if (started) return stPos.add(deltaVector.scale(maxLen));
+        else return null;
     }
 
     Vector2D getStPos(){
