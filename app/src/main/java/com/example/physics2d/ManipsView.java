@@ -10,6 +10,7 @@ import android.view.View;
 public class ManipsView extends View {
     Paint paint = new Paint();
     Paint paintSpec = new Paint();
+    boolean created = false;
 
     public ManipsView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -23,6 +24,11 @@ public class ManipsView extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
+        if(!created) {
+            AirHockey.vCenter = getHeight() / 2;
+            AirHockey.hCenter = getWidth() / 2;
+            created = true;
+        }
         for (Manipulator i : AirHockey.manips){
             Vector2D st = i.getStPos(),
                     fin = i.getManipPoint();
