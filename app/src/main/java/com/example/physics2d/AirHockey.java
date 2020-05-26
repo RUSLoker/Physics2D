@@ -26,7 +26,7 @@ public class AirHockey extends AppCompatActivity {
     boolean workPrev = work;
     boolean paused = false;
     public static MotionEvent motionEvent = null;
-    static final double maxSpeed = 10;
+    static final double maxSpeed = 2300;
     int[] nums = {-1, -1};
     public static int vCenter = 0, hCenter = 0;
 
@@ -38,16 +38,16 @@ public class AirHockey extends AppCompatActivity {
         View visulizer = findViewById(R.id.manips);
         visulizer.setOnTouchListener(this::moveBody);
         objs[0] = new PhysObj(
-                new Circle(new Vector2D(500, 500), 100),
+                new Circle(new Vector2D(200, 540), 100),
                 100.0
         );
         objs[1] = new PhysObj(
-                new Circle(new Vector2D(1500, 500), 100),
+                new Circle(new Vector2D(1720, 540), 100),
                 100.0
         );
         objs[2] = new PhysObj(
-                new Circle(new Vector2D(1000, 500), 70),
-                10.0
+                new Circle(new Vector2D(960, 540), 70),
+        10.0
         );
         manips[0] = new Manipulator();
         manips[1] = new Manipulator();
@@ -90,6 +90,7 @@ public class AirHockey extends AppCompatActivity {
         while (true) {
             if (work) {
                 synchronized (objs) {
+                    time = ((double) gap) / 1000000000;
                     objs[0].setVelocity(manips[0].getDelta().scale(maxSpeed));
                     objs[1].setVelocity(manips[1].getDelta().scale(maxSpeed));
                     objs[0].checkBorder(border0);

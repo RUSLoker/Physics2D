@@ -9,7 +9,7 @@
         android:id="@+id/visualizer"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:background="@drawable/ic_svg_editor_image"
+        android:background="@drawable/ic_air_hockey_field"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="16:9"
         app:layout_constraintEnd_toEndOf="parent"
