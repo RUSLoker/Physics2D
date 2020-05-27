@@ -21,7 +21,6 @@ public class AirHockey extends AppCompatActivity {
     static final public Manipulator[] manips = new  Manipulator[2];
     Thread myThread = new Thread(AirHockey::vrun);
     static boolean work = false;
-    static Integer pointer = null;
     static double cps = 0;
     boolean workPrev = work;
     boolean paused = false;
@@ -29,12 +28,12 @@ public class AirHockey extends AppCompatActivity {
     static final double maxSpeed = 2300;
     int[] nums = {-1, -1};
     public static int vCenter = 0, hCenter = 0;
+    static boolean cycleF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.air_hockey);
-        myThread.start();
         View visulizer = findViewById(R.id.manips);
         visulizer.setOnTouchListener(this::moveBody);
         objs[0] = new PhysObj(
@@ -52,11 +51,18 @@ public class AirHockey extends AppCompatActivity {
         manips[0] = new Manipulator();
         manips[1] = new Manipulator();
         work = true;
+        cycleF = true;
+        myThread.start();
     }
 
+    @Override
     protected void onPause() {
-        workPrev = work;
-        work = false;
+        cycleF = false;
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
         super.onPause();
     }
 
@@ -87,7 +93,7 @@ public class AirHockey extends AppCompatActivity {
         double countSim = 0;
         double log2 = Math.log(2);
         long prev = 0;
-        while (true) {
+        while (cycleF) {
             if (work) {
                 synchronized (objs) {
                     time = ((double) gap) / 1000000000;

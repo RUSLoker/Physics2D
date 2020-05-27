@@ -13,4 +13,6 @@
     <string name="toggles">Toggles</string>
     <string name="gravitySwitch">Gravity</string>
     <string name="clear">Clear</string>
+    <string name="new_game">New game</string>
+    <string name="about">About</string>
 </resources>

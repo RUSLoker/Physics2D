@@ -14,4 +14,6 @@
     <string name="toggles">Переключатели</string>
     <string name="gravitySwitch">Гравитация</string>
     <string name="clear">Очистить</string>
+    <string name="new_game">Новая игра</string>
+    <string name="about">О приложении</string>
 </resources>

@@ -31,10 +31,7 @@ public class AirHockeyVisualizer extends View {
         for (int i = 0; i < AirHockey.objs.length; i++) {
             PhysObj o = AirHockey.objs[i];
             if (o != null) {
-                if (AirHockey.pointer != null && i == AirHockey.pointer)
-                    o.draw(x0, y0, scale, canvas, paintSpec);
-                else
-                    o.draw(x0, y0, scale, canvas, paint);
+                o.draw(x0, y0, scale, canvas, paint);
             }
         }
 //        MotionEvent event = AirHockey.motionEvent;
