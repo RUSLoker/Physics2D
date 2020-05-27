@@ -16,6 +16,10 @@ public abstract class Figure2D extends Collision implements Cloneable {
     public abstract void rotate(double angle ,Vector2D point);
     public abstract double perimeter();
     public abstract double square();
+    public abstract double getLeft();
+    public abstract double getUp();
+    public abstract double getDown();
+    public abstract double getRight();
     @Override
     public abstract Figure2D clone();
     public abstract void setCenter(Vector2D point);

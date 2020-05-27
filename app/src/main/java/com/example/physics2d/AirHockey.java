@@ -15,6 +15,8 @@ import java.util.Random;
 public class AirHockey extends AppCompatActivity {
 
     static Border border = new Border(0, 1920, 1080, 0);
+    static Border borderGoal = new Border(-500, 2420, 805, 275);
+    static Border borderStandard = new Border(0, 1920, 1080, 0);
     static Border border0 = new Border(0, 960, 1080, 0);
     static Border border1 = new Border(960, 1920, 1080, 0);
     static final public PhysObj[] objs = new PhysObj[3];
@@ -52,6 +54,7 @@ public class AirHockey extends AppCompatActivity {
         manips[1] = new Manipulator();
         work = true;
         cycleF = true;
+        border = borderStandard;
         myThread.start();
     }
 
@@ -119,7 +122,34 @@ public class AirHockey extends AppCompatActivity {
                             cur.move(time);
                         }
                     }
-                    objs[2].checkBorder(border);
+                    if (objs[2].getBody().getLeft() < borderStandard.L &&
+                            (
+                                (objs[2].getBody().getDown() < borderGoal.U
+                                && objs[2].getBody().getUp() >= borderGoal.U
+                                && objs[2].getSpeed().x <= 0
+                                && objs[2].getCenter().y < borderGoal.U)
+                                || (objs[2].getBody().getDown() <= borderGoal.D
+                                && objs[2].getBody().getUp() > borderGoal.D
+                                && objs[2].getSpeed().x <= 0
+                                && objs[2].getCenter().y > borderGoal.D)
+                                || (objs[2].getBody().getDown() > borderGoal.D
+                                && objs[2].getBody().getUp() < borderGoal.U)
+                            ) ||
+                            objs[2].getBody().getRight() > borderStandard.R &&
+                                    (
+                                            (objs[2].getBody().getDown() < borderGoal.U
+                                                    && objs[2].getBody().getUp() >= borderGoal.U
+                                                    && objs[2].getSpeed().x >= 0)
+                                                    || (objs[2].getBody().getDown() <= borderGoal.D
+                                                    && objs[2].getBody().getUp() > borderGoal.D
+                                                    && objs[2].getSpeed().x >= 0)
+                                                    || (objs[2].getBody().getDown() > borderGoal.D
+                                                    && objs[2].getBody().getUp() < borderGoal.U)
+                                    )
+                    )border = borderGoal;
+                    if(objs[2] != null) {
+                        objs[2].checkBorder(border);
+                    }
                     objs[0].checkBorder(border0);
                     objs[1].checkBorder(border1);
                     gap = System.nanoTime() - prev;

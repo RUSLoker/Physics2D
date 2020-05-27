@@ -126,6 +126,26 @@ public class Polygon extends Figure2D {
     }
 
     @Override
+    public double getLeft() {
+        return 0;
+    }
+
+    @Override
+    public double getUp() {
+        return 0;
+    }
+
+    @Override
+    public double getDown() {
+        return 0;
+    }
+
+    @Override
+    public double getRight() {
+        return 0;
+    }
+
+    @Override
     public Polygon clone(){
         return new Polygon(vertexes.clone(), center);
     }

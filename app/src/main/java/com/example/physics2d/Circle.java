@@ -123,6 +123,26 @@ public class Circle extends Figure2D {
     }
 
     @Override
+    public double getLeft() {
+        return center.x - radius;
+    }
+
+    @Override
+    public double getUp() {
+        return center.y + radius;
+    }
+
+    @Override
+    public double getDown() {
+        return center.y - radius;
+    }
+
+    @Override
+    public double getRight() {
+        return center.x + radius;
+    }
+
+    @Override
     public Figure2D clone() {
         return new Circle(center.clone(), radius);
     }
