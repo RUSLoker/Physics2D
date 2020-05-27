@@ -5,6 +5,7 @@ import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,10 +16,19 @@ import java.util.Random;
 public class AirHockey extends AppCompatActivity {
 
     static Border border = new Border(0, 1920, 1080, 0);
-    static Border borderGoal = new Border(-500, 2420, 805, 275);
-    static Border borderStandard = new Border(0, 1920, 1080, 0);
-    static Border border0 = new Border(0, 960, 1080, 0);
-    static Border border1 = new Border(960, 1920, 1080, 0);
+    static final Border borderGoal = new Border(-500, 2420, 805, 275);
+    static final Border borderStandard = new Border(0, 1920, 1080, 0);
+    static final Border border0 = new Border(0, 960, 1080, 0);
+    static final Border border1 = new Border(960, 1920, 1080, 0);
+    static final PhysObj pluckLeft = new PhysObj(
+            new Circle(new Vector2D(500, 540), 70),
+            10.0
+    );
+    static final PhysObj pluckRight = new PhysObj(
+            new Circle(new Vector2D(1420, 540), 70),
+            10.0
+    );
+
     static final public PhysObj[] objs = new PhysObj[3];
     static final public Manipulator[] manips = new  Manipulator[2];
     Thread myThread = new Thread(AirHockey::vrun);
@@ -31,6 +41,8 @@ public class AirHockey extends AppCompatActivity {
     int[] nums = {-1, -1};
     public static int vCenter = 0, hCenter = 0;
     static boolean cycleF;
+    static GameCounter game = new GameCounter();
+    static AirHockey airHockey;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +50,11 @@ public class AirHockey extends AppCompatActivity {
         setContentView(R.layout.air_hockey);
         View visulizer = findViewById(R.id.manips);
         visulizer.setOnTouchListener(this::moveBody);
+        setDefault();
+        myThread.start();
+    }
+
+    void setDefault(){
         objs[0] = new PhysObj(
                 new Circle(new Vector2D(200, 540), 100),
                 100.0
@@ -46,16 +63,17 @@ public class AirHockey extends AppCompatActivity {
                 new Circle(new Vector2D(1720, 540), 100),
                 100.0
         );
-        objs[2] = new PhysObj(
-                new Circle(new Vector2D(960, 540), 70),
-        10.0
-        );
+        if (game.getCurrentTurn() == Player.First){
+            objs[2] = pluckLeft.clone();
+        } else if(game.getCurrentTurn() == Player.Second) {
+            objs[2] = pluckRight.clone();
+        }
         manips[0] = new Manipulator();
         manips[1] = new Manipulator();
         work = true;
         cycleF = true;
         border = borderStandard;
-        myThread.start();
+        airHockey = this;
     }
 
     @Override
@@ -122,6 +140,7 @@ public class AirHockey extends AppCompatActivity {
                             cur.move(time);
                         }
                     }
+
                     if (objs[2].getBody().getLeft() < borderStandard.L &&
                             (
                                 (objs[2].getBody().getDown() < borderGoal.U
@@ -147,11 +166,21 @@ public class AirHockey extends AppCompatActivity {
                                                     && objs[2].getBody().getUp() < borderGoal.U)
                                     )
                     )border = borderGoal;
+
                     if(objs[2] != null) {
                         objs[2].checkBorder(border);
                     }
                     objs[0].checkBorder(border0);
                     objs[1].checkBorder(border1);
+
+                    if(objs[2].getCenter().x < -100){
+                        game.goal(Player.Second);
+                        airHockey.changeGame();
+                    }else if(objs[2].getCenter().x > 2020){
+                        game.goal(Player.First);
+                        airHockey.changeGame();
+                    }
+
                     gap = System.nanoTime() - prev;
                     countReal += System.nanoTime() - prev;
                     countSim += time * 1000000000;
@@ -175,6 +204,10 @@ public class AirHockey extends AppCompatActivity {
 
     public void toggle(View view) {
         work = !work;
+    }
+
+    public void changeGame(){
+        setDefault();
     }
 
     public boolean moveBody(View v, MotionEvent event){
