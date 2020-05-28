@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string name="app_name">Physics2D</string>
+    <string name="app_name">Хоккей 2D</string>
     <string name="add">Добавить</string>
     <string name="coords">Координаты</string>
     <string name="delete">Удалить</string>

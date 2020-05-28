@@ -11,6 +11,7 @@ public class ManipsView extends View {
     Paint paint = new Paint();
     Paint paintSpec = new Paint();
     boolean created = false;
+    Vector2D vCenter, hCenter;
 
     public ManipsView(Context context, AttributeSet attrs) {
         super(context, attrs);
@@ -25,14 +26,18 @@ public class ManipsView extends View {
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
         if(!created) {
-            AirHockey.vCenter = getHeight() / 2;
-            AirHockey.hCenter = getWidth() / 2;
+            vCenter = new Vector2D(0,getHeight() / 2);
+            hCenter = new Vector2D(getWidth() / 2, 0);
             created = true;
         }
-        for (Manipulator i : AirHockey.manips){
-            Vector2D st = i.getStPos(),
-                    fin = i.getManipPoint();
+        for (int i = 0; i < AirHockey.manips.length; i++){
+            Vector2D st = AirHockey.manips[i].getStPos(),
+                    fin = AirHockey.manips[i].getManipPoint();
             if(st != null && fin != null) {
+                if(i == 1){
+                    st = st.add(hCenter);
+                    fin = fin.add(hCenter);
+                }
                 canvas.drawCircle(
                         (float) st.x,
                         (float) st.y,

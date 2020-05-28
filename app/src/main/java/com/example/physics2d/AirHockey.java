@@ -38,23 +38,30 @@ public class AirHockey extends AppCompatActivity {
     boolean paused = false;
     public static MotionEvent motionEvent = null;
     static final double maxSpeed = 2300;
-    int[] nums = {-1, -1};
-    public static int vCenter = 0, hCenter = 0;
     static boolean cycleF;
     static GameCounter game = new GameCounter();
     static AirHockey airHockey;
+    static TextView scoreFirst, scoreSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.air_hockey);
-        View visulizer = findViewById(R.id.manips);
-        visulizer.setOnTouchListener(this::moveBody);
+        scoreFirst = findViewById(R.id.scoreFirst);
+        scoreSecond = findViewById(R.id.scoreSecond);
+        View manip1 = findViewById(R.id.manip1);
+        View manip2 = findViewById(R.id.manip2);
+        manip1.setOnTouchListener(this::moveBody);
+        manip2.setOnTouchListener(this::moveBody);
+        game = new GameCounter();
         setDefault();
         myThread.start();
     }
 
     void setDefault(){
+        if(!game.isPlaying()){
+            game = new GameCounter();
+        }
         objs[0] = new PhysObj(
                 new Circle(new Vector2D(200, 540), 100),
                 100.0
@@ -211,85 +218,37 @@ public class AirHockey extends AppCompatActivity {
     }
 
     public boolean moveBody(View v, MotionEvent event){
-        int pointerCount = event.getPointerCount();
         double x = event.getX(0);
         double y = event.getY(0);
         Vector2D point = new Vector2D(x, y);
         motionEvent = event;
+        int num = Integer.parseInt((String) v.getTag());
 
         switch (event.getActionMasked()) {
-            case MotionEvent.ACTION_POINTER_UP:
-                manips[0].unSet();
-                manips[1].unSet();
-                nums = new int[]{-1, -1};
-                if(pointerCount > 1){
-                    if(x > hCenter) {
-                        manips[1].set(point);
-                        nums[1] = 0;
-                    } else {
-                        manips[0].set(point);
-                        nums[0] = 0;
-                    }
-                    x = event.getX(1);
-                    y = event.getY(1);
-                    point = new Vector2D(x, y);
-                    if(nums[0] == -1) {
-                        manips[0].set(point);
-                        nums[0] = 1;
-                    } else {
-                        manips[1].set(point);
-                        nums[1] = 1;
-                    }
-                    break;
-                }
             case MotionEvent.ACTION_DOWN: // нажатие
-                if(x > hCenter) {
-                    manips[1].set(point);
-                    nums[1] = 0;
-                } else {
+                if(num == 1) {
                     manips[0].set(point);
-                    nums[0] = 0;
-                }
-                break;
-            case MotionEvent.ACTION_POINTER_DOWN:
-                if(pointerCount <= 2){
-                    x = event.getX(1);
-                    y = event.getY(1);
-                    point = new Vector2D(x, y);
-                    if(nums[0] == -1) {
-                        manips[0].set(point);
-                        nums[0] = 1;
-                    } else {
-                        manips[1].set(point);
-                        nums[1] = 1;
-                    }
+                } else if(num == 2) {
+                    manips[1].set(point);
                 }
                 break;
             case MotionEvent.ACTION_MOVE: // движение
                 try {
-                    if (nums[0] != -1) {
-                        x = event.getX(nums[0]);
-                        y = event.getY(nums[0]);
-                        point = new Vector2D(x, y);
+                    if (num == 1) {
                         manips[0].calcDelta(point);
-                    }
-                } catch (Exception ignored) {}
-
-                try {
-                    if (nums[1] != -1) {
-                        x = event.getX(nums[1]);
-                        y = event.getY(nums[1]);
-                        point = new Vector2D(x, y);
+                    } else if (num == 2) {
                         manips[1].calcDelta(point);
                     }
-                } catch (Exception ignored) { }
+                } catch (Exception ignored) {}
                 break;
 
             case MotionEvent.ACTION_UP: // отпускание
             case MotionEvent.ACTION_CANCEL:
-                manips[0].unSet();
-                manips[1].unSet();
-                nums = new int[]{-1, -1};
+                if(num == 1) {
+                    manips[0].unSet();
+                } else if(num == 2) {
+                    manips[1].unSet();
+                }
                 break;
         }
         return true;

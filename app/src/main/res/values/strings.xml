@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Physics2D</string>
+    <string name="app_name">Hockey 2D</string>
     <string name="toggle">Toggle</string>
     <string name="size">Size</string>
     <string name="mass">Mass</string>

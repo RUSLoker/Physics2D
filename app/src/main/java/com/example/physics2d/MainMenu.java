@@ -18,12 +18,9 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu);
         context = this;
         Button newGame = findViewById(R.id.new_game);
-        newGame.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startGame = new Intent(context, AirHockey.class);
-                startActivity(startGame);
-            }
+        newGame.setOnClickListener(v -> {
+            startGame = new Intent(context, AirHockey.class);
+            startActivity(startGame);
         });
     }
 }

@@ -34,19 +34,8 @@ public class AirHockeyVisualizer extends View {
                 o.draw(x0, y0, scale, canvas, paint);
             }
         }
-//        MotionEvent event = AirHockey.motionEvent;
-//        if(event != null) {
-//            for (int i = 0; i < event.getPointerCount(); i++) {
-//                canvas.drawCircle(event.getX(i), event.getY(i), 50f, paint);
-//            }
-//        }
-//        AirHockey.checkerT.setText(Long.toString((long) AirHockey.checker));
-//        if(AirHockey.objs.size() > 1) {
-//            Vector2D k;
-//            if ((k = AirHockey.objs[1].getCenter()).x != 600) {
-//                //System.out.println(123);
-//            }
-//        }
+        AirHockey.scoreFirst.setText(Integer.toString(AirHockey.game.getFirstScore()));
+        AirHockey.scoreSecond.setText(Integer.toString(AirHockey.game.getSecondScore()));
         invalidate();
     }
 
