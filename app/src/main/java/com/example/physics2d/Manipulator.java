@@ -30,7 +30,6 @@ public class Manipulator {
         } else {
             deltaVector = lenVector.normalize();
         }
-        System.out.println(deltaVector.length + " " + lenVector.length);
     }
 
     Vector2D getDelta(){

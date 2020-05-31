@@ -18,6 +18,7 @@ public class AirHockey extends AppCompatActivity {
     static Border border = new Border(0, 1920, 1080, 0);
     static final Border borderGoal = new Border(-500, 2420, 805, 275);
     static final Border borderStandard = new Border(0, 1920, 1080, 0);
+    static final Border borderWide = new Border(-500, 2920, 2080, -500);
     static final Border border0 = new Border(0, 960, 1080, 0);
     static final Border border1 = new Border(960, 1920, 1080, 0);
     static final PhysObj pluckLeft = new PhysObj(
@@ -30,6 +31,7 @@ public class AirHockey extends AppCompatActivity {
     );
 
     static final public PhysObj[] objs = new PhysObj[3];
+    static final public PhysObj[] goalCorner = new PhysObj[4];
     static final public Manipulator[] manips = new  Manipulator[2];
     Thread myThread = new Thread(AirHockey::vrun);
     static boolean work = false;
@@ -54,6 +56,8 @@ public class AirHockey extends AppCompatActivity {
         manip1.setOnTouchListener(this::moveBody);
         manip2.setOnTouchListener(this::moveBody);
         game = new GameCounter();
+        manips[0] = new Manipulator();
+        manips[1] = new Manipulator();
         setDefault();
         myThread.start();
     }
@@ -75,8 +79,22 @@ public class AirHockey extends AppCompatActivity {
         } else if(game.getCurrentTurn() == Player.Second) {
             objs[2] = pluckRight.clone();
         }
-        manips[0] = new Manipulator();
-        manips[1] = new Manipulator();
+        goalCorner[0] = new PhysObj(
+                new Circle(new Vector2D(borderStandard.L-15, borderGoal.U+15), 15),
+                100000000.0
+        );
+        goalCorner[1] = new PhysObj(
+                new Circle(new Vector2D(borderStandard.L-15, borderGoal.D-15), 15),
+                100000000.0
+        );
+        goalCorner[2] = new PhysObj(
+                new Circle(new Vector2D(borderStandard.R+15, borderGoal.U+15), 15),
+                100000000.0
+        );
+        goalCorner[3] = new PhysObj(
+                new Circle(new Vector2D(borderStandard.R+15, borderGoal.D-15), 15),
+                100000000.0
+        );
         work = true;
         cycleF = true;
         border = borderStandard;
@@ -125,6 +143,7 @@ public class AirHockey extends AppCompatActivity {
             if (work) {
                 synchronized (objs) {
                     time = ((double) gap) / 1000000000;
+                    if(time > 0.01) time = 0.01;
                     objs[0].setVelocity(manips[0].getDelta().scale(maxSpeed));
                     objs[1].setVelocity(manips[1].getDelta().scale(maxSpeed));
                     objs[0].checkBorder(border0);
@@ -155,31 +174,35 @@ public class AirHockey extends AppCompatActivity {
                             objs[2].getBody().getDown() > borderGoal.D
                             && objs[2].getBody().getUp() < borderGoal.U)
                     )border = borderGoal;
-//                    if (objs[2].getBody().getLeft() < borderStandard.L &&
-//                            (
-//                                (objs[2].getBody().getDown() < borderGoal.U
-//                                && objs[2].getBody().getUp() >= borderGoal.U
-//                                && objs[2].getSpeed().x <= 0
-//                                && objs[2].getCenter().y < borderGoal.U)
-//                                || (objs[2].getBody().getDown() <= borderGoal.D
-//                                && objs[2].getBody().getUp() > borderGoal.D
-//                                && objs[2].getSpeed().x <= 0
-//                                && objs[2].getCenter().y > borderGoal.D)
-//                                || (objs[2].getBody().getDown() > borderGoal.D
-//                                && objs[2].getBody().getUp() < borderGoal.U)
-//                            ) ||
-//                            objs[2].getBody().getRight() > borderStandard.R &&
-//                                    (
-//                                            (objs[2].getBody().getDown() < borderGoal.U
-//                                                    && objs[2].getBody().getUp() >= borderGoal.U
-//                                                    && objs[2].getSpeed().x >= 0)
-//                                                    || (objs[2].getBody().getDown() <= borderGoal.D
-//                                                    && objs[2].getBody().getUp() > borderGoal.D
-//                                                    && objs[2].getSpeed().x >= 0)
-//                                                    || (objs[2].getBody().getDown() > borderGoal.D
-//                                                    && objs[2].getBody().getUp() < borderGoal.U)
-//                                    )
-//                    )border = borderGoal;
+                    else if (objs[2].getBody().getLeft() < borderStandard.L &&
+                            (
+                                (objs[2].getBody().getDown() < borderGoal.U
+                                && objs[2].getBody().getUp() >= borderGoal.U
+                                && objs[2].getSpeed().x <= 0
+                                && objs[2].getCenter().y < borderGoal.U)
+                                || (objs[2].getBody().getDown() <= borderGoal.D
+                                && objs[2].getBody().getUp() > borderGoal.D
+                                && objs[2].getSpeed().x <= 0
+                                && objs[2].getCenter().y > borderGoal.D)
+                            ) ||
+                            objs[2].getBody().getRight() > borderStandard.R &&
+                                    (
+                                            (objs[2].getBody().getDown() < borderGoal.U
+                                                    && objs[2].getBody().getUp() >= borderGoal.U
+                                                    && objs[2].getSpeed().x >= 0)
+                                                    || (objs[2].getBody().getDown() <= borderGoal.D
+                                                    && objs[2].getBody().getUp() > borderGoal.D
+                                                    && objs[2].getSpeed().x >= 0)
+                                    )
+                    ) {
+                        border = borderWide;
+                        for (PhysObj physObj : goalCorner) {
+                            a = physObj;
+                            a.checkCollisions(objs[2], time);
+                        }
+                    } else {
+                        border = borderStandard;
+                    }
 
                     if(objs[2] != null) {
                         objs[2].checkBorder(border);
