@@ -17,6 +17,6 @@
     <string name="new_game">Новая игра</string>
     <string name="about">О приложении</string>
     <string name="restart">Заново</string>
-    <string name="blueWins">Синий выиграл!!!</string>
-    <string name="redWins">Красный выиграл!!!</string>
+    <string name="blueWins">Синий победил</string>
+    <string name="redWins">Красный победил</string>
 </resources>

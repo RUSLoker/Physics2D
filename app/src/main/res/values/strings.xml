@@ -16,6 +16,6 @@
     <string name="new_game">New game</string>
     <string name="about">About</string>
     <string name="restart">Restart</string>
-    <string name="blueWins">Blue wins!!!</string>
-    <string name="redWins">Red wins!!!</string>
+    <string name="blueWins">Blue wins</string>
+    <string name="redWins">Red wins</string>
 </resources>
