@@ -1,5 +1,6 @@
 package com.example.physics2d;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
@@ -30,8 +31,6 @@ public class AirHockey extends AppCompatActivity {
     Thread myThread = new Thread(AirHockey::vrun);
     static boolean work = false;
     static double cps = 0;
-    boolean workPrev = work;
-    boolean paused = false;
     public static MotionEvent motionEvent = null;
     static final double maxBatSpeed = 2300;
     static final double maxPluckSpeed = 2900;
@@ -69,9 +68,9 @@ public class AirHockey extends AppCompatActivity {
                 new Circle(new Vector2D(1720, 540), 100),
                 100.0
         );
-        if (game.getCurrentTurn() == Player.First){
+        if (game.getCurrentTurn() == Player.Blue){
             objs[2] = pluckLeft.clone();
-        } else if(game.getCurrentTurn() == Player.Second) {
+        } else if(game.getCurrentTurn() == Player.Red) {
             objs[2] = pluckRight.clone();
         }
         goalCorner[0] = new PhysObj(
@@ -107,26 +106,6 @@ public class AirHockey extends AppCompatActivity {
         super.onPause();
     }
 
-    public void pauseSim() {
-        if (!paused) {
-            paused = true;
-            workPrev = work;
-            if (work) {
-                work = false;
-                try {
-                    Thread.sleep(10);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    public void resumeSim() {
-        work = workPrev;
-        paused = false;
-    }
-
     static void vrun() {
         long gap = 0;
         double time = Math.pow(2, -10);
@@ -160,7 +139,8 @@ public class AirHockey extends AppCompatActivity {
                         }
                     }
 
-                    if(objs[2].getSpeed().length > maxPluckSpeed) objs[2].getSpeed().setLength(maxPluckSpeed);
+                    if(objs[2].getSpeed().length > maxPluckSpeed)
+                        objs[2].setVelocity(objs[2].getSpeed().setLength(maxPluckSpeed));
 
                     for (PhysObj cur : objs) {
                         if (cur != null) {
@@ -177,22 +157,22 @@ public class AirHockey extends AppCompatActivity {
                     )border = borderGoal;
                     else if (objs[2].getBody().getLeft() < borderStandard.L &&
                             (
-                                (objs[2].getBody().getDown() < borderGoal.U
+                                (objs[2].getCenter().y < borderGoal.U
                                 && objs[2].getBody().getUp() >= borderGoal.U
                                 && objs[2].getSpeed().x <= 0
                                 && objs[2].getCenter().y < borderGoal.U)
                                 || (objs[2].getBody().getDown() <= borderGoal.D
-                                && objs[2].getBody().getUp() > borderGoal.D
+                                && objs[2].getCenter().y > borderGoal.D
                                 && objs[2].getSpeed().x <= 0
                                 && objs[2].getCenter().y > borderGoal.D)
                             ) ||
                             objs[2].getBody().getRight() > borderStandard.R &&
                                     (
-                                            (objs[2].getBody().getDown() < borderGoal.U
+                                            (objs[2].getCenter().y < borderGoal.U
                                                     && objs[2].getBody().getUp() >= borderGoal.U
                                                     && objs[2].getSpeed().x >= 0)
                                                     || (objs[2].getBody().getDown() <= borderGoal.D
-                                                    && objs[2].getBody().getUp() > borderGoal.D
+                                                    && objs[2].getCenter().y  > borderGoal.D
                                                     && objs[2].getSpeed().x >= 0)
                                     )
                     ) {
@@ -236,14 +216,30 @@ public class AirHockey extends AppCompatActivity {
         work = !work;
     }
 
-    public void checkGame(){
+    public boolean checkGame(){
         if(objs[2].getCenter().x < -100){
-            game.goal(Player.Second);
-            setDefault();
+            game.goal(Player.Red);
         }else if(objs[2].getCenter().x > 2020){
-            game.goal(Player.First);
+            game.goal(Player.Blue);
+        }
+        if(!game.isPlaying()){
+            cycleF = false;
+            Intent intent = new Intent(this, EndGameScreen.class);
+            Bundle info = new Bundle();
+            info.putInt("scoreRed", game.getFirstScore());
+            info.putInt("scoreBlue", game.getSecondScore());
+            if(game.getWinner() == Player.Blue) info.putInt("winner", 2);
+            else if(game.getWinner() == Player.Red) info.putInt("winner", 1);
+            intent.putExtras(info);
+            startActivity(intent);
+            finish();
+            return false;
+        }
+        if(objs[2].getCenter().x < -100 || objs[2].getCenter().x > 2020){
+            work = false;
             setDefault();
         }
+        return true;
     }
 
     public boolean moveBody(View v, MotionEvent event){

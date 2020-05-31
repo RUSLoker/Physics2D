@@ -38,7 +38,6 @@ public class AirHockeyVisualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        AirHockey.airHockey.checkGame();
         PhysObj o = AirHockey.objs[0];
         if (o != null) {
             canvas.drawBitmap(red, null,
@@ -68,7 +67,8 @@ public class AirHockeyVisualizer extends View {
         }
         AirHockey.scoreFirst.setText(Integer.toString(AirHockey.game.getFirstScore()));
         AirHockey.scoreSecond.setText(Integer.toString(AirHockey.game.getSecondScore()));
-        invalidate();
+        if(AirHockey.airHockey.checkGame())
+            invalidate();
     }
 
 }

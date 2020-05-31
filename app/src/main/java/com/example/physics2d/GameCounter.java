@@ -6,12 +6,12 @@ public class GameCounter {
     private Player currentTurn;
     private boolean playing;
 
-    static final int MAX_SCORE = 16;
+    static final int MAX_SCORE = 2;
 
     GameCounter(){
         firstScore = 0;
         secondScore = 0;
-        currentTurn = Player.First;
+        currentTurn = Player.Blue;
         playing = true;
     }
 
@@ -32,22 +32,22 @@ public class GameCounter {
     }
 
     boolean goal(Player player){
-        if(player == Player.First){
+        if(player == Player.Blue){
             firstScore++;
-            currentTurn = Player.Second;
-        } else if (player == Player.Second){
+            currentTurn = Player.Red;
+        } else if (player == Player.Red){
             secondScore++;
-            currentTurn = Player.First;
+            currentTurn = Player.Blue;
         }
         checkGame();
         return playing;
     }
 
     private void turn(){
-        if(currentTurn == Player.First)
-            currentTurn = Player.Second;
+        if(currentTurn == Player.Blue)
+            currentTurn = Player.Red;
         else
-            currentTurn = Player.First;
+            currentTurn = Player.Blue;
     }
 
     private void checkGame(){
@@ -57,8 +57,8 @@ public class GameCounter {
     }
 
     public Player getWinner(){
-        if(firstScore > secondScore) return Player.First;
-        if(firstScore < secondScore) return Player.Second;
+        if(firstScore > secondScore) return Player.Blue;
+        if(firstScore < secondScore) return Player.Red;
         return null;
     }
 
