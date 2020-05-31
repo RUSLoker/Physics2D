@@ -2,7 +2,7 @@ package com.example.physics2d;
 
 public class Manipulator {
     private Vector2D stPos, deltaVector;
-    private final static double maxLen = 300;
+    final static double maxLen = 250;
     private boolean started;
     Manipulator(){
         deltaVector = Vector2D.zero();
