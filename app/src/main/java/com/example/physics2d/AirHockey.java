@@ -148,31 +148,38 @@ public class AirHockey extends AppCompatActivity {
                         }
                     }
 
-                    if (objs[2].getBody().getLeft() < borderStandard.L &&
-                            (
-                                (objs[2].getBody().getDown() < borderGoal.U
-                                && objs[2].getBody().getUp() >= borderGoal.U
-                                && objs[2].getSpeed().x <= 0
-                                && objs[2].getCenter().y < borderGoal.U)
-                                || (objs[2].getBody().getDown() <= borderGoal.D
-                                && objs[2].getBody().getUp() > borderGoal.D
-                                && objs[2].getSpeed().x <= 0
-                                && objs[2].getCenter().y > borderGoal.D)
-                                || (objs[2].getBody().getDown() > borderGoal.D
-                                && objs[2].getBody().getUp() < borderGoal.U)
-                            ) ||
-                            objs[2].getBody().getRight() > borderStandard.R &&
-                                    (
-                                            (objs[2].getBody().getDown() < borderGoal.U
-                                                    && objs[2].getBody().getUp() >= borderGoal.U
-                                                    && objs[2].getSpeed().x >= 0)
-                                                    || (objs[2].getBody().getDown() <= borderGoal.D
-                                                    && objs[2].getBody().getUp() > borderGoal.D
-                                                    && objs[2].getSpeed().x >= 0)
-                                                    || (objs[2].getBody().getDown() > borderGoal.D
-                                                    && objs[2].getBody().getUp() < borderGoal.U)
-                                    )
+                    if ((objs[2].getBody().getLeft() < borderStandard.L &&
+                            objs[2].getBody().getDown() > borderGoal.D
+                            && objs[2].getBody().getUp() < borderGoal.U)
+                            || (objs[2].getBody().getRight() > borderStandard.R &&
+                            objs[2].getBody().getDown() > borderGoal.D
+                            && objs[2].getBody().getUp() < borderGoal.U)
                     )border = borderGoal;
+//                    if (objs[2].getBody().getLeft() < borderStandard.L &&
+//                            (
+//                                (objs[2].getBody().getDown() < borderGoal.U
+//                                && objs[2].getBody().getUp() >= borderGoal.U
+//                                && objs[2].getSpeed().x <= 0
+//                                && objs[2].getCenter().y < borderGoal.U)
+//                                || (objs[2].getBody().getDown() <= borderGoal.D
+//                                && objs[2].getBody().getUp() > borderGoal.D
+//                                && objs[2].getSpeed().x <= 0
+//                                && objs[2].getCenter().y > borderGoal.D)
+//                                || (objs[2].getBody().getDown() > borderGoal.D
+//                                && objs[2].getBody().getUp() < borderGoal.U)
+//                            ) ||
+//                            objs[2].getBody().getRight() > borderStandard.R &&
+//                                    (
+//                                            (objs[2].getBody().getDown() < borderGoal.U
+//                                                    && objs[2].getBody().getUp() >= borderGoal.U
+//                                                    && objs[2].getSpeed().x >= 0)
+//                                                    || (objs[2].getBody().getDown() <= borderGoal.D
+//                                                    && objs[2].getBody().getUp() > borderGoal.D
+//                                                    && objs[2].getSpeed().x >= 0)
+//                                                    || (objs[2].getBody().getDown() > borderGoal.D
+//                                                    && objs[2].getBody().getUp() < borderGoal.U)
+//                                    )
+//                    )border = borderGoal;
 
                     if(objs[2] != null) {
                         objs[2].checkBorder(border);
