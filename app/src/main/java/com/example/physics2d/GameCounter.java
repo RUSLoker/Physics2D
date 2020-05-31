@@ -6,7 +6,7 @@ public class GameCounter {
     private Player currentTurn;
     private boolean playing;
 
-    static final int MAX_SCORE = 2;
+    static final int MAX_SCORE = 16;
 
     GameCounter(){
         firstScore = 0;
