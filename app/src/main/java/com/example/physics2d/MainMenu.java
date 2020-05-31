@@ -18,11 +18,13 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu);
         context = this;
         Button newGame = findViewById(R.id.new_game);
-        newGame.setOnClickListener(v -> {
-            startGame = new Intent(context, AirHockey.class);
-            startActivity(startGame);
-        });
+        newGame.setOnClickListener(v -> listener());
         hideSystemUI();
+    }
+
+    void listener(){
+        startGame = new Intent(context, AirHockey.class);
+        startActivity(startGame);
     }
 
     @Override

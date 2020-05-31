@@ -176,6 +176,8 @@ public class AirHockey extends AppCompatActivity {
                                                     && objs[2].getCenter().y  > borderGoal.D
                                                     && objs[2].getSpeed().x >= 0)
                                     )
+                            || objs[2].getCenter().x  < borderStandard.L
+                            || objs[2].getCenter().x  > borderStandard.R
                     ) {
                         border = borderWide;
                         for (PhysObj physObj : goalCorner) {
