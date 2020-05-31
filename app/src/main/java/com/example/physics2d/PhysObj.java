@@ -136,7 +136,7 @@ public class PhysObj implements Cloneable{
         }
     }
 
-    void checkBorder(Border border){
+    boolean checkBorder(Border border){
         switch (body.borderCollision(border)){
             case left: {
                 if (borderChecked) {
@@ -217,6 +217,7 @@ public class PhysObj implements Cloneable{
             default:
                 borderChecked = false;
         }
+        return borderChecked;
     }
 
     @NonNull

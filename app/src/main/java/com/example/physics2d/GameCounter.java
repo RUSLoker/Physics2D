@@ -34,10 +34,11 @@ public class GameCounter {
     boolean goal(Player player){
         if(player == Player.First){
             firstScore++;
+            currentTurn = Player.Second;
         } else if (player == Player.Second){
             secondScore++;
+            currentTurn = Player.First;
         }
-        turn();
         checkGame();
         return playing;
     }
@@ -53,6 +54,12 @@ public class GameCounter {
         if(firstScore >= MAX_SCORE || secondScore >= MAX_SCORE){
             playing = false;
         }
+    }
+
+    public Player getWinner(){
+        if(firstScore > secondScore) return Player.First;
+        if(firstScore < secondScore) return Player.Second;
+        return null;
     }
 
 

@@ -1,17 +1,11 @@
 package com.example.physics2d;
 
-import android.app.ActionBar;
-import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
-
-import java.util.ArrayList;
-import java.util.Random;
 
 public class AirHockey extends AppCompatActivity {
 
@@ -23,11 +17,11 @@ public class AirHockey extends AppCompatActivity {
     static final Border border1 = new Border(960, 1920, 1080, 0);
     static final PhysObj pluckLeft = new PhysObj(
             new Circle(new Vector2D(500, 540), 70),
-            10.0
+            50.0
     );
     static final PhysObj pluckRight = new PhysObj(
             new Circle(new Vector2D(1420, 540), 70),
-            10.0
+            50.0
     );
 
     static final public PhysObj[] objs = new PhysObj[3];
@@ -39,7 +33,8 @@ public class AirHockey extends AppCompatActivity {
     boolean workPrev = work;
     boolean paused = false;
     public static MotionEvent motionEvent = null;
-    static final double maxSpeed = 2300;
+    static final double maxBatSpeed = 2300;
+    static final double maxPluckSpeed = 2900;
     static boolean cycleF;
     static GameCounter game = new GameCounter();
     static AirHockey airHockey;
@@ -144,10 +139,14 @@ public class AirHockey extends AppCompatActivity {
                 synchronized (objs) {
                     time = ((double) gap) / 1000000000;
                     if(time > 0.01) time = 0.01;
-                    objs[0].setVelocity(manips[0].getDelta().scale(maxSpeed));
-                    objs[1].setVelocity(manips[1].getDelta().scale(maxSpeed));
-                    objs[0].checkBorder(border0);
-                    objs[1].checkBorder(border1);
+                    objs[0].setVelocity(manips[0].getDelta().scale(maxBatSpeed));
+                    objs[1].setVelocity(manips[1].getDelta().scale(maxBatSpeed));
+                    if(objs[0].checkBorder(border0)){
+                        objs[0].setVelocity(Vector2D.zero());
+                    }
+                    if(objs[1].checkBorder(border1)){
+                        objs[1].setVelocity(Vector2D.zero());
+                    }
                     PhysObj a, b;
                     for (int i = 0; i < objs.length; i++) {
                         a = objs[i];
@@ -160,6 +159,8 @@ public class AirHockey extends AppCompatActivity {
                             }
                         }
                     }
+
+                    if(objs[2].getSpeed().length > maxPluckSpeed) objs[2].getSpeed().setLength(maxPluckSpeed);
 
                     for (PhysObj cur : objs) {
                         if (cur != null) {
@@ -210,14 +211,6 @@ public class AirHockey extends AppCompatActivity {
                     objs[0].checkBorder(border0);
                     objs[1].checkBorder(border1);
 
-                    if(objs[2].getCenter().x < -100){
-                        game.goal(Player.Second);
-                        airHockey.changeGame();
-                    }else if(objs[2].getCenter().x > 2020){
-                        game.goal(Player.First);
-                        airHockey.changeGame();
-                    }
-
                     gap = System.nanoTime() - prev;
                     countReal += System.nanoTime() - prev;
                     countSim += time * 1000000000;
@@ -243,8 +236,14 @@ public class AirHockey extends AppCompatActivity {
         work = !work;
     }
 
-    public void changeGame(){
-        setDefault();
+    public void checkGame(){
+        if(objs[2].getCenter().x < -100){
+            game.goal(Player.Second);
+            setDefault();
+        }else if(objs[2].getCenter().x > 2020){
+            game.goal(Player.First);
+            setDefault();
+        }
     }
 
     public boolean moveBody(View v, MotionEvent event){
