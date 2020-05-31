@@ -1,30 +1,43 @@
 package com.example.physics2d;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
+import android.graphics.RectF;
+import android.graphics.drawable.Drawable;
 import android.util.AttributeSet;
 import android.view.View;
 
 public class ManipsView extends View {
-    Paint paint1 = new Paint();
-    Paint paint2 = new Paint();
-    Paint paint3 = new Paint();
+    Paint paintRed2 = new Paint();
+    Paint paintRed3 = new Paint();
+    Paint paintBlue2 = new Paint();
+    Paint paintBlue3 = new Paint();
+    Bitmap red1, blue1;
     boolean created = false;
     Vector2D vCenter, hCenter;
 
     public ManipsView(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint1.setStyle(Paint.Style.FILL);
-        paint1.setColor(Color.parseColor("#ff2400"));
-        paint2.setStyle(Paint.Style.FILL);
-        paint2.setColor(Color.parseColor("#ff2400"));
-        paint2.setAlpha(100);
-        paint3.setStyle(Paint.Style.FILL);
-        paint3.setColor(Color.parseColor("#ff2400"));
+        paintRed2.setStyle(Paint.Style.FILL);
+        paintRed2.setColor(Color.parseColor("#ff2400"));
+        paintRed2.setAlpha(50);
+        paintRed3.setStyle(Paint.Style.FILL);
+        paintRed3.setColor(Color.parseColor("#ff2400"));
+        red1 = getBitmap(R.drawable.manipulator_center_red);
+        paintBlue2.setStyle(Paint.Style.FILL);
+        paintBlue2.setColor(Color.parseColor("#0022FF"));
+        paintBlue2.setAlpha(50);
+        paintBlue3.setStyle(Paint.Style.FILL);
+        paintBlue3.setColor(Color.parseColor("#0022FF"));
+        blue1 = getBitmap(R.drawable.manipulator_center_blue);
     }
 
+    @SuppressLint("DrawAllocation")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
@@ -33,35 +46,66 @@ public class ManipsView extends View {
             hCenter = new Vector2D((double) getWidth() / 2, 0);
             created = true;
         }
-        for (int i = 0; i < AirHockey.manips.length; i++){
-            Vector2D st = AirHockey.manips[i].getStPos(),
-                    fin = AirHockey.manips[i].getManipPoint();
-            if(st != null && fin != null) {
-                if(i == 1){
-                    st = st.add(hCenter);
-                    fin = fin.add(hCenter);
-                }
-                canvas.drawCircle(
-                        (float) st.x,
-                        (float) st.y,
-                        (float) 60,
-                        paint1
-                );
-                canvas.drawCircle(
-                        (float) st.x,
-                        (float) st.y,
-                        (float) Manipulator.maxLen,
-                        paint2
-                );
-                canvas.drawCircle(
-                        (float) fin.x,
-                        (float) fin.y,
-                        (float) 60,
-                        paint3
-                );
-            }
+        Vector2D st = AirHockey.manips[0].getStPos(),
+                fin = AirHockey.manips[0].getManipPoint();
+        if(st != null && fin != null) {
+            float width = (float)red1.getWidth()/2;
+            canvas.drawBitmap(red1,  null,
+                    new RectF((float) (st.x - width),
+                            (float) (st.y - width),
+                            (float) (st.x + width),
+                            (float) (st.y + width)),
+                    null);
+            canvas.drawCircle(
+                    (float) st.x,
+                    (float) st.y,
+                    (float) Manipulator.maxLen,
+                    paintRed2
+            );
+            canvas.drawCircle(
+                    (float) fin.x,
+                    (float) fin.y,
+                    (float) width,
+                    paintRed3
+            );
+        }
+        st = AirHockey.manips[1].getStPos();
+        fin = AirHockey.manips[1].getManipPoint();
+        if(st != null && fin != null) {
+            float width = (float)blue1.getWidth()/2;
+            st = st.add(hCenter);
+            fin = fin.add(hCenter);
+            canvas.drawBitmap(blue1, null,
+                    new RectF((float) (st.x - width),
+                            (float) (st.y - width),
+                            (float) (st.x + width),
+                            (float) (st.y + width)),
+                    null);
+            canvas.drawCircle(
+                    (float) st.x,
+                    (float) st.y,
+                    (float) Manipulator.maxLen,
+                    paintBlue2
+            );
+            canvas.drawCircle(
+                    (float) fin.x,
+                    (float) fin.y,
+                    (float) width,
+                    paintBlue3
+            );
         }
         invalidate();
+    }
+
+    private Bitmap getBitmap(int drawableRes) {
+        Drawable drawable = getResources().getDrawable(drawableRes);
+        Canvas canvas = new Canvas();
+        Bitmap bitmap = Bitmap.createBitmap(drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight(), Bitmap.Config.ARGB_8888);
+        canvas.setBitmap(bitmap);
+        drawable.setBounds(0, 0, drawable.getIntrinsicWidth(), drawable.getIntrinsicHeight());
+        drawable.draw(canvas);
+
+        return bitmap;
     }
 
 }

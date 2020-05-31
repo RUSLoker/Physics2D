@@ -38,10 +38,6 @@ public class AirHockeyVisualizer extends View {
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);
-        for (int i = 0; i < AirHockey.goalCorner.length; i++) {
-            PhysObj o = AirHockey.goalCorner[i];
-            o.draw(x0, y0, scale, canvas, paint);
-        }
         PhysObj o = AirHockey.objs[0];
         if (o != null) {
             canvas.drawBitmap(red, null,
