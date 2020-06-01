@@ -3,7 +3,7 @@
     <color name="colorPrimary">#FFFFFF</color>
     <color name="colorPrimaryDark">#FFFFFF</color>
     <color name="colorAccent">#D81B60</color>
-    <color name="fieldMarking">#F2272727</color>
+    <color name="fieldMarking">#272727</color>
     <color name="blue">#173AFF</color>
     <color name="red">#FF0000</color>
 </resources>

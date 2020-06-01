@@ -144,7 +144,7 @@ public class AirHockey extends AppCompatActivity {
                         objs[2].setVelocity(objs[2].getSpeed().setLength(maxPluckSpeed));
 
                     for (PhysObj cur : objs) {
-                        if (cur != null) {
+                        if (cur != null && !cur.getSpeed().equals(Vector2D.zero)) {
                             cur.move(time);
                         }
                     }

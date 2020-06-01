@@ -93,7 +93,10 @@ public class ManipsView extends View {
                     paintBlue3
             );
         }
-        invalidate();
+        AirHockey.scoreFirst.setText(Integer.toString(AirHockey.game.getFirstScore()));
+        AirHockey.scoreSecond.setText(Integer.toString(AirHockey.game.getSecondScore()));
+        if(AirHockey.airHockey.checkGame())
+            invalidate();
     }
 
     private Bitmap getBitmap(int drawableRes) {

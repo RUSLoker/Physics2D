@@ -14,9 +14,6 @@ import android.view.MotionEvent;
 import android.view.View;
 
 public class AirHockeyVisualizer extends View {
-
-    Paint paint = new Paint();
-    Paint paintSpec = new Paint();
     public static double x0 = 0;
     public static double y0 = 0;
     public static double scale = 1;
@@ -24,11 +21,6 @@ public class AirHockeyVisualizer extends View {
 
     public AirHockeyVisualizer(Context context, AttributeSet attrs) {
         super(context, attrs);
-        paint.setStrokeWidth(10);
-        paint.setStyle(Paint.Style.FILL);
-        paintSpec.setStrokeWidth(10);
-        paintSpec.setStyle(Paint.Style.FILL);
-        paintSpec.setColor(Color.RED);
         red = BitmapFactory.decodeResource(getResources(), R.drawable.red_bat);
         blue = BitmapFactory.decodeResource(getResources(), R.drawable.blue_bat);
         puck = BitmapFactory.decodeResource(getResources(), R.drawable.puck);
@@ -40,35 +32,38 @@ public class AirHockeyVisualizer extends View {
         super.onDraw(canvas);
         PhysObj o = AirHockey.objs[0];
         if (o != null) {
+            float x = (float) o.getCenter().x,
+                    y = (float) o.getCenter().y;
             canvas.drawBitmap(red, null,
-                    new RectF((float) (o.getCenter().x - 100),
-                            (float) (o.getCenter().y - 100),
-                            (float) (o.getCenter().x + 100),
-                            (float) (o.getCenter().y + 100)),
+                    new RectF(x - 100f,
+                            y - 100f,
+                            x + 100f,
+                            y + 100f),
                     null);
         }
         o = AirHockey.objs[1];
         if (o != null) {
+            float x = (float) o.getCenter().x,
+                    y = (float) o.getCenter().y;
             canvas.drawBitmap(blue, null,
-                    new RectF((float) (o.getCenter().x - 100),
-                            (float) (o.getCenter().y - 100),
-                            (float) (o.getCenter().x + 100),
-                            (float) (o.getCenter().y + 100)),
+                    new RectF(x - 100f,
+                            y - 100f,
+                            x + 100f,
+                            y + 100f),
                     null);
         }
         o = AirHockey.objs[2];
         if (o != null) {
+            float x = (float) o.getCenter().x,
+                    y = (float) o.getCenter().y;
             canvas.drawBitmap(puck, null,
-                    new RectF((float) (o.getCenter().x - 70),
-                            (float) (o.getCenter().y - 70),
-                            (float) (o.getCenter().x + 70),
-                            (float) (o.getCenter().y + 70)),
+                    new RectF(x - 70f,
+                            y - 70f,
+                            x + 70f,
+                            y + 70f),
                     null);
         }
-        AirHockey.scoreFirst.setText(Integer.toString(AirHockey.game.getFirstScore()));
-        AirHockey.scoreSecond.setText(Integer.toString(AirHockey.game.getSecondScore()));
-        if(AirHockey.airHockey.checkGame())
-            invalidate();
+        invalidate();
     }
 
 }

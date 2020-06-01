@@ -47,7 +47,8 @@ public class PhysObj implements Cloneable{
                 velocity.x*time + acceleration.x * time*time/2,
                 velocity.y*time + acceleration.y * time*time/2
         ));
-        velocity = velocity.add(acceleration.scale(time));
+        if(!acceleration.equals(Vector2D.zero))
+            velocity = velocity.add(acceleration.scale(time));
     }
 
     Vector2D getCenter(){

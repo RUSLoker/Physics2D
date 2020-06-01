@@ -5,6 +5,7 @@ import androidx.annotation.NonNull;
 public class Vector2D implements Cloneable {
 
     final double x, y, length, sqrLength;
+    final static Vector2D zero = Vector2D.zero();
 
     Vector2D(double x, double y){
         this.x = x;
