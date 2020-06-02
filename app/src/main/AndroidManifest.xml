@@ -10,6 +10,12 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
+            android:name=".About"
+            android:screenOrientation="landscape"/>
+        <activity
+            android:name=".SimulationActivity"
+            android:screenOrientation="landscape"/>
+        <activity
             android:name=".EndGameScreen"
             android:screenOrientation="landscape" />
         <activity

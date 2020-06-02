@@ -43,11 +43,13 @@ public class SimulationActivity extends AppCompatActivity {
     double pTX = -1;
     double pTY = -1;
     Thread add;
+    static boolean cycleF;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.simulation_activity);
+        cycleF = true;
         myThread.start();
         reloadFields(null);
         cpsT = findViewById(R.id.cps);
@@ -57,9 +59,11 @@ public class SimulationActivity extends AppCompatActivity {
         gravitySw.setOnCheckedChangeListener(this::gravChecker);
         View visulizer = findViewById(R.id.visualizer);
         visulizer.setOnTouchListener(this::moveBody);
+        hideSystemUI();
     }
 
     protected void onPause() {
+        cycleF = false;
         workPrev = work;
         work = false;
         drawToggle();
@@ -94,7 +98,7 @@ public class SimulationActivity extends AppCompatActivity {
         double countSim = 0;
         double log2 = Math.log(2);
         long prev = 0;
-        while (true) {
+        while (cycleF) {
             if (work) {
                 synchronized (objs) {
                     fastest = 0;
@@ -586,5 +590,24 @@ public class SimulationActivity extends AppCompatActivity {
 //            next.setVisibility(View.INVISIBLE);
 //            prev.setVisibility(View.INVISIBLE);
         }
+    }
+
+    @Override
+    public void onWindowFocusChanged(boolean hasFocus) {
+        super.onWindowFocusChanged(hasFocus);
+        if (hasFocus) {
+            hideSystemUI();
+        }
+    }
+
+    private void hideSystemUI() {
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(
+                View.SYSTEM_UI_FLAG_IMMERSIVE_STICKY
+                        | View.SYSTEM_UI_FLAG_LAYOUT_STABLE
+                        | View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN
+                        | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
+                        | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
 }

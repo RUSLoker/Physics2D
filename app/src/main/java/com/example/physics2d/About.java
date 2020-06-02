@@ -1,28 +1,26 @@
 package com.example.physics2d;
 
-import android.content.Context;
+import androidx.appcompat.app.AppCompatActivity;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import androidx.appcompat.app.AppCompatActivity;
-
-public class MainMenu extends AppCompatActivity {
-    Intent startGame, about;
-    Context context;
+public class About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.main_menu);
-        startGame = new Intent(this, AirHockey.class);
-        about = new Intent(this, About.class);
-        Button newGame = findViewById(R.id.new_game);
-        Button aboutB = findViewById(R.id.about);
-        newGame.setOnClickListener(v -> startActivity(startGame));
-        aboutB.setOnClickListener(v -> startActivity(about));
+        setContentView(R.layout.activity_about);
+        Button b = findViewById(R.id.button);
+        b.setOnClickListener(v -> callSandbox());
         hideSystemUI();
+    }
+
+    void callSandbox(){
+        Intent a = new Intent(this, SimulationActivity.class);
+        startActivity(a);
     }
 
     @Override
@@ -43,5 +41,4 @@ public class MainMenu extends AppCompatActivity {
                         | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION
                         | View.SYSTEM_UI_FLAG_FULLSCREEN);
     }
-
 }

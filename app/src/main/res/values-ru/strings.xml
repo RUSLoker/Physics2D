@@ -19,4 +19,6 @@
     <string name="restart">Заново</string>
     <string name="blueWins">Синий победил</string>
     <string name="redWins">Красный победил</string>
+    <string name="about_text">Это приложение работает при помощи нашего собственного физического движка. Вы можете попробовать его возможности, нажав кнопку ниже.</string>
+    <string name="sandbox">Песочница</string>
 </resources>
