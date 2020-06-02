@@ -49,6 +49,7 @@
 
 
     <LinearLayout
+        android:id="@+id/linearLayout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
@@ -118,6 +119,38 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
+    <LinearLayout
+        android:id="@+id/pauseScreen"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#D8000005"
+        android:visibility="gone"
+        android:gravity="center"
+        android:orientation="vertical">
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Paused"
+            android:textColor="#FFF"
+            android:textSize="55sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/resume"
+            style="@style/white_button"
+            android:text="@string/resume" />
+    </LinearLayout>
+
+    <Button
+        android:id="@+id/pause"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/ic_baseline_pause_24"/>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

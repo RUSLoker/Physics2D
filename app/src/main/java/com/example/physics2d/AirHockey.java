@@ -4,6 +4,8 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.Button;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -32,8 +34,8 @@ public class AirHockey extends AppCompatActivity {
     static boolean work = false;
     static double cps = 0;
     public static MotionEvent motionEvent = null;
-    static final double maxBatSpeed = 2300;
-    static final double maxPluckSpeed = 2900;
+    static final double maxBatSpeed = 3200;
+    static final double maxPluckSpeed = 3500;
     static boolean cycleF;
     static GameCounter game = new GameCounter();
     static AirHockey airHockey;
@@ -55,6 +57,30 @@ public class AirHockey extends AppCompatActivity {
         setDefault();
         myThread.start();
         hideSystemUI();
+        Button pause = findViewById(R.id.pause);
+        Button resume = findViewById(R.id.resume);
+        LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
+        pause.setOnClickListener(v -> {
+            manip1.setVisibility(View.GONE);
+            manip2.setVisibility(View.GONE);
+            pauseScreen.setVisibility(View.VISIBLE);
+            pause.setVisibility(View.GONE);
+            cycleF = false;
+            try {
+                myThread.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        });
+        resume.setOnClickListener(v -> {
+            myThread = new Thread(AirHockey::vrun);
+            cycleF = true;
+            myThread.start();
+            manip1.setVisibility(View.VISIBLE);
+            manip2.setVisibility(View.VISIBLE);
+            pauseScreen.setVisibility(View.GONE);
+            pause.setVisibility(View.VISIBLE);
+        });
     }
 
     void setDefault(){
