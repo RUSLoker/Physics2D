@@ -9,7 +9,7 @@ import android.widget.Button;
 import androidx.appcompat.app.AppCompatActivity;
 
 public class MainMenu extends AppCompatActivity {
-    Intent startGame, about;
+    Intent startGame, about, custom;
     Context context;
 
     @Override
@@ -18,10 +18,13 @@ public class MainMenu extends AppCompatActivity {
         setContentView(R.layout.main_menu);
         startGame = new Intent(this, AirHockey.class);
         about = new Intent(this, About.class);
+        custom = new Intent(this, CustomGame.class);
         Button newGame = findViewById(R.id.new_game);
         Button aboutB = findViewById(R.id.about);
+        Button customB = findViewById(R.id.custom);
         newGame.setOnClickListener(v -> startActivity(startGame));
         aboutB.setOnClickListener(v -> startActivity(about));
+        customB.setOnClickListener(v -> startActivity(custom));
         hideSystemUI();
     }
 

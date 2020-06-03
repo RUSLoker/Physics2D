@@ -6,9 +6,11 @@ public class GameCounter {
     private Player currentTurn;
     private boolean playing;
 
-    static final int MAX_SCORE = 16;
+    final int MAX_SCORE;
 
-    GameCounter(){
+    GameCounter(int maxScore){
+        if(maxScore <= 0) maxScore = 16;
+        MAX_SCORE = maxScore;
         firstScore = 0;
         secondScore = 0;
         currentTurn = Player.Blue;

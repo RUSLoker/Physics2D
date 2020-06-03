@@ -33,6 +33,11 @@
             android:text="@string/new_game" />
 
         <Button
+            android:id="@+id/custom"
+            style="@style/white_button"
+            android:text="@string/custom_game"/>
+
+        <Button
             android:id="@+id/about"
             style="@style/white_button"
             android:text="@string/about"/>

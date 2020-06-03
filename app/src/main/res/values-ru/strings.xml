@@ -22,4 +22,13 @@
     <string name="about_text">Это приложение работает при помощи нашего собственного физического движка. Вы можете попробовать его возможности, нажав кнопку ниже.</string>
     <string name="sandbox">Песочница</string>
     <string name="paused">На паузе</string>
+    <string name="custom_game">Создать игру</string>
+    <string name="max_score">Максимальный счет</string>
+    <string name="for_time">На время</string>
+    <string-array name="gameModes">
+        <item>По очкам</item>
+        <item>По времени</item>
+        <item>По количеству раундов</item>
+    </string-array>
+    <string name="game_mode">Режим игры</string>
 </resources>

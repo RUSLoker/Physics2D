@@ -10,6 +10,8 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import java.util.Objects;
+
 public class AirHockey extends AppCompatActivity {
 
     static Border border = new Border(0, 1920, 1080, 0);
@@ -35,9 +37,9 @@ public class AirHockey extends AppCompatActivity {
     static double cps = 0;
     public static MotionEvent motionEvent = null;
     static final double maxBatSpeed = 3200;
-    static final double maxPluckSpeed = 3500;
+    static final double maxPluckSpeed = 3800;
     static boolean cycleF;
-    static GameCounter game = new GameCounter();
+    static GameCounter game;
     static AirHockey airHockey;
     static TextView scoreFirst, scoreSecond;
 
@@ -51,7 +53,13 @@ public class AirHockey extends AppCompatActivity {
         View manip2 = findViewById(R.id.manip2);
         manip1.setOnTouchListener(this::moveBody);
         manip2.setOnTouchListener(this::moveBody);
-        game = new GameCounter();
+
+        Bundle b = getIntent().getExtras();
+        int maxScore = 0;
+        if( b!= null)
+            maxScore = b.getInt("maxScore");
+        game = new GameCounter(maxScore);
+
         manips[0] = new Manipulator();
         manips[1] = new Manipulator();
         setDefault();
@@ -60,18 +68,7 @@ public class AirHockey extends AppCompatActivity {
         Button pause = findViewById(R.id.pause);
         Button resume = findViewById(R.id.resume);
         LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
-        pause.setOnClickListener(v -> {
-            manip1.setVisibility(View.GONE);
-            manip2.setVisibility(View.GONE);
-            pauseScreen.setVisibility(View.VISIBLE);
-            pause.setVisibility(View.GONE);
-            cycleF = false;
-            try {
-                myThread.join();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        });
+        pause.setOnClickListener(v -> pause());
         resume.setOnClickListener(v -> {
             myThread = new Thread(AirHockey::vrun);
             cycleF = true;
@@ -85,7 +82,7 @@ public class AirHockey extends AppCompatActivity {
 
     void setDefault(){
         if(!game.isPlaying()){
-            game = new GameCounter();
+            game = new GameCounter(game.MAX_SCORE);
         }
         objs[0] = new PhysObj(
                 new Circle(new Vector2D(200, 540), 100),
@@ -131,6 +128,38 @@ public class AirHockey extends AppCompatActivity {
             e.printStackTrace();
         }
         super.onPause();
+    }
+
+    @Override
+    protected void onResume() {
+        if(!cycleF){
+            Button pause = findViewById(R.id.pause);
+            LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
+            View manip1 = findViewById(R.id.manip1);
+            View manip2 = findViewById(R.id.manip2);
+            manip1.setVisibility(View.GONE);
+            manip2.setVisibility(View.GONE);
+            pauseScreen.setVisibility(View.VISIBLE);
+            pause.setVisibility(View.GONE);
+        }
+        super.onResume();
+    }
+
+    void pause(){
+        Button pause = findViewById(R.id.pause);
+        LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
+        View manip1 = findViewById(R.id.manip1);
+        View manip2 = findViewById(R.id.manip2);
+        manip1.setVisibility(View.GONE);
+        manip2.setVisibility(View.GONE);
+        pauseScreen.setVisibility(View.VISIBLE);
+        pause.setVisibility(View.GONE);
+        cycleF = false;
+        try {
+            myThread.join();
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
     }
 
     static void vrun() {

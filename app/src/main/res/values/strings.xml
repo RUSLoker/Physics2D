@@ -21,4 +21,13 @@
     <string name="about_text">This application works with our own physical engine. You can try its opportunities by clicking button below.</string>
     <string name="sandbox">Sandbox</string>
     <string name="paused">Paused</string>
+    <string name="custom_game">Custom game</string>
+    <string name="max_score">Max score</string>
+    <string name="for_time">For time</string>
+    <string name="game_mode">Game mode</string>
+    <string-array name="gameModes">
+        <item>Max score</item>
+        <item>Time</item>
+        <item>Max round count</item>
+    </string-array>
 </resources>
