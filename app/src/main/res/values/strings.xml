@@ -20,4 +20,5 @@
     <string name="redWins">Red wins</string>
     <string name="about_text">This application works with our own physical engine. You can try its opportunities by clicking button below.</string>
     <string name="sandbox">Sandbox</string>
+    <string name="paused">Paused</string>
 </resources>

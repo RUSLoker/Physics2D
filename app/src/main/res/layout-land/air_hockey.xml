@@ -132,7 +132,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="Paused"
+            android:text="@string/paused"
             android:textColor="#FFF"
             android:textSize="55sp"
             android:textStyle="bold" />
