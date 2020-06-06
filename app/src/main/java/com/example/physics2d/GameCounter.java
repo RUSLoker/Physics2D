@@ -7,10 +7,11 @@ public class GameCounter {
     private boolean playing;
     private long startTime;
     private boolean paused;
+    private long changeableLimit;
 
     final GameMode gameMode;
 
-    private long limit;
+    private final long limit;
 
     GameCounter(GameMode gameMode, long limit){
         this.gameMode = gameMode;
@@ -24,6 +25,7 @@ public class GameCounter {
         currentTurn = Player.Blue;
         playing = true;
         paused = false;
+        changeableLimit = limit;
     }
 
     GameCounter(GameCounter gC){
@@ -37,9 +39,9 @@ public class GameCounter {
     public long getTimeRest(){
         if(!paused) {
             long now = System.currentTimeMillis() / 1000;
-            return limit - (now - startTime);
+            return changeableLimit - (now - startTime);
         }
-        return limit;
+        return changeableLimit;
     }
 
     public int getFirstScore() {
@@ -103,7 +105,7 @@ public class GameCounter {
 
     public void pause(){
         if(gameMode == GameMode.Time)
-            limit = getTimeRest();
+            changeableLimit = getTimeRest();
         paused = true;
     }
 
