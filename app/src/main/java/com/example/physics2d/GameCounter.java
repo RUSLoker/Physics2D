@@ -5,39 +5,41 @@ public class GameCounter {
     private int firstScore, secondScore;
     private Player currentTurn;
     private boolean playing;
+    private long startTime;
+    private boolean paused;
 
     final GameMode gameMode;
 
-    final int limit;
+    private long limit;
 
-    GameCounter(GameMode gameMode, int limit){
+    GameCounter(GameMode gameMode, long limit){
         this.gameMode = gameMode;
         if(gameMode == GameMode.MaxScore && limit <= 0) limit = 16;
         if(gameMode == GameMode.Time && limit <= 0) limit = 90;
         if(gameMode == GameMode.MaxRounds && limit <= 0) limit = 16;
         this.limit = limit;
+        if(gameMode == GameMode.Time) startTime = System.currentTimeMillis()/1000;
         firstScore = 0;
         secondScore = 0;
         currentTurn = Player.Blue;
         playing = true;
+        paused = false;
     }
 
     GameCounter(GameCounter gC){
-        GameMode gameMode = gC.gameMode;
-        int limit = gC.limit;
-        this.gameMode = gameMode;
-        if(gameMode == GameMode.MaxScore && limit <= 0) limit = 16;
-        if(gameMode == GameMode.Time && limit <= 0) limit = 90;
-        if(gameMode == GameMode.MaxRounds && limit <= 0) limit = 16;
-        this.limit = limit;
-        firstScore = 0;
-        secondScore = 0;
-        currentTurn = Player.Blue;
-        playing = true;
+        this(gC.gameMode, gC.limit);
     }
 
     GameCounter(){
         this(GameMode.MaxScore, 16);
+    }
+
+    public long getTimeRest(){
+        if(!paused) {
+            long now = System.currentTimeMillis() / 1000;
+            return limit - (now - startTime);
+        }
+        return limit;
     }
 
     public int getFirstScore() {
@@ -64,7 +66,6 @@ public class GameCounter {
             secondScore++;
             currentTurn = Player.Blue;
         }
-        checkGame();
         return playing;
     }
 
@@ -75,7 +76,7 @@ public class GameCounter {
             currentTurn = Player.Blue;
     }
 
-    private void checkGame(){
+    public void checkGame(){
         switch (gameMode) {
             case MaxScore:
                 if (firstScore >= limit || secondScore >= limit) {
@@ -88,7 +89,8 @@ public class GameCounter {
                 }
                 break;
             case Time:
-
+                if(getTimeRest() <= 0) playing = false;
+                break;
         }
     }
 
@@ -100,11 +102,17 @@ public class GameCounter {
     }
 
     public void pause(){
-
+        if(gameMode == GameMode.Time)
+            limit = getTimeRest();
+        paused = true;
     }
 
     public void resume(){
-
+        if(gameMode == GameMode.Time) {
+            long now = System.currentTimeMillis() / 1000;
+            startTime = now;
+        }
+        paused = false;
     }
 
 

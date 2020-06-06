@@ -82,6 +82,12 @@ public class AirHockey extends AppCompatActivity {
             pauseScreen.setVisibility(View.GONE);
             pause.setVisibility(View.VISIBLE);
         });
+        if(game.gameMode != GameMode.Time){
+            TextView timer1 = AirHockey.airHockey.findViewById(R.id.timer1);
+            TextView timer2 = AirHockey.airHockey.findViewById(R.id.timer2);
+            timer1.setVisibility(View.GONE);
+            timer2.setVisibility(View.GONE);
+        }
     }
 
     void setDefault(){
@@ -283,6 +289,7 @@ public class AirHockey extends AppCompatActivity {
         }else if(objs[2].getCenter().x > 2020){
             game.goal(Player.Blue);
         }
+        game.checkGame();
         if(!game.isPlaying()){
             cycleF = false;
             Intent intent = new Intent(this, EndGameScreen.class);

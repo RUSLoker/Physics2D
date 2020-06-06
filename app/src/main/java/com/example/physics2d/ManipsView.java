@@ -8,8 +8,12 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
+import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
+import android.widget.TextView;
+
+import java.sql.Time;
 
 public class ManipsView extends View {
     Paint paintRed2 = new Paint();
@@ -95,6 +99,15 @@ public class ManipsView extends View {
         }
         AirHockey.scoreFirst.setText(Integer.toString(AirHockey.game.getFirstScore()));
         AirHockey.scoreSecond.setText(Integer.toString(AirHockey.game.getSecondScore()));
+
+        if(AirHockey.game.gameMode == GameMode.Time) {
+            TextView timer1 = AirHockey.airHockey.findViewById(R.id.timer1);
+            TextView timer2 = AirHockey.airHockey.findViewById(R.id.timer2);
+            long time = AirHockey.game.getTimeRest()*1000;
+            String str = String.format("%tM:%tS", time, time);
+            timer1.setText(str);
+            timer2.setText(str);
+        }
         if(AirHockey.airHockey.checkGame())
             invalidate();
     }

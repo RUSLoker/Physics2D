@@ -27,7 +27,7 @@
     <string name="for_time">На время</string>
     <string-array name="gameModes">
         <item>По очкам</item>
-        <item>По времени</item>
+        <item>На время</item>
         <item>По количеству раундов</item>
     </string-array>
     <string name="game_mode">Режим игры</string>

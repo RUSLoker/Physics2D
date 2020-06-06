@@ -8,6 +8,7 @@
     android:background="#000">
 
     <View
+        android:id="@+id/view2"
         android:layout_width="0dp"
         android:layout_height="0dp"
         android:background="@drawable/ice"
@@ -18,7 +19,41 @@
         app:layout_constraintHorizontal_bias="0.5"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.5"/>
+        app:layout_constraintVertical_bias="0.5" />
+
+    <TextView
+        android:id="@+id/timer1"
+        android:layout_width="wrap_content"
+        android:layout_height="93dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:rotation="90"
+        android:text="00:01"
+        android:textColor="#A1000000"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.2"/>
+
+    <TextView
+        android:id="@+id/timer2"
+        android:layout_width="wrap_content"
+        android:layout_height="93dp"
+        android:layout_margin="10dp"
+        android:layout_weight="1"
+        android:gravity="center"
+        android:rotation="-90"
+        android:text="00:01"
+        android:textColor="#A1000000"
+        android:textSize="40sp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintHorizontal_bias="0.8"/>
 
     <View
         android:layout_width="0dp"
@@ -34,7 +69,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
-    
+
     <com.example.physics2d.AirHockeyVisualizer
         android:id="@+id/visualizer"
         android:layout_width="0dp"
