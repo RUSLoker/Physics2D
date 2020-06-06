@@ -10,8 +10,6 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import java.util.Objects;
-
 public class AirHockey extends AppCompatActivity {
 
     static Border border = new Border(0, 1920, 1080, 0);
@@ -55,10 +53,15 @@ public class AirHockey extends AppCompatActivity {
         manip2.setOnTouchListener(this::moveBody);
 
         Bundle b = getIntent().getExtras();
-        int maxScore = 0;
-        if( b!= null)
-            maxScore = b.getInt("maxScore");
-        game = new GameCounter(maxScore);
+        if(b != null) {
+            if(b.getBoolean("isRestart")){
+                game = new GameCounter(game);
+            } else {
+                GameMode gameMode = GameMode.byId(b.getInt("gameMode"));
+                int limit = b.getInt("limit");
+                game = new GameCounter(gameMode, limit);
+            }
+        } else game = new GameCounter();
 
         manips[0] = new Manipulator();
         manips[1] = new Manipulator();
@@ -70,6 +73,7 @@ public class AirHockey extends AppCompatActivity {
         LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
         pause.setOnClickListener(v -> pause());
         resume.setOnClickListener(v -> {
+            game.resume();
             myThread = new Thread(AirHockey::vrun);
             cycleF = true;
             myThread.start();
@@ -81,9 +85,6 @@ public class AirHockey extends AppCompatActivity {
     }
 
     void setDefault(){
-        if(!game.isPlaying()){
-            game = new GameCounter(game.MAX_SCORE);
-        }
         objs[0] = new PhysObj(
                 new Circle(new Vector2D(200, 540), 100),
                 100.0
@@ -121,6 +122,7 @@ public class AirHockey extends AppCompatActivity {
 
     @Override
     protected void onPause() {
+        game.pause();
         cycleF = false;
         try {
             myThread.join();
@@ -146,6 +148,7 @@ public class AirHockey extends AppCompatActivity {
     }
 
     void pause(){
+        game.pause();
         Button pause = findViewById(R.id.pause);
         LinearLayout pauseScreen = findViewById(R.id.pauseScreen);
         View manip1 = findViewById(R.id.manip1);
@@ -288,6 +291,7 @@ public class AirHockey extends AppCompatActivity {
             info.putInt("scoreBlue", game.getSecondScore());
             if(game.getWinner() == Player.Blue) info.putInt("winner", 2);
             else if(game.getWinner() == Player.Red) info.putInt("winner", 1);
+            else if(game.getWinner() == Player.None) info.putInt("winner", 3);
             intent.putExtras(info);
             startActivity(intent);
             finish();

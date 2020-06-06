@@ -3,7 +3,6 @@ package com.example.physics2d;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
-import android.content.res.ColorStateList;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -32,8 +31,16 @@ public class EndGameScreen extends AppCompatActivity {
             score.setText(scoreRed + " - " + scoreBlue);
             score.setTextColor(getColor(R.color.red));
             text.setTextColor(getColor(R.color.red));
+        } else if(winner == 3){
+            text.setText(R.string.draw);
+            score.setText(scoreRed + " - " + scoreBlue);
+            score.setTextColor(getColor(R.color.drawColor));
+            text.setTextColor(getColor(R.color.drawColor));
         }
+        Bundle b = new Bundle();
+        b.putBoolean("isRestart", true);
         intent = new Intent(this, AirHockey.class);
+        intent.putExtras(b);
         Button restart = findViewById(R.id.restart);
         restart.setOnClickListener((x) -> listener());
         hideSystemUI();

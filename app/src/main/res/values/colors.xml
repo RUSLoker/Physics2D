@@ -6,4 +6,5 @@
     <color name="fieldMarking">#272727</color>
     <color name="blue">#173AFF</color>
     <color name="red">#FF0000</color>
+    <color name="drawColor">#FFFFFF</color>
 </resources>

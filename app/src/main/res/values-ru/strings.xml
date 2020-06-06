@@ -31,4 +31,7 @@
         <item>По количеству раундов</item>
     </string-array>
     <string name="game_mode">Режим игры</string>
+    <string name="time">Время</string>
+    <string name="rounds">Раунды</string>
+    <string name="draw">Ничья</string>
 </resources>

@@ -6,15 +6,38 @@ public class GameCounter {
     private Player currentTurn;
     private boolean playing;
 
-    final int MAX_SCORE;
+    final GameMode gameMode;
 
-    GameCounter(int maxScore){
-        if(maxScore <= 0) maxScore = 16;
-        MAX_SCORE = maxScore;
+    final int limit;
+
+    GameCounter(GameMode gameMode, int limit){
+        this.gameMode = gameMode;
+        if(gameMode == GameMode.MaxScore && limit <= 0) limit = 16;
+        if(gameMode == GameMode.Time && limit <= 0) limit = 90;
+        if(gameMode == GameMode.MaxRounds && limit <= 0) limit = 16;
+        this.limit = limit;
         firstScore = 0;
         secondScore = 0;
         currentTurn = Player.Blue;
         playing = true;
+    }
+
+    GameCounter(GameCounter gC){
+        GameMode gameMode = gC.gameMode;
+        int limit = gC.limit;
+        this.gameMode = gameMode;
+        if(gameMode == GameMode.MaxScore && limit <= 0) limit = 16;
+        if(gameMode == GameMode.Time && limit <= 0) limit = 90;
+        if(gameMode == GameMode.MaxRounds && limit <= 0) limit = 16;
+        this.limit = limit;
+        firstScore = 0;
+        secondScore = 0;
+        currentTurn = Player.Blue;
+        playing = true;
+    }
+
+    GameCounter(){
+        this(GameMode.MaxScore, 16);
     }
 
     public int getFirstScore() {
@@ -53,15 +76,35 @@ public class GameCounter {
     }
 
     private void checkGame(){
-        if(firstScore >= MAX_SCORE || secondScore >= MAX_SCORE){
-            playing = false;
+        switch (gameMode) {
+            case MaxScore:
+                if (firstScore >= limit || secondScore >= limit) {
+                    playing = false;
+                }
+                break;
+            case MaxRounds:
+                if (firstScore + secondScore >= limit) {
+                    playing = false;
+                }
+                break;
+            case Time:
+
         }
     }
 
     public Player getWinner(){
         if(firstScore > secondScore) return Player.Blue;
         if(firstScore < secondScore) return Player.Red;
+        if (firstScore == secondScore) return Player.None;
         return null;
+    }
+
+    public void pause(){
+
+    }
+
+    public void resume(){
+
     }
 
 
