@@ -29,7 +29,7 @@ public class PhysObj implements Cloneable{
         this(body, mass, velocity, Vector2D.zero(), Vector2D.zero());
     }
 
-    void draw(double x, double y, double scale, Canvas canvas, Paint paint){
+    public void draw(double x, double y, double scale, Canvas canvas, Paint paint){
         body.draw(x, y, scale, canvas, paint);
     }
 

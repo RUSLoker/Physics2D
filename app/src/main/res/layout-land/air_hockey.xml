@@ -70,7 +70,7 @@
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintVertical_bias="0.5" />
 
-    <com.ruslocker.physics2d.AirHockeyVisualizer
+    <com.ruslocker.physics2d.views.AirHockeyVisualizer
         android:id="@+id/visualizer"
         android:layout_width="0dp"
         android:layout_height="0dp"
@@ -147,7 +147,7 @@
 
     </LinearLayout>
 
-    <com.ruslocker.physics2d.ManipsView
+    <com.ruslocker.physics2d.views.ManipsView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="horizontal"

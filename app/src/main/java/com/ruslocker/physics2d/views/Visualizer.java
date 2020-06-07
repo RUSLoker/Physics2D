@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.views;
 
 import android.content.Context;
 import android.graphics.Canvas;
@@ -7,6 +7,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ruslocker.physics2d.PhysObj;
 import com.ruslocker.physics2d.activities.SimulationActivity;
 
 public class Visualizer extends View {

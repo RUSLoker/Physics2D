@@ -18,7 +18,7 @@ import com.ruslocker.physics2d.Circle;
 import com.ruslocker.physics2d.PhysObj;
 import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.Vector2D;
-import com.ruslocker.physics2d.Visualizer;
+import com.ruslocker.physics2d.views.Visualizer;
 
 import java.util.ArrayList;
 import java.util.Random;

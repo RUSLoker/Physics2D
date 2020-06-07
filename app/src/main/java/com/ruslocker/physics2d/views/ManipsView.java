@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -12,6 +12,10 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ruslocker.physics2d.GameMode;
+import com.ruslocker.physics2d.Manipulator;
+import com.ruslocker.physics2d.R;
+import com.ruslocker.physics2d.Vector2D;
 import com.ruslocker.physics2d.activities.AirHockey;
 
 public class ManipsView extends View {

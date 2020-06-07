@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.views;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.activities.AirHockey;
 
 public class AirHockeyVisualizer extends View {

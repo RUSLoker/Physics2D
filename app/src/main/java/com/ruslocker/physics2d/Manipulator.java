@@ -2,7 +2,7 @@ package com.ruslocker.physics2d;
 
 public class Manipulator {
     private Vector2D stPos, deltaVector;
-    final static double maxLen = 250;
+    public final static double maxLen = 250;
     private boolean started;
     public Manipulator(){
         deltaVector = Vector2D.zero();
@@ -36,12 +36,12 @@ public class Manipulator {
         return deltaVector.clone();
     }
 
-    Vector2D getManipPoint(){
+    public Vector2D getManipPoint(){
         if (started) return stPos.add(deltaVector.scale(maxLen));
         else return null;
     }
 
-    Vector2D getStPos(){
+    public Vector2D getStPos(){
         return stPos;
     }
 
