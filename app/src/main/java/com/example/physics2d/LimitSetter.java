@@ -53,7 +53,7 @@ public class LimitSetter extends Fragment implements View.OnClickListener {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        strings = getResources().getStringArray(R.array.gameModes);
+        strings = getResources().getStringArray(R.array.gameValues);
         defaults = getResources().getIntArray(R.array.defaultValues);
     }
 

@@ -63,64 +63,8 @@
             <fragment
                 android:id="@+id/limitSetter"
                 android:name="com.example.physics2d.LimitSetter"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
-
-            <LinearLayout
-                android:id="@+id/caseTime"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginVertical="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/time"
-                    android:textSize="30sp"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:textColor="#000"/>
-
-                <EditText
-                    android:id="@+id/time"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="number"
-                    android:maxLength="3" />
-            </LinearLayout>
-
-            <LinearLayout
-                android:id="@+id/caseRounds"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:gravity="center"
-                android:orientation="horizontal"
-                android:layout_marginVertical="10dp"
-                android:visibility="gone">
-
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="@string/rounds"
-                    android:textSize="30sp"
-                    android:layout_marginEnd="5dp"
-                    android:gravity="center"
-                    android:textColor="#000"/>
-
-                <EditText
-                    android:id="@+id/rounds"
-                    android:layout_width="80dp"
-                    android:layout_height="wrap_content"
-                    android:autofillHints=""
-                    android:ems="10"
-                    android:inputType="number"
-                    android:maxLength="3" />
-            </LinearLayout>
 
         </LinearLayout>
 

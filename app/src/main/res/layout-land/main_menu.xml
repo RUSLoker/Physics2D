@@ -21,26 +21,35 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.57"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        android:orientation="vertical">
+        app:layout_constraintVertical_bias="0.5">
 
-        <Button
-            android:id="@+id/new_game"
-            style="@style/white_button"
-            android:text="@string/new_game" />
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/custom"
-            style="@style/white_button"
-            android:text="@string/custom_game"/>
+            <Button
+                android:id="@+id/new_game"
+                style="@style/white_button"
+                android:text="@string/new_game" />
+
+            <Button
+                android:id="@+id/custom"
+                style="@style/white_button"
+                android:layout_width="65dp"
+                android:text="+" />
+        </LinearLayout>
 
         <Button
             android:id="@+id/about"
             style="@style/white_button"
-            android:text="@string/about"/>
+            android:text="@string/about" />
     </LinearLayout>
 
 

@@ -23,7 +23,7 @@
     <string name="sandbox">Песочница</string>
     <string name="paused">На паузе</string>
     <string name="custom_game">Создать игру</string>
-    <string name="max_score">Максимальный счет</string>
+    <string name="max_score">Cчет</string>
     <string name="for_time">На время</string>
     <string-array name="gameModes">
         <item>По очкам</item>

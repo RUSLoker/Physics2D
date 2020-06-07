@@ -32,5 +32,10 @@
         <item>Time</item>
         <item>Max round count</item>
     </string-array>
+    <string-array name="gameValues">
+        <item>@string/max_score</item>
+        <item>@string/time</item>
+        <item>@string/rounds</item>
+    </string-array>
     <string name="draw">Draw</string>
 </resources>
