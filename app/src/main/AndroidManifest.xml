@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name="com.ruslocker.physics2d.CustomGame"
+            android:name="com.ruslocker.physics2d.activities.CustomGame"
             android:screenOrientation="landscape" />
         <activity
             android:name="com.ruslocker.physics2d.activities.About"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.ruslocker.physics2d.SimulationActivity"
+            android:name="com.ruslocker.physics2d.activities.SimulationActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.ruslocker.physics2d.EndGameScreen"
+            android:name="com.ruslocker.physics2d.activities.EndGameScreen"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.ruslocker.physics2d.MainMenu"
+            android:name="com.ruslocker.physics2d.activities.MainMenu"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

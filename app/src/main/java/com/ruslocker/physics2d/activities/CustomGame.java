@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -9,6 +9,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.Spinner;
 
+import com.ruslocker.physics2d.LimitSetter;
+import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.activities.AirHockey;
 
 public class CustomGame extends AppCompatActivity {

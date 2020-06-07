@@ -11,7 +11,7 @@ public class PhysObj implements Cloneable{
     private Figure2D body;
     private Vector2D velocity, acceleration, force;
     private double mass;
-    HashMap<Integer, Vector2D> forces = new HashMap<>();
+    public HashMap<Integer, Vector2D> forces = new HashMap<>();
     private boolean borderChecked = false;
 
 
@@ -33,7 +33,7 @@ public class PhysObj implements Cloneable{
         body.draw(x, y, scale, canvas, paint);
     }
 
-    void calcAccel(){
+    public void calcAccel(){
         force = Vector2D.zero();
         for (Vector2D i : forces.values()){
             force = force.add(i);
@@ -56,7 +56,7 @@ public class PhysObj implements Cloneable{
     public Vector2D getSpeed(){
         return velocity;
     }
-    Vector2D getAcceleration(){
+    public Vector2D getAcceleration(){
         return acceleration;
     }
     Vector2D getForce(){
@@ -65,19 +65,19 @@ public class PhysObj implements Cloneable{
     public Figure2D getBody(){
         return body;
     }
-    double getMass() {
+    public double getMass() {
         return mass;
     }
 
-    void setMass(double mass){
+    public void setMass(double mass){
         this.mass = mass;
     }
 
-    void setForce(Integer hash, Vector2D force){
+    public void setForce(Integer hash, Vector2D force){
         forces.put(hash, force);
     }
 
-    void delForce(Integer hash)  {
+    public void delForce(Integer hash)  {
         if(forces.get(hash) != null){
             forces.remove(hash);
         }

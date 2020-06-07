@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -8,6 +8,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
 
+import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.activities.AirHockey;
 
 public class EndGameScreen extends AppCompatActivity {

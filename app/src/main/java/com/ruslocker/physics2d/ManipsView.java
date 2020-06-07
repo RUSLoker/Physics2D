@@ -39,7 +39,7 @@ public class ManipsView extends View {
         blue1 = getBitmap(R.drawable.manipulator_center_blue);
     }
 
-    @SuppressLint("DrawAllocation")
+    @SuppressLint({"DrawAllocation", "SetTextI18n"})
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

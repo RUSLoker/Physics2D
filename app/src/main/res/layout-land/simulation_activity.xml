@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".SimulationActivity">
+    tools:context=".activities.SimulationActivity">
 
     <com.ruslocker.physics2d.Visualizer
         android:id="@+id/visualizer"

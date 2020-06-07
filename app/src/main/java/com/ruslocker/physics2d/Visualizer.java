@@ -7,6 +7,8 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ruslocker.physics2d.activities.SimulationActivity;
+
 public class Visualizer extends View {
 
     Paint paint = new Paint();

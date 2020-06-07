@@ -13,7 +13,7 @@ public class Circle extends Figure2D {
         this.radius = radius;
     }
 
-    double getRadius(){
+    public double getRadius(){
         return radius;
     }
 
@@ -22,7 +22,7 @@ public class Circle extends Figure2D {
         return center;
     }
 
-    void setRadius(double radius){
+    public void setRadius(double radius){
         this.radius = radius;
     }
 

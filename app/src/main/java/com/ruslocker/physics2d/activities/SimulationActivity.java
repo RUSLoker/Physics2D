@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.activities;
 
 import android.animation.AnimatorSet;
 import android.animation.ObjectAnimator;
@@ -13,6 +13,13 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ruslocker.physics2d.Border;
+import com.ruslocker.physics2d.Circle;
+import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.R;
+import com.ruslocker.physics2d.Vector2D;
+import com.ruslocker.physics2d.Visualizer;
+
 import java.util.ArrayList;
 import java.util.Random;
 
@@ -23,14 +30,14 @@ public class SimulationActivity extends AppCompatActivity {
     static final public ArrayList<PhysObj> objs = new ArrayList<>(10);
     Thread myThread = new Thread(SimulationActivity::vrun);
     static boolean work = false;
-    static Integer pointer = null;
+    public static Integer pointer = null;
     static PhysObj standart = new PhysObj(
             new Circle(new Vector2D(500, 500), 100),
             100.0
     );
-    static double cps = 0;
-    static TextView cpsT;
-    static TextView checkerT;
+    public static double cps = 0;
+    public static TextView cpsT;
+    public static TextView checkerT;
     static double checker;
     static boolean gravity = false;
     boolean workPrev = work;

@@ -44,7 +44,7 @@ public class Vector2D implements Cloneable {
         return vector;
     }
 
-    Vector2D sub(@NonNull Vector2D v){
+    public Vector2D sub(@NonNull Vector2D v){
         return new Vector2D(this.x - v.x, this.y - v.y);
     }
 
@@ -53,7 +53,7 @@ public class Vector2D implements Cloneable {
                 length * mult, sqrLength * mult*mult);
     }
 
-    Vector2D reverse(){
+    public Vector2D reverse(){
         return new Vector2D(-this.x, -this.y, length, sqrLength);
     }
 
@@ -73,7 +73,7 @@ public class Vector2D implements Cloneable {
         return x*x + y*y;
     }
 
-    static Vector2D mean(Vector2D a, Vector2D b){
+    public static Vector2D mean(Vector2D a, Vector2D b){
         return new Vector2D((a.x + b.x)/2, (a.y + b.y)/2);
     }
 
