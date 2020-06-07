@@ -62,7 +62,7 @@
 
             <fragment
                 android:id="@+id/limitSetter"
-                android:name="com.example.physics2d.LimitSetter"
+                android:name="com.ruslocker.physics2d.LimitSetter"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content" />
 

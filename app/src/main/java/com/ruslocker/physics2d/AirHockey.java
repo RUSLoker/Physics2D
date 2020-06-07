@@ -1,4 +1,4 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 import android.content.Intent;
 import android.os.Bundle;

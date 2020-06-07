@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.physics2d">
+    package="com.ruslocker.physics2d">
 
     <application
         android:allowBackup="true"
@@ -10,19 +10,19 @@
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
-            android:name=".CustomGame"
+            android:name="com.ruslocker.physics2d.CustomGame"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".About"
+            android:name="com.ruslocker.physics2d.About"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".SimulationActivity"
+            android:name="com.ruslocker.physics2d.SimulationActivity"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".EndGameScreen"
+            android:name="com.ruslocker.physics2d.EndGameScreen"
             android:screenOrientation="landscape" />
         <activity
-            android:name=".MainMenu"
+            android:name="com.ruslocker.physics2d.MainMenu"
             android:screenOrientation="landscape">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".AirHockey"
+            android:name="com.ruslocker.physics2d.AirHockey"
             android:screenOrientation="landscape" />
     </application>
 

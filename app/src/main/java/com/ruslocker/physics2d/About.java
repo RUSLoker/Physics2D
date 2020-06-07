@@ -1,4 +1,4 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 import androidx.appcompat.app.AppCompatActivity;
 

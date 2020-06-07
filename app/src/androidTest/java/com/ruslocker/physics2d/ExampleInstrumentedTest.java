@@ -1,4 +1,4 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 import android.content.Context;
 import androidx.test.platform.app.InstrumentationRegistry;
@@ -21,6 +21,6 @@ public class ExampleInstrumentedTest {
         // Context of the app under test.
         Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
 
-        assertEquals("com.example.physics2d", appContext.getPackageName());
+        assertEquals("com.ruslocker.physics2d", appContext.getPackageName());
     }
 }

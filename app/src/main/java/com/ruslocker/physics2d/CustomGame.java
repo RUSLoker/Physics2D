@@ -1,15 +1,12 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Button;
-import android.widget.EditText;
-import android.widget.LinearLayout;
 import android.widget.Spinner;
 
 public class CustomGame extends AppCompatActivity {

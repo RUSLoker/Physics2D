@@ -15,5 +15,3 @@
 app/build/
 .idea/markdown-navigator-enh.xml
 .idea/markdown-navigator.xml
-app/src/main/java/com/example/physics2d/TestVis1.java
-app/src/main/java/com/example/physics2d/TestVis2.java

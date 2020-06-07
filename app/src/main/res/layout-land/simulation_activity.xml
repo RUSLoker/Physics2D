@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".SimulationActivity">
 
-    <com.example.physics2d.Visualizer
+    <com.ruslocker.physics2d.Visualizer
         android:id="@+id/visualizer"
         android:layout_width="match_parent"
         android:layout_height="match_parent"

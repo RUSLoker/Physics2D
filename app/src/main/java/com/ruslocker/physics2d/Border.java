@@ -1,4 +1,4 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 public class Border {
     double L, R, U, D;

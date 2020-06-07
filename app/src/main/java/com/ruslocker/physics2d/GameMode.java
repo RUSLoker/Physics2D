@@ -1,6 +1,4 @@
-package com.example.physics2d;
-
-import android.content.res.Resources;
+package com.ruslocker.physics2d;
 
 public enum GameMode {
     Time,

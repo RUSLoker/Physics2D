@@ -1,4 +1,4 @@
-package com.example.physics2d;
+package com.ruslocker.physics2d;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
@@ -8,12 +8,9 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.RectF;
 import android.graphics.drawable.Drawable;
-import android.text.format.DateUtils;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
-
-import java.sql.Time;
 
 public class ManipsView extends View {
     Paint paintRed2 = new Paint();
