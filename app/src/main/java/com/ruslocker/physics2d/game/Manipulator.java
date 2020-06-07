@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.game;
 
 import com.ruslocker.physics2d.engine.Vector2D;
 

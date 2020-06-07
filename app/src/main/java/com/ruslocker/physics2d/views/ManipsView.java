@@ -12,8 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
-import com.ruslocker.physics2d.GameMode;
-import com.ruslocker.physics2d.Manipulator;
+import com.ruslocker.physics2d.game.GameMode;
+import com.ruslocker.physics2d.game.Manipulator;
 import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.engine.Vector2D;
 import com.ruslocker.physics2d.activities.AirHockey;

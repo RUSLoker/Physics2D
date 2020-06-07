@@ -12,11 +12,11 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import com.ruslocker.physics2d.engine.Border;
 import com.ruslocker.physics2d.engine.Circle;
-import com.ruslocker.physics2d.GameCounter;
-import com.ruslocker.physics2d.GameMode;
-import com.ruslocker.physics2d.Manipulator;
+import com.ruslocker.physics2d.game.GameCounter;
+import com.ruslocker.physics2d.game.GameMode;
+import com.ruslocker.physics2d.game.Manipulator;
 import com.ruslocker.physics2d.engine.PhysObj;
-import com.ruslocker.physics2d.Player;
+import com.ruslocker.physics2d.game.Player;
 import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.engine.Vector2D;
 
