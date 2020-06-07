@@ -1,6 +1,7 @@
 package com.example.physics2d;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -23,29 +24,11 @@ public class CustomGame extends AppCompatActivity {
         Button createB = findViewById(R.id.create);
         createB.setOnClickListener(v -> create());
         Spinner mode = findViewById(R.id.modeSelector);
+        LimitSetter limitSetter = (LimitSetter) getSupportFragmentManager().findFragmentById(R.id.limitSetter);
         mode.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
             public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
-                LinearLayout cMaxScore = findViewById(R.id.caseMaxScore);
-                LinearLayout cTime = findViewById(R.id.caseTime);
-                LinearLayout cRounds = findViewById(R.id.caseRounds);
-                switch ((int) id){
-                    case 0:
-                        cMaxScore.setVisibility(View.VISIBLE);
-                        cTime.setVisibility(View.GONE);
-                        cRounds.setVisibility(View.GONE);
-                        break;
-                    case 1:
-                        cMaxScore.setVisibility(View.GONE);
-                        cTime.setVisibility(View.VISIBLE);
-                        cRounds.setVisibility(View.GONE);
-                        break;
-                    case 2:
-                        cMaxScore.setVisibility(View.GONE);
-                        cTime.setVisibility(View.GONE);
-                        cRounds.setVisibility(View.VISIBLE);
-                        break;
-                }
+                limitSetter.changeCase((int) id);
             }
 
             @Override
@@ -58,32 +41,11 @@ public class CustomGame extends AppCompatActivity {
 
     void create(){
         Bundle b = new Bundle();
-        EditText limitView;
+        LimitSetter limitSetter = (LimitSetter) getSupportFragmentManager().findFragmentById(R.id.limitSetter);
         Spinner mode = findViewById(R.id.modeSelector);
         int modeId = (int)mode.getSelectedItemId();
         b.putInt("gameMode", modeId);
-        String str;
-        int limit = 0;
-        switch (modeId){
-            case 0:
-                limitView = findViewById(R.id.maxScore);
-                str = limitView.getText().toString();
-                if(str.length() != 0){
-                    limit = Integer.parseInt(str);
-                }
-            case 1:
-                limitView = findViewById(R.id.time);
-                str = limitView.getText().toString();
-                if(str.length() != 0){
-                    limit = Integer.parseInt(str);
-                }
-            case 2:
-                limitView = findViewById(R.id.rounds);
-                str = limitView.getText().toString();
-                if(str.length() != 0){
-                    limit = Integer.parseInt(str);
-                }
-        }
+        int limit = limitSetter.getLimit();
         b.putInt("limit", limit);
         create.putExtras(b);
         startActivity(create);

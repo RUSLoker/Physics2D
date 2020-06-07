@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <integer-array name="defaultValues">
+        <item>16</item>
+        <item>90</item>
+        <item>16</item>
+    </integer-array>
+</resources>
