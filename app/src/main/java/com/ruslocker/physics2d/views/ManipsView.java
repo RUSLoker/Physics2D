@@ -15,7 +15,7 @@ import android.widget.TextView;
 import com.ruslocker.physics2d.GameMode;
 import com.ruslocker.physics2d.Manipulator;
 import com.ruslocker.physics2d.R;
-import com.ruslocker.physics2d.Vector2D;
+import com.ruslocker.physics2d.engine.Vector2D;
 import com.ruslocker.physics2d.activities.AirHockey;
 
 public class ManipsView extends View {

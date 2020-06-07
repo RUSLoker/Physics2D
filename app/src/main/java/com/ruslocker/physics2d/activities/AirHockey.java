@@ -10,15 +10,15 @@ import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import com.ruslocker.physics2d.Border;
-import com.ruslocker.physics2d.Circle;
+import com.ruslocker.physics2d.engine.Border;
+import com.ruslocker.physics2d.engine.Circle;
 import com.ruslocker.physics2d.GameCounter;
 import com.ruslocker.physics2d.GameMode;
 import com.ruslocker.physics2d.Manipulator;
-import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.engine.PhysObj;
 import com.ruslocker.physics2d.Player;
 import com.ruslocker.physics2d.R;
-import com.ruslocker.physics2d.Vector2D;
+import com.ruslocker.physics2d.engine.Vector2D;
 
 public class AirHockey extends AppCompatActivity {
 

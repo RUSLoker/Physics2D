@@ -1,5 +1,6 @@
 package com.ruslocker.physics2d.views;
 
+import android.annotation.SuppressLint;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Color;
@@ -7,7 +8,7 @@ import android.graphics.Paint;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.engine.PhysObj;
 import com.ruslocker.physics2d.activities.SimulationActivity;
 
 public class Visualizer extends View {
@@ -27,6 +28,7 @@ public class Visualizer extends View {
         paintSpec.setColor(Color.RED);
     }
 
+    @SuppressLint("DefaultLocale")
     @Override
     protected void onDraw(Canvas canvas) {
         super.onDraw(canvas);

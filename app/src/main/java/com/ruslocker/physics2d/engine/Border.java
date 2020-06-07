@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.engine;
 
 public class Border {
     public final double L, R, U, D;

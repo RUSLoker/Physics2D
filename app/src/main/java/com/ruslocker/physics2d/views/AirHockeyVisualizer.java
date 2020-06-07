@@ -9,7 +9,7 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
-import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.engine.PhysObj;
 import com.ruslocker.physics2d.R;
 import com.ruslocker.physics2d.activities.AirHockey;
 

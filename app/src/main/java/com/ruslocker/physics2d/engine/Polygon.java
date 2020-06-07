@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.engine;
 
 import android.graphics.Canvas;
 import android.graphics.Paint;

@@ -1,5 +1,7 @@
 package com.ruslocker.physics2d;
 
+import com.ruslocker.physics2d.engine.Vector2D;
+
 public class Manipulator {
     private Vector2D stPos, deltaVector;
     public final static double maxLen = 250;

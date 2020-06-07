@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.engine;
 
 import androidx.annotation.NonNull;
 
@@ -57,11 +57,11 @@ public class Vector2D implements Cloneable {
         return new Vector2D(-this.x, -this.y, length, sqrLength);
     }
 
-    Vector2D reverseX(){
+    public Vector2D reverseX(){
         return new Vector2D(-this.x, this.y, length, sqrLength);
     }
 
-    Vector2D reverseY(){
+    public Vector2D reverseY(){
         return new Vector2D(this.x, -this.y, length, sqrLength);
     }
 
@@ -81,7 +81,7 @@ public class Vector2D implements Cloneable {
         return rotate(Math.sin(angle), Math.cos(angle));
     }
 
-    Vector2D rotate(double sinA, double cosA){
+    public Vector2D rotate(double sinA, double cosA){
         double x = this.x * cosA - this.y * sinA;
         double y = this.y * cosA + this.x * sinA;
         return new Vector2D(x, y).setLength(length);
@@ -91,7 +91,7 @@ public class Vector2D implements Cloneable {
         return new Vector2D();
     }
 
-    Vector2D normalize(){
+    public Vector2D normalize(){
         if (length == 0){
             return new Vector2D(this);
         }
@@ -116,11 +116,11 @@ public class Vector2D implements Cloneable {
         );
     }
 
-    static double prodZ(Vector2D a, Vector2D b){
+    public static double prodZ(Vector2D a, Vector2D b){
         return a.x * b.y - a.y * b.x;
     }
 
-    static double angleBetween(Vector2D a, Vector2D b){
+    public static double angleBetween(Vector2D a, Vector2D b){
         return Math.acos(a.normalize().scalar(b.normalize()));
     }
 
@@ -131,7 +131,7 @@ public class Vector2D implements Cloneable {
         return this.normalize().scale(len);
     }
 
-    double projection(Vector2D b){
+    public double projection(Vector2D b){
         b = b.normalize();
         return this.scalar(b);
     }
