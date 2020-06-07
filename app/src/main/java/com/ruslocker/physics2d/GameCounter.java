@@ -9,11 +9,11 @@ public class GameCounter {
     private boolean paused;
     private long changeableLimit;
 
-    final GameMode gameMode;
+    public final GameMode gameMode;
 
     private final long limit;
 
-    GameCounter(GameMode gameMode, long limit){
+    public GameCounter(GameMode gameMode, long limit){
         this.gameMode = gameMode;
         if(gameMode == GameMode.MaxScore && limit <= 0) limit = 16;
         if(gameMode == GameMode.Time && limit <= 0) limit = 90;
@@ -28,11 +28,11 @@ public class GameCounter {
         changeableLimit = limit;
     }
 
-    GameCounter(GameCounter gC){
+    public GameCounter(GameCounter gC){
         this(gC.gameMode, gC.limit);
     }
 
-    GameCounter(){
+    public GameCounter(){
         this(GameMode.MaxScore, 16);
     }
 
@@ -60,7 +60,7 @@ public class GameCounter {
         return playing;
     }
 
-    boolean goal(Player player){
+    public boolean goal(Player player){
         if(player == Player.Blue){
             firstScore++;
             currentTurn = Player.Red;

@@ -12,6 +12,8 @@ import android.util.AttributeSet;
 import android.view.View;
 import android.widget.TextView;
 
+import com.ruslocker.physics2d.activities.AirHockey;
+
 public class ManipsView extends View {
     Paint paintRed2 = new Paint();
     Paint paintRed3 = new Paint();

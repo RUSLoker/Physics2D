@@ -22,7 +22,7 @@ public class PhysObj implements Cloneable{
         this.mass = mass;
         this.force = force.clone();
     }
-    PhysObj(Figure2D body , double mass) {
+    public PhysObj(Figure2D body, double mass) {
         this(body, mass, Vector2D.zero(), Vector2D.zero(), Vector2D.zero());
     }
     public PhysObj(Figure2D body , double mass, Vector2D velocity) {
@@ -41,7 +41,7 @@ public class PhysObj implements Cloneable{
         acceleration = force.scale(1/mass);
     }
 
-    void move(double time){
+    public void move(double time){
         body.move(new Vector2D(
                 velocity.x*time + acceleration.x * time*time/2,
                 velocity.y*time + acceleration.y * time*time/2
@@ -50,10 +50,10 @@ public class PhysObj implements Cloneable{
             velocity = velocity.add(acceleration.scale(time));
     }
 
-    Vector2D getCenter(){
+    public Vector2D getCenter(){
         return body.getCenter();
     }
-    Vector2D getSpeed(){
+    public Vector2D getSpeed(){
         return velocity;
     }
     Vector2D getAcceleration(){
@@ -62,7 +62,7 @@ public class PhysObj implements Cloneable{
     Vector2D getForce(){
         return force;
     }
-    Figure2D getBody(){
+    public Figure2D getBody(){
         return body;
     }
     double getMass() {
@@ -83,11 +83,11 @@ public class PhysObj implements Cloneable{
         }
     }
 
-    void setVelocity(Vector2D velocity){
+    public void setVelocity(Vector2D velocity){
         this.velocity = velocity;
     }
 
-    void checkCollisions(PhysObj obj, double time){
+    public void checkCollisions(PhysObj obj, double time){
         Vector2D[] collisions;
         if((collisions = this.body.getCollision(obj.body)).length != 0){
             Vector2D[] normals = obj.body.getNormals(collisions);
@@ -136,7 +136,7 @@ public class PhysObj implements Cloneable{
         }
     }
 
-    boolean checkBorder(Border border){
+    public boolean checkBorder(Border border){
         switch (body.borderCollision(border)){
             case left: {
                 if (borderChecked) {
@@ -222,7 +222,7 @@ public class PhysObj implements Cloneable{
 
     @NonNull
     @Override
-    protected PhysObj clone() {
+    public PhysObj clone() {
         return new PhysObj(body.clone(), mass, velocity.clone(), acceleration.clone(), force.clone());
     }
 

@@ -13,7 +13,7 @@
             android:name="com.ruslocker.physics2d.CustomGame"
             android:screenOrientation="landscape" />
         <activity
-            android:name="com.ruslocker.physics2d.About"
+            android:name="com.ruslocker.physics2d.activities.About"
             android:screenOrientation="landscape" />
         <activity
             android:name="com.ruslocker.physics2d.SimulationActivity"
@@ -31,7 +31,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name="com.ruslocker.physics2d.AirHockey"
+            android:name="com.ruslocker.physics2d.activities.AirHockey"
             android:screenOrientation="landscape" />
     </application>
 

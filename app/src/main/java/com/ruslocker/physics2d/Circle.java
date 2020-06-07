@@ -8,7 +8,7 @@ public class Circle extends Figure2D {
     private Vector2D center;
     private double radius;
 
-    Circle(Vector2D center, double radius) {
+    public Circle(Vector2D center, double radius) {
         this.center = center.clone();
         this.radius = radius;
     }

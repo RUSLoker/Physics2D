@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.activities;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,10 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-public class About extends AppCompatActivity {
+import com.ruslocker.physics2d.R;
+import com.ruslocker.physics2d.SimulationActivity;
+
+public class  About extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

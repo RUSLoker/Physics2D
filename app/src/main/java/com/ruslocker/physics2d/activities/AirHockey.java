@@ -1,4 +1,4 @@
-package com.ruslocker.physics2d;
+package com.ruslocker.physics2d.activities;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -9,6 +9,17 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+
+import com.ruslocker.physics2d.Border;
+import com.ruslocker.physics2d.Circle;
+import com.ruslocker.physics2d.EndGameScreen;
+import com.ruslocker.physics2d.GameCounter;
+import com.ruslocker.physics2d.GameMode;
+import com.ruslocker.physics2d.Manipulator;
+import com.ruslocker.physics2d.PhysObj;
+import com.ruslocker.physics2d.Player;
+import com.ruslocker.physics2d.R;
+import com.ruslocker.physics2d.Vector2D;
 
 public class AirHockey extends AppCompatActivity {
 
@@ -37,9 +48,9 @@ public class AirHockey extends AppCompatActivity {
     static final double maxBatSpeed = 3200;
     static final double maxPluckSpeed = 3800;
     static boolean cycleF;
-    static GameCounter game;
-    static AirHockey airHockey;
-    static TextView scoreFirst, scoreSecond;
+    public static GameCounter game;
+    public static AirHockey airHockey;
+    public static TextView scoreFirst, scoreSecond;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

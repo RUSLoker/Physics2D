@@ -4,24 +4,24 @@ public class Manipulator {
     private Vector2D stPos, deltaVector;
     final static double maxLen = 250;
     private boolean started;
-    Manipulator(){
+    public Manipulator(){
         deltaVector = Vector2D.zero();
         started = false;
     }
 
-    void set(Vector2D p){
+    public void set(Vector2D p){
         stPos = p;
         deltaVector = Vector2D.zero();
         started = true;
     }
 
-    void unSet(){
+    public void unSet(){
         started = false;
         deltaVector = Vector2D.zero();
         stPos = null;
     }
 
-    void calcDelta(Vector2D p) throws Exception {
+    public void calcDelta(Vector2D p) throws Exception {
         if (!started)
             throw new Exception("You may call set() method before calculating delta Vector");
         Vector2D lenVector = p.sub(stPos);
@@ -32,7 +32,7 @@ public class Manipulator {
         }
     }
 
-    Vector2D getDelta(){
+    public Vector2D getDelta(){
         return deltaVector.clone();
     }
 

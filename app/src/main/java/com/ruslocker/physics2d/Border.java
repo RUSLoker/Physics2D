@@ -1,7 +1,7 @@
 package com.ruslocker.physics2d;
 
 public class Border {
-    double L, R, U, D;
+    public final double L, R, U, D;
 
     public Border(double left, double right, double up, double down){
         L = left;

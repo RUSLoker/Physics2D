@@ -9,6 +9,8 @@ import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.view.View;
 
+import com.ruslocker.physics2d.activities.AirHockey;
+
 public class AirHockeyVisualizer extends View {
     public static double x0 = 0;
     public static double y0 = 0;

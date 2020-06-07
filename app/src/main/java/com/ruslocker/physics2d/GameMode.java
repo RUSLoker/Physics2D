@@ -5,7 +5,7 @@ public enum GameMode {
     MaxScore,
     MaxRounds;
 
-    static GameMode byId(int id){
+    public static GameMode byId(int id){
         switch (id){
             default:
             case 0:

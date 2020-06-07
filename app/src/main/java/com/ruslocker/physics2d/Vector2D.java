@@ -4,10 +4,10 @@ import androidx.annotation.NonNull;
 
 public class Vector2D implements Cloneable {
 
-    final double x, y, length, sqrLength;
-    final static Vector2D zero = Vector2D.zero();
+    public final double x, y, length, sqrLength;
+    public final static Vector2D zero = Vector2D.zero();
 
-    Vector2D(double x, double y){
+    public Vector2D(double x, double y){
         this.x = x;
         this.y = y;
         sqrLength = sqrLength(x, y);
@@ -48,7 +48,7 @@ public class Vector2D implements Cloneable {
         return new Vector2D(this.x - v.x, this.y - v.y);
     }
 
-    Vector2D scale(double mult){
+    public Vector2D scale(double mult){
         return new Vector2D(this.x * mult, this.y * mult,
                 length * mult, sqrLength * mult*mult);
     }
@@ -87,7 +87,7 @@ public class Vector2D implements Cloneable {
         return new Vector2D(x, y).setLength(length);
     }
 
-    static Vector2D zero() {
+    public static Vector2D zero() {
         return new Vector2D();
     }
 
@@ -124,7 +124,7 @@ public class Vector2D implements Cloneable {
         return Math.acos(a.normalize().scalar(b.normalize()));
     }
 
-    Vector2D setLength(double len){
+    public Vector2D setLength(double len){
         if (length == len){
             return this.clone();
         }

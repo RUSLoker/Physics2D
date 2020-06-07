@@ -8,6 +8,9 @@ import android.widget.Button;
 
 import androidx.appcompat.app.AppCompatActivity;
 
+import com.ruslocker.physics2d.activities.About;
+import com.ruslocker.physics2d.activities.AirHockey;
+
 public class MainMenu extends AppCompatActivity {
     Intent startGame, about, custom;
     Context context;
